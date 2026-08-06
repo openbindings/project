@@ -67,6 +67,11 @@ The integration workflow has two modes:
 2. **Heads mode** resolves the development branches in `repositories.json`.
    It is a moving-target drift detector and can never certify a release.
 
+Both modes run the required cohort lanes by default. Elements and the website
+are extended verification lanes and are enabled explicitly with the workflow's
+`include_extended` input. A push from either extended repository still checks
+its own lane without enabling all extended work for every core change.
+
 Component repositories can call the reusable workflow on a push or release and
 override their own commit while leaving the other components pinned to the
 candidate cohort. The scheduled workflow runs heads mode weekly as a safety net

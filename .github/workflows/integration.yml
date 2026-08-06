@@ -26,6 +26,11 @@ on:
         description: Full commit SHA for source_repository
         required: false
         type: string
+      include_extended:
+        description: Also run the Elements and website lanes
+        required: false
+        type: boolean
+        default: false
   workflow_dispatch:
     inputs:
       mode:
@@ -52,6 +57,11 @@ on:
         description: Full commit SHA paired with source_repository
         required: false
         type: string
+      include_extended:
+        description: Also run the Elements and website lanes
+        required: true
+        type: boolean
+        default: false
   repository_dispatch:
     types: [component-main-updated, component-released]
 
@@ -275,7 +285,7 @@ jobs:
   elements:
     name: Elements extended integration
     needs: resolve
-    if: ${{ contains(fromJSON('["all","spec","interfaces","go","typescript","ob","elements"]'), needs.resolve.outputs.source) }}
+    if: ${{ needs.resolve.outputs.source == 'elements' || ((inputs.include_extended || github.event.client_payload.include_extended == true || github.event.client_payload.include_extended == 'true') && contains(fromJSON('["all","spec","interfaces","go","typescript","ob"]'), needs.resolve.outputs.source)) }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
@@ -357,7 +367,7 @@ jobs:
   web:
     name: Website projection
     needs: resolve
-    if: ${{ contains(fromJSON('["all","spec","interfaces","ob","web"]'), needs.resolve.outputs.source) }}
+    if: ${{ needs.resolve.outputs.source == 'web' || ((inputs.include_extended || github.event.client_payload.include_extended == true || github.event.client_payload.include_extended == 'true') && contains(fromJSON('["all","spec","interfaces","ob"]'), needs.resolve.outputs.source)) }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7

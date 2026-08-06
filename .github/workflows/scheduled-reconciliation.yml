@@ -17,3 +17,4 @@ jobs:
       mode: heads
       cohort: cohorts/0.2/next.json
       project_ref: main
+      include_extended: false
