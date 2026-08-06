@@ -1,0 +1,76 @@
+{
+  "format": "openbindings.working-branch-loop@1",
+  "specificationLine": "0.2",
+  "candidate": "cohorts/0.2/next.json",
+  "mergeMethod": "squash",
+  "repositories": {
+    "spec": {
+      "workingRef": "chore/icon-refresh",
+      "callerPullRequest": {
+        "url": "https://github.com/openbindings/spec/pull/29",
+        "base": "main"
+      },
+      "fixPullRequests": []
+    },
+    "interfaces": {
+      "workingRef": null,
+      "decisionRequired": "Select or create the non-default 0.2 working branch.",
+      "callerPullRequest": {
+        "url": "https://github.com/openbindings/interfaces/pull/26",
+        "base": "main"
+      },
+      "fixPullRequests": []
+    },
+    "go": {
+      "workingRef": "experiment/obi-first",
+      "callerPullRequest": {
+        "url": "https://github.com/openbindings/openbindings-go/pull/60",
+        "base": "experiment/obi-first"
+      },
+      "fixPullRequests": [
+        {
+          "url": "https://github.com/openbindings/openbindings-go/pull/61",
+          "base": "experiment/obi-first"
+        }
+      ]
+    },
+    "typescript": {
+      "workingRef": "experiment/obi-first",
+      "callerPullRequest": {
+        "url": "https://github.com/openbindings/openbindings-ts/pull/62",
+        "base": "experiment/obi-first"
+      },
+      "fixPullRequests": [
+        {
+          "url": "https://github.com/openbindings/openbindings-ts/pull/63",
+          "base": "experiment/obi-first"
+        }
+      ]
+    },
+    "ob": {
+      "workingRef": "experiment/obi-first",
+      "callerPullRequest": {
+        "url": "https://github.com/openbindings/ob/pull/32",
+        "base": "experiment/obi-first"
+      },
+      "fixPullRequests": []
+    },
+    "elements": {
+      "workingRef": null,
+      "decisionRequired": "Select or create the non-default 0.2 working branch.",
+      "callerPullRequest": {
+        "url": "https://github.com/openbindings/elements/pull/1",
+        "base": "main"
+      },
+      "fixPullRequests": []
+    },
+    "web": {
+      "workingRef": "experiment/split-spec-og-cli",
+      "callerPullRequest": {
+        "url": "https://github.com/openbindings/web/pull/12",
+        "base": "experiment/split-spec-og-cli"
+      },
+      "fixPullRequests": []
+    }
+  }
+}

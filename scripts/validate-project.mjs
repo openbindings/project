@@ -3,7 +3,8 @@
 import { spawnSync } from "node:child_process";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { isNumberedCohortPath, loadProject } from "./project-lib.mjs";
+import { isNumberedCohortPath, loadProject, readJson } from "./project-lib.mjs";
+import { validateWorkingLoop } from "./working-loop-lib.mjs";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -34,10 +35,11 @@ function checkImmutableCohorts(base) {
 
 try {
   const project = loadProject(root);
+  validateWorkingLoop(readJson(resolve(root, "working-loop.json")), project);
   const base = argument("--base");
   if (base) checkImmutableCohorts(base);
   console.log(
-    `validated ${Object.keys(project.catalog.repositories).length} repositories and ${project.cohorts.size} cohort manifest(s)`,
+    `validated ${Object.keys(project.catalog.repositories).length} repositories, ${project.cohorts.size} cohort manifest(s), and the working-branch loop`,
   );
 } catch (error) {
   console.error(error.message);

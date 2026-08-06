@@ -7,6 +7,7 @@
   "repository": "github:openbindings/project",
   "scripts": {
     "check": "node scripts/validate-project.mjs",
+    "loop": "node scripts/working-loop.mjs",
     "test": "node --test scripts/*.test.mjs && npm run check"
   }
 }

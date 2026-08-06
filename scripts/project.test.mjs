@@ -5,13 +5,16 @@ import { fileURLToPath } from "node:url";
 import {
   isNumberedCohortPath,
   loadProject,
+  readJson,
   resolveSelection,
   validateCohort,
 } from "./project-lib.mjs";
+import { planWorkingLoop, validateWorkingLoop } from "./working-loop-lib.mjs";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const project = loadProject(root);
 const cohort = project.cohorts.get("cohorts/0.2/next.json");
+const workingLoop = readJson(resolve(root, "working-loop.json"));
 
 test("the repository catalog and checked-in cohorts validate", () => {
   assert.equal(Object.keys(project.catalog.repositories).length, 7);
@@ -71,4 +74,22 @@ test("only numbered cohort records are immutable", () => {
   assert.equal(isNumberedCohortPath("cohorts/0.2/0.2-r1.json"), true);
   assert.equal(isNumberedCohortPath("cohorts/0.2/next.json"), false);
   assert.equal(isNumberedCohortPath("README.md"), false);
+});
+
+test("the working loop refuses default branches", () => {
+  const invalid = structuredClone(workingLoop);
+  invalid.repositories.go.workingRef = "main";
+  assert.throws(() => validateWorkingLoop(invalid, project), /must not be the default branch/);
+});
+
+test("the working loop names every unresolved human decision", () => {
+  validateWorkingLoop(workingLoop, project);
+  const plan = planWorkingLoop(workingLoop, project);
+  assert.deepEqual(
+    plan.decisions.map((decision) => decision.component).sort(),
+    ["elements", "interfaces"],
+  );
+  assert.equal(plan.actions.some((action) => action.includes("openbindings-go/pull/61")), true);
+  assert.equal(plan.actions.some((action) => action.includes("openbindings-ts/pull/63")), true);
+  assert.equal(plan.actions.some((action) => action.includes("interfaces/pull/26")), false);
 });
