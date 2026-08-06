@@ -17,7 +17,7 @@
     },
     "go": {
       "repository": "openbindings/openbindings-go",
-      "commit": "e67def5fe50a9c46d66d0af798c1ce9549e89f8a",
+      "commit": "3f8e1442abbc7d746c6f449ea274515088fd8204",
       "version": "0.2.0",
       "releaseState": "working-draft"
     },
