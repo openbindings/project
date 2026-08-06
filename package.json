@@ -1,0 +1,12 @@
+{
+  "name": "@openbindings/project-coordination",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Cross-repository integration and verified cohort records for OpenBindings",
+  "license": "Apache-2.0",
+  "repository": "github:openbindings/project",
+  "scripts": {
+    "check": "node scripts/validate-project.mjs",
+    "test": "node --test scripts/*.test.mjs && npm run check"
+  }
+}

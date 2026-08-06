@@ -1,0 +1,435 @@
+name: Project integration
+
+on:
+  workflow_call:
+    inputs:
+      mode:
+        description: Resolve the immutable cohort or moving integration heads
+        required: false
+        type: string
+        default: cohort
+      cohort:
+        description: Cohort manifest path in openbindings/project
+        required: false
+        type: string
+        default: cohorts/0.2/next.json
+      project_ref:
+        description: Ref of openbindings/project containing the manifest
+        required: false
+        type: string
+        default: main
+      source_repository:
+        description: Component key or owner/repository whose commit overrides the cohort
+        required: false
+        type: string
+      source_sha:
+        description: Full commit SHA for source_repository
+        required: false
+        type: string
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: Selection mode
+        required: true
+        type: choice
+        options: [cohort, heads]
+        default: cohort
+      cohort:
+        description: Cohort manifest path
+        required: true
+        type: string
+        default: cohorts/0.2/next.json
+      project_ref:
+        description: Ref of openbindings/project containing the manifest
+        required: true
+        type: string
+        default: main
+      source_repository:
+        description: Optional component key or owner/repository override
+        required: false
+        type: string
+      source_sha:
+        description: Full commit SHA paired with source_repository
+        required: false
+        type: string
+  repository_dispatch:
+    types: [component-main-updated, component-released]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: project-integration-${{ inputs.mode || github.event.client_payload.mode || 'cohort' }}-${{ inputs.source_repository || github.event.client_payload.repository || 'all' }}
+  cancel-in-progress: true
+
+jobs:
+  resolve:
+    name: Resolve exact inputs
+    runs-on: ubuntu-latest
+    outputs:
+      mode: ${{ steps.resolve.outputs.mode }}
+      source: ${{ steps.resolve.outputs.source }}
+      spec_ref: ${{ steps.resolve.outputs.spec_ref }}
+      interfaces_ref: ${{ steps.resolve.outputs.interfaces_ref }}
+      go_ref: ${{ steps.resolve.outputs.go_ref }}
+      typescript_ref: ${{ steps.resolve.outputs.typescript_ref }}
+      ob_ref: ${{ steps.resolve.outputs.ob_ref }}
+      elements_ref: ${{ steps.resolve.outputs.elements_ref }}
+      web_ref: ${{ steps.resolve.outputs.web_ref }}
+      selection: ${{ steps.resolve.outputs.selection }}
+    steps:
+      - name: Check out project coordination
+        uses: actions/checkout@v7
+        with:
+          repository: openbindings/project
+          ref: ${{ inputs.project_ref || github.event.client_payload.project_ref || 'main' }}
+          path: project
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+      - name: Resolve cohort and event override
+        id: resolve
+        working-directory: project
+        env:
+          MODE: ${{ inputs.mode || github.event.client_payload.mode || 'cohort' }}
+          COHORT: ${{ inputs.cohort || github.event.client_payload.cohort || 'cohorts/0.2/next.json' }}
+          SOURCE_REPOSITORY: ${{ inputs.source_repository || github.event.client_payload.repository || '' }}
+          SOURCE_SHA: ${{ inputs.source_sha || github.event.client_payload.sha || '' }}
+        run: |
+          args=(--mode "$MODE" --cohort "$COHORT" --github-output "$GITHUB_OUTPUT")
+          if [ -n "$SOURCE_REPOSITORY" ] || [ -n "$SOURCE_SHA" ]; then
+            args+=(--override-repository "$SOURCE_REPOSITORY" --override-sha "$SOURCE_SHA")
+          fi
+          node scripts/resolve-cohort.mjs "${args[@]}"
+      - name: Record selected inputs
+        env:
+          SELECTION: ${{ steps.resolve.outputs.selection }}
+        run: printf '%s\n' "$SELECTION" >> "$GITHUB_STEP_SUMMARY"
+
+  go:
+    name: Go (${{ matrix.module }})
+    needs: resolve
+    if: ${{ contains(fromJSON('["all","spec","interfaces","go"]'), needs.resolve.outputs.source) }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        module:
+          - .
+          - formats/openapi
+          - formats/asyncapi
+          - formats/graphql
+          - formats/grpc
+          - formats/connect
+          - formats/mcp
+          - formats/usage
+          - formats/operationgraph
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          repository: openbindings/spec
+          ref: ${{ needs.resolve.outputs.spec_ref }}
+          path: spec
+      - uses: actions/checkout@v7
+        if: matrix.module == '.'
+        with:
+          repository: openbindings/interfaces
+          ref: ${{ needs.resolve.outputs.interfaces_ref }}
+          path: interfaces
+      - uses: actions/checkout@v7
+        with:
+          repository: openbindings/openbindings-go
+          ref: ${{ needs.resolve.outputs.go_ref }}
+          path: openbindings-go
+      - uses: actions/setup-go@v7
+        with:
+          go-version-file: openbindings-go/${{ matrix.module }}/go.mod
+          cache: false
+      - name: Resolve a prerelease core from the selected checkout
+        if: matrix.module != '.'
+        working-directory: openbindings-go
+        run: |
+          go work init . "${{ matrix.module }}"
+          version=$(awk '/github.com\/openbindings\/openbindings-go v/ { print $NF }' "${{ matrix.module }}/go.mod")
+          go work edit -replace "github.com/openbindings/openbindings-go@${version}=."
+      - name: Vet
+        working-directory: openbindings-go/${{ matrix.module }}
+        run: go vet ./...
+      - name: Test with required corpora
+        working-directory: openbindings-go/${{ matrix.module }}
+        env:
+          OB_SPEC_CORPUS: ${{ github.workspace }}/spec/conformance
+          OB_INTERFACES_CORPUS: ${{ matrix.module == '.' && format('{0}/interfaces/conformance', github.workspace) || '' }}
+          OB_CORPUS_REQUIRED: "1"
+        run: go test -race -short ./...
+      - name: Stress terminal race
+        if: matrix.module == '.'
+        working-directory: openbindings-go
+        run: go test -race -run '^TestAcceptedEmitNeverLostUnderRacingTerminal$' -count=10 .
+
+  typescript:
+    name: TypeScript SDK and correspondence
+    needs: resolve
+    if: ${{ contains(fromJSON('["all","spec","interfaces","go","typescript"]'), needs.resolve.outputs.source) }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          repository: openbindings/spec
+          ref: ${{ needs.resolve.outputs.spec_ref }}
+          path: spec
+      - uses: actions/checkout@v7
+        with:
+          repository: openbindings/interfaces
+          ref: ${{ needs.resolve.outputs.interfaces_ref }}
+          path: interfaces
+      - uses: actions/checkout@v7
+        with:
+          repository: openbindings/openbindings-go
+          ref: ${{ needs.resolve.outputs.go_ref }}
+          path: openbindings-go
+      - uses: actions/checkout@v7
+        with:
+          repository: openbindings/openbindings-ts
+          ref: ${{ needs.resolve.outputs.typescript_ref }}
+          path: openbindings-ts
+      - uses: pnpm/action-setup@v6
+        with:
+          package_json_file: openbindings-ts/package.json
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: openbindings-ts/pnpm-lock.yaml
+      - working-directory: openbindings-ts
+        run: pnpm install --frozen-lockfile
+      - working-directory: openbindings-ts
+        run: pnpm run build
+      - working-directory: openbindings-ts
+        run: pnpm run lint
+      - working-directory: openbindings-ts
+        run: pnpm run pack:verify
+      - working-directory: openbindings-ts
+        run: pnpm correspondence
+      - name: Test with required corpora
+        working-directory: openbindings-ts
+        env:
+          OB_SPEC_CORPUS: ${{ github.workspace }}/spec/conformance
+          OB_INTERFACES_CORPUS: ${{ github.workspace }}/interfaces/conformance
+          OB_CORPUS_REQUIRED: "1"
+        run: pnpm test
+      - working-directory: openbindings-ts
+        run: pnpm conformance -- --corpus=../spec/conformance
+
+  ob:
+    name: ob CLI and runtime
+    needs: resolve
+    if: ${{ contains(fromJSON('["all","spec","interfaces","go","ob"]'), needs.resolve.outputs.source) }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          repository: openbindings/spec
+          ref: ${{ needs.resolve.outputs.spec_ref }}
+          path: spec
+      - uses: actions/checkout@v7
+        with:
+          repository: openbindings/openbindings-go
+          ref: ${{ needs.resolve.outputs.go_ref }}
+          path: openbindings-go
+      - uses: actions/checkout@v7
+        with:
+          repository: openbindings/ob
+          ref: ${{ needs.resolve.outputs.ob_ref }}
+          path: ob
+      - uses: actions/setup-go@v7
+        with:
+          go-version-file: ob/go.mod
+          cache: false
+      - name: Resolve selected SDK modules
+        working-directory: ob
+        run: |
+          go work init .
+          awk '$1 ~ /^github.com\/openbindings\/openbindings-go/ { print $1 }' go.mod | sort -u | while read -r module; do
+            relative="../openbindings-go${module#github.com/openbindings/openbindings-go}"
+            go work edit -replace "$module=$relative"
+          done
+      - working-directory: ob
+        run: go build ./...
+      - working-directory: ob
+        run: go vet ./...
+      - name: Race and conformance tests
+        working-directory: ob
+        env:
+          OB_SPEC_CORPUS: ${{ github.workspace }}/spec/conformance
+          OB_CORPUS_REQUIRED: "1"
+        run: go test -race -short ./...
+      - name: Executable and cross-surface journeys
+        working-directory: ob
+        env:
+          OB_SPEC_CORPUS: ${{ github.workspace }}/spec/conformance
+          OB_CORPUS_REQUIRED: "1"
+          OB_TEST_NO_CREDENTIAL_STORE: "1"
+        run: go test -race -run 'TestWireConformance_ExecLane|TestCrossSurfaceConformance|TestDemoSmoke_PrintedCommands' ./internal/cmd/
+
+  elements:
+    name: Elements extended integration
+    needs: resolve
+    if: ${{ contains(fromJSON('["all","spec","interfaces","go","typescript","ob","elements"]'), needs.resolve.outputs.source) }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          repository: openbindings/openbindings-ts
+          ref: ${{ needs.resolve.outputs.typescript_ref }}
+          path: openbindings-ts
+      - uses: actions/checkout@v7
+        with:
+          repository: openbindings/interfaces
+          ref: ${{ needs.resolve.outputs.interfaces_ref }}
+          path: interfaces
+      - uses: actions/checkout@v7
+        with:
+          repository: openbindings/openbindings-go
+          ref: ${{ needs.resolve.outputs.go_ref }}
+          path: openbindings-go
+      - uses: actions/checkout@v7
+        with:
+          repository: openbindings/ob
+          ref: ${{ needs.resolve.outputs.ob_ref }}
+          path: ob
+      - uses: actions/checkout@v7
+        with:
+          repository: openbindings/elements
+          ref: ${{ needs.resolve.outputs.elements_ref }}
+          path: elements
+      - uses: pnpm/action-setup@v6
+        with:
+          version: 10.15.0
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: |
+            elements/pnpm-lock.yaml
+            openbindings-ts/pnpm-lock.yaml
+      - uses: actions/setup-go@v7
+        with:
+          go-version-file: ob/go.mod
+          cache: false
+      - name: Resolve selected Go SDK modules for ob-start tests
+        run: |
+          go work init ./ob
+          awk '$1 ~ /^github.com\/openbindings\/openbindings-go/ { print $1 }' ob/go.mod | sort -u | while read -r module; do
+            relative="./openbindings-go${module#github.com/openbindings/openbindings-go}"
+            go work edit -replace "$module=$relative"
+          done
+      - name: Build TypeScript SDK dependency
+        working-directory: openbindings-ts
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm --filter @openbindings/sdk build
+      - working-directory: elements
+        run: pnpm install --frozen-lockfile
+      - name: Verify generated requirements
+        working-directory: elements
+        run: |
+          pnpm sync:requirements
+          git diff --exit-code
+      - name: Build, typecheck, test, and verify packages
+        working-directory: elements
+        run: |
+          pnpm check
+          pnpm test
+          pnpm browser:imports
+          pnpm ssr:imports
+          pnpm pack:verify
+      - name: Install Chromium
+        working-directory: elements
+        run: pnpm exec playwright install --with-deps chromium
+      - name: Browser composition
+        working-directory: elements
+        run: pnpm test:browser
+      - name: Embedded ob-start workbench
+        working-directory: elements
+        run: pnpm test:ob-start
+
+  web:
+    name: Website projection
+    needs: resolve
+    if: ${{ contains(fromJSON('["all","spec","interfaces","ob","web"]'), needs.resolve.outputs.source) }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          repository: openbindings/spec
+          ref: ${{ needs.resolve.outputs.spec_ref }}
+          path: spec
+      - uses: actions/checkout@v7
+        with:
+          repository: openbindings/interfaces
+          ref: ${{ needs.resolve.outputs.interfaces_ref }}
+          path: interfaces
+      - uses: actions/checkout@v7
+        with:
+          repository: openbindings/ob
+          ref: ${{ needs.resolve.outputs.ob_ref }}
+          path: ob
+      - uses: actions/checkout@v7
+        with:
+          repository: openbindings/web
+          ref: ${{ needs.resolve.outputs.web_ref }}
+          path: web
+      - uses: pnpm/action-setup@v6
+        with:
+          package_json_file: web/package.json
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: web/pnpm-lock.yaml
+      - working-directory: web
+        run: pnpm install --frozen-lockfile
+      - name: Vendor selected project content
+        working-directory: web
+        env:
+          SPEC_LOCAL: "1"
+        run: pnpm run fetch-spec
+      - working-directory: web
+        run: pnpm run check
+      - working-directory: web
+        run: pnpm run lint
+      - working-directory: web
+        run: pnpm run format:check
+      - working-directory: web
+        run: pnpm test
+      - working-directory: web
+        run: pnpm run build:site
+      - name: Install Chromium
+        working-directory: web
+        run: pnpm exec playwright install --with-deps chromium
+      - working-directory: web
+        run: pnpm test:e2e
+
+  result:
+    name: Integration result
+    if: ${{ always() }}
+    needs: [resolve, go, typescript, ob, elements, web]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require every selected lane to pass
+        env:
+          RESOLVE: ${{ needs.resolve.result }}
+          GO: ${{ needs.go.result }}
+          TYPESCRIPT: ${{ needs.typescript.result }}
+          OB: ${{ needs.ob.result }}
+          ELEMENTS: ${{ needs.elements.result }}
+          WEB: ${{ needs.web.result }}
+        run: |
+          for result in "$RESOLVE" "$GO" "$TYPESCRIPT" "$OB" "$ELEMENTS" "$WEB"; do
+            if [ "$result" != "success" ] && [ "$result" != "skipped" ]; then
+              echo "::error::one or more selected integration lanes failed"
+              exit 1
+            fi
+          done
+          echo "all selected integration lanes passed"

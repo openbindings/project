@@ -1,0 +1,48 @@
+{
+  "format": "openbindings.release-cohort@1",
+  "id": "openbindings-0.2-next",
+  "specificationLine": "0.2",
+  "status": "candidate",
+  "components": {
+    "spec": {
+      "repository": "openbindings/spec",
+      "commit": "75a1702766e2fdd3d26c6f81baa3856ec15515be",
+      "version": "0.2.0",
+      "releaseState": "working-draft"
+    },
+    "interfaces": {
+      "repository": "openbindings/interfaces",
+      "commit": "c0cd74f40137d62f094710434957d5f811317af6",
+      "releaseState": "working-draft"
+    },
+    "go": {
+      "repository": "openbindings/openbindings-go",
+      "commit": "e67def5fe50a9c46d66d0af798c1ce9549e89f8a",
+      "version": "0.2.0",
+      "releaseState": "working-draft"
+    },
+    "typescript": {
+      "repository": "openbindings/openbindings-ts",
+      "commit": "57da45dc55843d25d681e254a4f0f7ba9e62e4a5",
+      "version": "0.2.0",
+      "releaseState": "working-draft"
+    },
+    "ob": {
+      "repository": "openbindings/ob",
+      "commit": "3aa43d1087fb3ddd778439ddc8117dbe2027b122",
+      "version": "0.2.0",
+      "releaseState": "working-draft"
+    },
+    "elements": {
+      "repository": "openbindings/elements",
+      "commit": "b82dcda88e0e57e66b73f1ec5de61867551a0bf9",
+      "version": "0.1.0",
+      "releaseState": "working-draft"
+    },
+    "web": {
+      "repository": "openbindings/web",
+      "commit": "a1c6964fab6553d8b7ea1f6961eac430745332a1",
+      "releaseState": "deployment-source"
+    }
+  }
+}

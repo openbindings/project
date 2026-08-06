@@ -1,0 +1,19 @@
+name: Scheduled reconciliation
+
+on:
+  schedule:
+    # Weekly safety net. During an active prerelease this may temporarily be
+    # changed to nightly; event-triggered validation remains the primary loop.
+    - cron: "17 5 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  reconcile:
+    uses: ./.github/workflows/integration.yml
+    with:
+      mode: heads
+      cohort: cohorts/0.2/next.json
+      project_ref: main

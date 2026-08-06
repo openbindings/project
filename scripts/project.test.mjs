@@ -1,0 +1,74 @@
+import assert from "node:assert/strict";
+import { dirname, resolve } from "node:path";
+import test from "node:test";
+import { fileURLToPath } from "node:url";
+import {
+  isNumberedCohortPath,
+  loadProject,
+  resolveSelection,
+  validateCohort,
+} from "./project-lib.mjs";
+
+const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+const project = loadProject(root);
+const cohort = project.cohorts.get("cohorts/0.2/next.json");
+
+test("the repository catalog and checked-in cohorts validate", () => {
+  assert.equal(Object.keys(project.catalog.repositories).length, 7);
+  assert.equal(cohort.status, "candidate");
+});
+
+test("cohort mode resolves immutable commits", () => {
+  const selection = resolveSelection({ catalog: project.catalog, cohort });
+  assert.equal(selection.mode, "cohort");
+  assert.equal(selection.source, "all");
+  assert.match(selection.refs.spec, /^[0-9a-f]{40}$/);
+  assert.match(selection.refs.ob, /^[0-9a-f]{40}$/);
+});
+
+test("heads mode resolves declared development refs", () => {
+  const selection = resolveSelection({ catalog: project.catalog, cohort, mode: "heads" });
+  assert.equal(selection.refs.spec, "main");
+  assert.equal(selection.refs.go, "experiment/obi-first");
+});
+
+test("a component event overrides only that repository", () => {
+  const sha = "a".repeat(40);
+  const selection = resolveSelection({
+    catalog: project.catalog,
+    cohort,
+    overrideRepository: "openbindings/ob",
+    overrideSha: sha,
+  });
+  assert.equal(selection.source, "ob");
+  assert.equal(selection.refs.ob, sha);
+  assert.equal(selection.refs.spec, cohort.components.spec.commit);
+});
+
+test("an override must be a full commit SHA", () => {
+  assert.throws(
+    () =>
+      resolveSelection({
+        catalog: project.catalog,
+        cohort,
+        overrideRepository: "go",
+        overrideSha: "main",
+      }),
+    /full lowercase commit SHA/,
+  );
+});
+
+test("a cohort cannot select a branch", () => {
+  const invalid = structuredClone(cohort);
+  invalid.components.go.commit = "experiment/obi-first";
+  assert.throws(
+    () => validateCohort(invalid, project.catalog, "cohorts/0.2/next.json"),
+    /full lowercase commit SHA/,
+  );
+});
+
+test("only numbered cohort records are immutable", () => {
+  assert.equal(isNumberedCohortPath("cohorts/0.2/0.2-r1.json"), true);
+  assert.equal(isNumberedCohortPath("cohorts/0.2/next.json"), false);
+  assert.equal(isNumberedCohortPath("README.md"), false);
+});

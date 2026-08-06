@@ -1,0 +1,61 @@
+{
+  "format": "openbindings.repository-catalog@1",
+  "repositories": {
+    "spec": {
+      "repository": "openbindings/spec",
+      "role": "normative-specification",
+      "cohortTier": "required",
+      "defaultBranch": "main",
+      "integrationRef": "main",
+      "releaseMechanism": "annotated-semver-tag"
+    },
+    "interfaces": {
+      "repository": "openbindings/interfaces",
+      "role": "shared-contracts",
+      "cohortTier": "required",
+      "defaultBranch": "main",
+      "integrationRef": "main",
+      "releaseMechanism": "immutable-version-files"
+    },
+    "go": {
+      "repository": "openbindings/openbindings-go",
+      "role": "reference-implementation",
+      "cohortTier": "required",
+      "defaultBranch": "main",
+      "integrationRef": "experiment/obi-first",
+      "releaseMechanism": "annotated-module-tags"
+    },
+    "typescript": {
+      "repository": "openbindings/openbindings-ts",
+      "role": "reference-implementation",
+      "cohortTier": "required",
+      "defaultBranch": "main",
+      "integrationRef": "experiment/obi-first",
+      "releaseMechanism": "annotated-semver-tag-and-npm-oidc"
+    },
+    "ob": {
+      "repository": "openbindings/ob",
+      "role": "cli-runtime",
+      "cohortTier": "required",
+      "defaultBranch": "main",
+      "integrationRef": "experiment/obi-first",
+      "releaseMechanism": "annotated-semver-tag-and-goreleaser"
+    },
+    "elements": {
+      "repository": "openbindings/elements",
+      "role": "ui-packages",
+      "cohortTier": "extended",
+      "defaultBranch": "main",
+      "integrationRef": "main",
+      "releaseMechanism": "npm"
+    },
+    "web": {
+      "repository": "openbindings/web",
+      "role": "publication",
+      "cohortTier": "extended",
+      "defaultBranch": "main",
+      "integrationRef": "experiment/split-spec-og-cli",
+      "releaseMechanism": "continuous-deployment"
+    }
+  }
+}
