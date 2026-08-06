@@ -90,7 +90,7 @@ test("the working loop names every unresolved human decision", () => {
     ["elements", "interfaces"],
   );
   assert.equal(plan.actions.some((action) => action.includes("openbindings-go/pull/61")), false);
-  assert.equal(plan.actions.some((action) => action.includes("openbindings-ts/pull/63")), true);
+  assert.equal(plan.actions.some((action) => action.includes("openbindings-ts/pull/63")), false);
   assert.equal(plan.actions.some((action) => action.includes("interfaces/pull/26")), false);
   assert.equal(plan.actions.some((action) => action.includes("spec/pull/29")), false);
   assert.equal(plan.actions.some((action) => action.includes("spec/pull/30")), false);

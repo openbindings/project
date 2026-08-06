@@ -62,7 +62,8 @@
         {
           "url": "https://github.com/openbindings/openbindings-ts/pull/63",
           "base": "experiment/obi-first",
-          "status": "open"
+          "status": "merged",
+          "mergedCommit": "2f8eb24a2584e7b43401437ccdbee1069b548a94"
         }
       ]
     },

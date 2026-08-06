@@ -23,7 +23,7 @@
     },
     "typescript": {
       "repository": "openbindings/openbindings-ts",
-      "commit": "2bcdb2e96a6fe52d2b4dcb6bdaa1aae5ea4d73d5",
+      "commit": "2f8eb24a2584e7b43401437ccdbee1069b548a94",
       "version": "0.2.0",
       "releaseState": "working-draft"
     },
