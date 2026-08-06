@@ -92,4 +92,18 @@ test("the working loop names every unresolved human decision", () => {
   assert.equal(plan.actions.some((action) => action.includes("openbindings-go/pull/61")), true);
   assert.equal(plan.actions.some((action) => action.includes("openbindings-ts/pull/63")), true);
   assert.equal(plan.actions.some((action) => action.includes("interfaces/pull/26")), false);
+  assert.equal(plan.actions.some((action) => action.includes("spec/pull/29")), false);
+  assert.equal(plan.actions.some((action) => action.includes("spec/pull/30")), false);
+});
+
+test("the working loop requires caller triggers to follow working branches", () => {
+  const invalid = structuredClone(workingLoop);
+  invalid.repositories.spec.callerPullRequest.triggerRef = "main";
+  assert.throws(() => validateWorkingLoop(invalid, project), /triggerRef must match workingRef/);
+});
+
+test("the working loop requires proof for a completed merge", () => {
+  const invalid = structuredClone(workingLoop);
+  delete invalid.repositories.spec.callerPullRequest.mergedCommit;
+  assert.throws(() => validateWorkingLoop(invalid, project), /full lowercase commit SHA/);
 });

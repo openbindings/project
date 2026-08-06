@@ -6,6 +6,12 @@ not a release procedure. The current branches and pull requests are recorded
 in [`working-loop.json`](../working-loop.json); `npm run loop` validates that
 record and prints the safe work plus unresolved human decisions.
 
+Each recorded pull request has an explicit `open` or `merged` status. A merged
+entry records the resulting squash commit, and each caller records the branch
+filter it installs. This makes the loop restartable: completed merges are not
+proposed again, and a caller cannot be treated as ready if its trigger differs
+from the selected working branch.
+
 ## Hard invariants
 
 An agent running this loop must not:

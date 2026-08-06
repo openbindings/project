@@ -6,7 +6,7 @@
   "components": {
     "spec": {
       "repository": "openbindings/spec",
-      "commit": "75a1702766e2fdd3d26c6f81baa3856ec15515be",
+      "commit": "db2ca9a29f8e7a22d6bf960f5e30f2069a558a92",
       "version": "0.2.0",
       "releaseState": "working-draft"
     },

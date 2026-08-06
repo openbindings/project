@@ -8,16 +8,28 @@
       "workingRef": "chore/icon-refresh",
       "callerPullRequest": {
         "url": "https://github.com/openbindings/spec/pull/29",
-        "base": "main"
+        "base": "chore/icon-refresh",
+        "triggerRef": "chore/icon-refresh",
+        "status": "merged",
+        "mergedCommit": "26ccd418126365c2f1876285c3d23a6e8ce5ef93"
       },
-      "fixPullRequests": []
+      "fixPullRequests": [
+        {
+          "url": "https://github.com/openbindings/spec/pull/30",
+          "base": "chore/icon-refresh",
+          "status": "merged",
+          "mergedCommit": "db2ca9a29f8e7a22d6bf960f5e30f2069a558a92"
+        }
+      ]
     },
     "interfaces": {
       "workingRef": null,
       "decisionRequired": "Select or create the non-default 0.2 working branch.",
       "callerPullRequest": {
         "url": "https://github.com/openbindings/interfaces/pull/26",
-        "base": "main"
+        "base": "main",
+        "triggerRef": "main",
+        "status": "open"
       },
       "fixPullRequests": []
     },
@@ -25,12 +37,15 @@
       "workingRef": "experiment/obi-first",
       "callerPullRequest": {
         "url": "https://github.com/openbindings/openbindings-go/pull/60",
-        "base": "experiment/obi-first"
+        "base": "experiment/obi-first",
+        "triggerRef": "experiment/obi-first",
+        "status": "open"
       },
       "fixPullRequests": [
         {
           "url": "https://github.com/openbindings/openbindings-go/pull/61",
-          "base": "experiment/obi-first"
+          "base": "experiment/obi-first",
+          "status": "open"
         }
       ]
     },
@@ -38,12 +53,15 @@
       "workingRef": "experiment/obi-first",
       "callerPullRequest": {
         "url": "https://github.com/openbindings/openbindings-ts/pull/62",
-        "base": "experiment/obi-first"
+        "base": "experiment/obi-first",
+        "triggerRef": "experiment/obi-first",
+        "status": "open"
       },
       "fixPullRequests": [
         {
           "url": "https://github.com/openbindings/openbindings-ts/pull/63",
-          "base": "experiment/obi-first"
+          "base": "experiment/obi-first",
+          "status": "open"
         }
       ]
     },
@@ -51,7 +69,9 @@
       "workingRef": "experiment/obi-first",
       "callerPullRequest": {
         "url": "https://github.com/openbindings/ob/pull/32",
-        "base": "experiment/obi-first"
+        "base": "experiment/obi-first",
+        "triggerRef": "experiment/obi-first",
+        "status": "open"
       },
       "fixPullRequests": []
     },
@@ -60,7 +80,9 @@
       "decisionRequired": "Select or create the non-default 0.2 working branch.",
       "callerPullRequest": {
         "url": "https://github.com/openbindings/elements/pull/1",
-        "base": "main"
+        "base": "main",
+        "triggerRef": "main",
+        "status": "open"
       },
       "fixPullRequests": []
     },
@@ -68,7 +90,9 @@
       "workingRef": "experiment/split-spec-og-cli",
       "callerPullRequest": {
         "url": "https://github.com/openbindings/web/pull/12",
-        "base": "experiment/split-spec-og-cli"
+        "base": "experiment/split-spec-og-cli",
+        "triggerRef": "experiment/split-spec-og-cli",
+        "status": "open"
       },
       "fixPullRequests": []
     }

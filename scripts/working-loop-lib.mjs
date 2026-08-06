@@ -3,12 +3,13 @@ export const WORKING_LOOP_FORMAT = "openbindings.working-branch-loop@1";
 const LINE_PATTERN = /^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$/;
 const PULL_REQUEST_PATTERN =
   /^https:\/\/github\.com\/(openbindings\/[a-z0-9][a-z0-9-]*)\/pull\/([1-9][0-9]*)$/;
+const COMMIT_PATTERN = /^[0-9a-f]{40}$/;
 
 function invariant(condition, message) {
   if (!condition) throw new Error(message);
 }
 
-function validatePullRequest(pullRequest, repository, label) {
+function validatePullRequest(pullRequest, repository, label, { caller = false } = {}) {
   invariant(pullRequest && typeof pullRequest === "object", `${label}: expected an object`);
   const match = PULL_REQUEST_PATTERN.exec(pullRequest.url ?? "");
   invariant(match, `${label}.url must be an OpenBindings pull request URL`);
@@ -17,6 +18,27 @@ function validatePullRequest(pullRequest, repository, label) {
     typeof pullRequest.base === "string" && pullRequest.base.length > 0,
     `${label}.base is required`,
   );
+  invariant(
+    pullRequest.status === "open" || pullRequest.status === "merged",
+    `${label}.status must be open or merged`,
+  );
+  if (pullRequest.status === "merged") {
+    invariant(
+      COMMIT_PATTERN.test(pullRequest.mergedCommit ?? ""),
+      `${label}.mergedCommit must be a full lowercase commit SHA when status is merged`,
+    );
+  } else {
+    invariant(
+      pullRequest.mergedCommit === undefined,
+      `${label}.mergedCommit is only valid when status is merged`,
+    );
+  }
+  if (caller) {
+    invariant(
+      typeof pullRequest.triggerRef === "string" && pullRequest.triggerRef.length > 0,
+      `${label}.triggerRef is required`,
+    );
+  }
 }
 
 export function validateWorkingLoop(loop, project, label = "working-loop.json") {
@@ -71,7 +93,24 @@ export function validateWorkingLoop(loop, project, label = "working-loop.json") 
       );
     }
 
-    validatePullRequest(entry.callerPullRequest, catalogEntry.repository, `${label}: ${key}.callerPullRequest`);
+    validatePullRequest(
+      entry.callerPullRequest,
+      catalogEntry.repository,
+      `${label}: ${key}.callerPullRequest`,
+      { caller: true },
+    );
+    if (entry.workingRef !== null) {
+      invariant(
+        entry.callerPullRequest.triggerRef === entry.workingRef,
+        `${label}: ${key}.callerPullRequest.triggerRef must match workingRef`,
+      );
+      if (entry.callerPullRequest.status === "merged") {
+        invariant(
+          entry.callerPullRequest.base === entry.workingRef,
+          `${label}: merged ${key}.callerPullRequest must target workingRef`,
+        );
+      }
+    }
     invariant(
       !seenPullRequests.has(entry.callerPullRequest.url),
       `${label}: pull request ${entry.callerPullRequest.url} is listed more than once`,
@@ -80,6 +119,12 @@ export function validateWorkingLoop(loop, project, label = "working-loop.json") 
     invariant(Array.isArray(entry.fixPullRequests), `${label}: ${key}.fixPullRequests must be an array`);
     for (const [index, pullRequest] of entry.fixPullRequests.entries()) {
       validatePullRequest(pullRequest, catalogEntry.repository, `${label}: ${key}.fixPullRequests[${index}]`);
+      if (entry.workingRef !== null && pullRequest.status === "merged") {
+        invariant(
+          pullRequest.base === entry.workingRef,
+          `${label}: merged ${key}.fixPullRequests[${index}] must target workingRef`,
+        );
+      }
       invariant(
         !seenPullRequests.has(pullRequest.url),
         `${label}: pull request ${pullRequest.url} is listed more than once`,
@@ -101,6 +146,7 @@ export function planWorkingLoop(loop, project) {
       continue;
     }
     for (const pullRequest of entry.fixPullRequests) {
+      if (pullRequest.status === "merged") continue;
       if (pullRequest.base !== entry.workingRef) {
         actions.push(`retarget ${pullRequest.url} from ${pullRequest.base} to ${entry.workingRef}`);
       }
@@ -111,6 +157,7 @@ export function planWorkingLoop(loop, project) {
   for (const [key, entry] of Object.entries(loop.repositories)) {
     if (entry.workingRef === null) continue;
     const pullRequest = entry.callerPullRequest;
+    if (pullRequest.status === "merged") continue;
     if (pullRequest.base !== entry.workingRef) {
       actions.push(`retarget ${pullRequest.url} from ${pullRequest.base} to ${entry.workingRef}`);
     }
