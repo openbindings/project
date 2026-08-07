@@ -44,12 +44,17 @@ Route a change to the repository that owns its subject:
 | CLI and local runtime behavior | `openbindings/ob` |
 | UI packages | `openbindings/elements` |
 | Website content, projection, and deployment | `openbindings/web` |
+| Official brand, visual identity, UI content guidance, design tokens, and cross-surface experience | `openbindings/design` |
 | Cross-repository cohorts and integration workflows | `openbindings/project` |
 
 For a change spanning multiple owners, open or link the component issues and
 use an `openbindings/project` issue to coordinate the order and exact commits.
 The project repository records the decision but does not acquire the component
 repository's authority.
+
+`openbindings/design` is intentionally absent from release-cohort manifests.
+Its decisions are adopted and verified through consumer repositories, not by
+version-locking the Design repository to a specification cohort.
 
 Escalate an ambiguous ownership, compatibility, release-promotion, or
 governance decision to the project maintainer, Matthew Clevenger
