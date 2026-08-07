@@ -39,7 +39,8 @@
         "url": "https://github.com/openbindings/openbindings-go/pull/60",
         "base": "experiment/obi-first",
         "triggerRef": "experiment/obi-first",
-        "status": "open"
+        "status": "merged",
+        "mergedCommit": "92687e3a61d54cb2f91b29a31880c6774b1d146a"
       },
       "fixPullRequests": [
         {
@@ -56,7 +57,8 @@
         "url": "https://github.com/openbindings/openbindings-ts/pull/62",
         "base": "experiment/obi-first",
         "triggerRef": "experiment/obi-first",
-        "status": "open"
+        "status": "merged",
+        "mergedCommit": "8d7023047c23862980ea1e8b9688548fd6fd2a91"
       },
       "fixPullRequests": [
         {
@@ -73,7 +75,8 @@
         "url": "https://github.com/openbindings/ob/pull/32",
         "base": "experiment/obi-first",
         "triggerRef": "experiment/obi-first",
-        "status": "open"
+        "status": "merged",
+        "mergedCommit": "002b6f31a7757aa71f1adf1edc7e2b1c200c08fa"
       },
       "fixPullRequests": []
     },
@@ -94,7 +97,8 @@
         "url": "https://github.com/openbindings/web/pull/12",
         "base": "experiment/split-spec-og-cli",
         "triggerRef": "experiment/split-spec-og-cli",
-        "status": "open"
+        "status": "merged",
+        "mergedCommit": "73a8523c53c21aa14c229656955921233d6c7235"
       },
       "fixPullRequests": []
     }
