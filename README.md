@@ -15,13 +15,16 @@ The distinction is deliberate:
 
 The normative specification remains in
 [`openbindings/spec`](https://github.com/openbindings/spec). Reference SDKs,
-the CLI, UI packages, shared interfaces, and the website remain independently
-owned and independently versioned in their own repositories.
+the CLI, UI packages, shared interfaces, the website, and the project-wide
+design system remain independently owned and independently versioned in their
+own repositories.
 
 ## Repository map
 
-[`repositories.json`](repositories.json) is the machine-readable inventory.
-The layers are:
+[`repositories.json`](repositories.json) is the machine-readable inventory of
+repositories that can participate in a verified release cohort. It is not a
+complete registry of every OpenBindings authority repository. The cohort
+layers are:
 
 | Repository | Role | Project-cohort status |
 | --- | --- | --- |
@@ -37,6 +40,18 @@ The layers are:
 user must install every component, or that any implementation has normative
 standing. A third-party implementation can conform to OpenBindings without
 appearing in a project cohort.
+
+Project-wide authority repositories sit beside those cohort components:
+
+| Repository | Authority | Project-cohort status |
+| --- | --- | --- |
+| [`openbindings/design`](https://github.com/openbindings/design) | Official brand, visual identity, product experience, accessibility presentation, design tokens, and cross-surface adoption evidence | Not a cohort component |
+| `openbindings/project` | Cross-repository integration policy, release cohorts, and coordination | Hosts cohort records; not a component |
+
+Design decisions remain owned by `openbindings/design`, even when they affect
+Web, Elements, workbench, OAuth, or CLI presentation. This repository may
+coordinate the order and exact consumer commits, but it does not acquire Design
+authority or make Design release-coupled to a specification cohort.
 
 ## Cohorts
 
@@ -100,6 +115,11 @@ have a GitHub App or appropriately scoped token, but it is not required.
 - Release a local CLI, SDK, Elements, or website change from its own
   repository. Do not update this repository merely because a component
   released.
+- Develop brand and product-experience decisions through the evidence,
+  canonicalization, consumer-adoption, and verification loop in
+  [`openbindings/design`](https://github.com/openbindings/design). Update this
+  repository only when the work also changes cross-repository integration or
+  coordination policy.
 - Use the component repository's CI for ordinary changes.
 - Trigger project integration when a change can affect another repository or
   the component is a candidate for the recommended cohort.
