@@ -78,7 +78,13 @@
         "status": "merged",
         "mergedCommit": "002b6f31a7757aa71f1adf1edc7e2b1c200c08fa"
       },
-      "fixPullRequests": []
+      "fixPullRequests": [
+        {
+          "url": "https://github.com/openbindings/ob/pull/33",
+          "base": "experiment/obi-first",
+          "status": "open"
+        }
+      ]
     },
     "elements": {
       "workingRef": null,
