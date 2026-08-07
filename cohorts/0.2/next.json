@@ -29,7 +29,7 @@
     },
     "ob": {
       "repository": "openbindings/ob",
-      "commit": "002b6f31a7757aa71f1adf1edc7e2b1c200c08fa",
+      "commit": "ccf5349866049eb0a2a0ceb8399c2f7000ef7995",
       "version": "0.2.0",
       "releaseState": "working-draft"
     },
