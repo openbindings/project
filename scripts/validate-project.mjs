@@ -39,7 +39,7 @@ try {
   const base = argument("--base");
   if (base) checkImmutableCohorts(base);
   console.log(
-    `validated ${Object.keys(project.catalog.repositories).length} repositories, ${project.cohorts.size} cohort manifest(s), and the working-branch loop`,
+    `validated ${Object.keys(project.catalog.repositories).length} repositories, ${project.cohorts.size} cohort manifest(s), and the development-line loop`,
   );
 } catch (error) {
   console.error(error.message);

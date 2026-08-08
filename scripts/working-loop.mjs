@@ -21,7 +21,7 @@ try {
       console.log(`- ${decision.component}: ${decision.reason}`);
     }
   } else {
-    console.log("\nSTOP after the listed work. Do not touch a default branch, publish, deploy, or promote a cohort.");
+    console.log("\nSTOP after the listed work. Do not change an integration ref, publish, deploy, or promote a cohort.");
   }
 } catch (error) {
   console.error(error.message);

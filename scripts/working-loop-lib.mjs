@@ -55,7 +55,7 @@ export function validateWorkingLoop(loop, project, label = "working-loop.json") 
     candidate.specificationLine === loop.specificationLine,
     `${label}: candidate and specificationLine differ`,
   );
-  invariant(loop.mergeMethod === "squash", `${label}: working-branch changes use squash merge`);
+  invariant(loop.mergeMethod === "squash", `${label}: development-line changes use squash merge`);
   invariant(
     loop.repositories && typeof loop.repositories === "object" && !Array.isArray(loop.repositories),
     `${label}: repositories must be an object`,
@@ -84,8 +84,8 @@ export function validateWorkingLoop(loop, project, label = "working-loop.json") 
         `${label}: ${key}.workingRef must be a branch or null`,
       );
       invariant(
-        entry.workingRef !== catalogEntry.defaultBranch,
-        `${label}: ${key}.workingRef must not be the default branch`,
+        entry.workingRef === catalogEntry.integrationRef,
+        `${label}: ${key}.workingRef must match repositories.json integrationRef`,
       );
       invariant(
         entry.decisionRequired === undefined,
@@ -99,17 +99,15 @@ export function validateWorkingLoop(loop, project, label = "working-loop.json") 
       `${label}: ${key}.callerPullRequest`,
       { caller: true },
     );
-    if (entry.workingRef !== null) {
+    if (entry.workingRef !== null && entry.callerPullRequest.status === "open") {
       invariant(
         entry.callerPullRequest.triggerRef === entry.workingRef,
         `${label}: ${key}.callerPullRequest.triggerRef must match workingRef`,
       );
-      if (entry.callerPullRequest.status === "merged") {
-        invariant(
-          entry.callerPullRequest.base === entry.workingRef,
-          `${label}: merged ${key}.callerPullRequest must target workingRef`,
-        );
-      }
+      invariant(
+        entry.callerPullRequest.base === entry.workingRef,
+        `${label}: open ${key}.callerPullRequest must target workingRef`,
+      );
     }
     invariant(
       !seenPullRequests.has(entry.callerPullRequest.url),
@@ -119,10 +117,10 @@ export function validateWorkingLoop(loop, project, label = "working-loop.json") 
     invariant(Array.isArray(entry.fixPullRequests), `${label}: ${key}.fixPullRequests must be an array`);
     for (const [index, pullRequest] of entry.fixPullRequests.entries()) {
       validatePullRequest(pullRequest, catalogEntry.repository, `${label}: ${key}.fixPullRequests[${index}]`);
-      if (entry.workingRef !== null && pullRequest.status === "merged") {
+      if (entry.workingRef !== null && pullRequest.status === "open") {
         invariant(
           pullRequest.base === entry.workingRef,
-          `${label}: merged ${key}.fixPullRequests[${index}] must target workingRef`,
+          `${label}: open ${key}.fixPullRequests[${index}] must target workingRef`,
         );
       }
       invariant(
@@ -164,7 +162,7 @@ export function planWorkingLoop(loop, project) {
     actions.push(`squash-merge ${pullRequest.url} into ${entry.workingRef} after its required checks pass`);
   }
 
-  actions.push(`replace changed component SHAs in ${loop.candidate} with the resulting working-branch heads`);
+  actions.push(`replace changed component SHAs in ${loop.candidate} with the resulting development-line heads`);
   actions.push("run project validation, then the core exact-cohort workflow");
   actions.push("run Elements and website extended validation without deploying either component");
   actions.push("repair only mechanically proven failures, then return to the SHA-update step");

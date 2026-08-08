@@ -130,7 +130,7 @@ have a GitHub App or appropriately scoped token, but it is not required.
 The change-impact and compatibility rules are in
 [`policies/compatibility-policy.md`](policies/compatibility-policy.md).
 
-The pre-release, working-branch-only agent loop is in
+The pre-release development-line agent loop is in
 [`policies/development-loop.md`](policies/development-loop.md). Its current
 branch and pull-request routing is recorded in [`working-loop.json`](working-loop.json).
 Run `npm run loop` to print safe actions and the next human-decision boundary.

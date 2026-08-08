@@ -31,8 +31,8 @@ test("cohort mode resolves immutable commits", () => {
 
 test("heads mode resolves declared development refs", () => {
   const selection = resolveSelection({ catalog: project.catalog, cohort, mode: "heads" });
-  assert.equal(selection.refs.spec, "main");
-  assert.equal(selection.refs.go, "experiment/obi-first");
+  assert.equal(selection.refs.spec, "release/0.2");
+  assert.equal(selection.refs.go, "release/0.2");
 });
 
 test("a component event overrides only that repository", () => {
@@ -76,10 +76,10 @@ test("only numbered cohort records are immutable", () => {
   assert.equal(isNumberedCohortPath("README.md"), false);
 });
 
-test("the working loop refuses default branches", () => {
+test("the working loop follows the catalog's explicit integration refs", () => {
   const invalid = structuredClone(workingLoop);
   invalid.repositories.go.workingRef = "main";
-  assert.throws(() => validateWorkingLoop(invalid, project), /must not be the default branch/);
+  assert.throws(() => validateWorkingLoop(invalid, project), /must match repositories.json integrationRef/);
 });
 
 test("the working loop names every unresolved human decision", () => {
@@ -87,18 +87,22 @@ test("the working loop names every unresolved human decision", () => {
   const plan = planWorkingLoop(workingLoop, project);
   assert.deepEqual(
     plan.decisions.map((decision) => decision.component).sort(),
-    ["elements", "interfaces"],
+    [],
   );
   assert.equal(plan.actions.some((action) => action.includes("openbindings-go/pull/61")), false);
   assert.equal(plan.actions.some((action) => action.includes("openbindings-ts/pull/63")), false);
   assert.equal(plan.actions.some((action) => action.includes("openbindings/ob/pull/33")), false);
   assert.equal(plan.actions.some((action) => action.includes("interfaces/pull/26")), false);
+  assert.equal(plan.actions.some((action) => action.includes("elements/pull/1")), false);
   assert.equal(plan.actions.some((action) => action.includes("spec/pull/29")), false);
   assert.equal(plan.actions.some((action) => action.includes("spec/pull/30")), false);
 });
 
-test("the working loop requires caller triggers to follow working branches", () => {
+test("the working loop requires open caller triggers to follow development lines", () => {
   const invalid = structuredClone(workingLoop);
+  invalid.repositories.spec.callerPullRequest.status = "open";
+  delete invalid.repositories.spec.callerPullRequest.mergedCommit;
+  invalid.repositories.spec.callerPullRequest.base = "release/0.2";
   invalid.repositories.spec.callerPullRequest.triggerRef = "main";
   assert.throws(() => validateWorkingLoop(invalid, project), /triggerRef must match workingRef/);
 });

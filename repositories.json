@@ -6,7 +6,7 @@
       "role": "normative-specification",
       "cohortTier": "required",
       "defaultBranch": "main",
-      "integrationRef": "main",
+      "integrationRef": "release/0.2",
       "releaseMechanism": "annotated-semver-tag"
     },
     "interfaces": {
@@ -22,7 +22,7 @@
       "role": "reference-implementation",
       "cohortTier": "required",
       "defaultBranch": "main",
-      "integrationRef": "experiment/obi-first",
+      "integrationRef": "release/0.2",
       "releaseMechanism": "annotated-module-tags"
     },
     "typescript": {
@@ -30,7 +30,7 @@
       "role": "reference-implementation",
       "cohortTier": "required",
       "defaultBranch": "main",
-      "integrationRef": "experiment/obi-first",
+      "integrationRef": "release/0.2",
       "releaseMechanism": "annotated-semver-tag-and-npm-oidc"
     },
     "ob": {
@@ -38,7 +38,7 @@
       "role": "cli-runtime",
       "cohortTier": "required",
       "defaultBranch": "main",
-      "integrationRef": "experiment/obi-first",
+      "integrationRef": "release/0.2",
       "releaseMechanism": "annotated-semver-tag-and-goreleaser"
     },
     "elements": {
@@ -54,7 +54,7 @@
       "role": "publication",
       "cohortTier": "extended",
       "defaultBranch": "main",
-      "integrationRef": "experiment/split-spec-og-cli",
+      "integrationRef": "main",
       "releaseMechanism": "continuous-deployment"
     }
   }
