@@ -375,6 +375,9 @@ jobs:
           repository: openbindings/spec
           ref: ${{ needs.resolve.outputs.spec_ref }}
           path: spec
+          # Web's local projection also vendors the immutable v0.1.0 pages
+          # from this checkout. An exact-SHA shallow checkout has no tags.
+          fetch-depth: 0
       - uses: actions/checkout@v7
         with:
           repository: openbindings/interfaces
