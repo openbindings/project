@@ -151,6 +151,12 @@ jobs:
           repository: openbindings/openbindings-go
           ref: ${{ needs.resolve.outputs.go_ref }}
           path: openbindings-go
+      - uses: actions/checkout@v7
+        if: matrix.module == 'formats/openapi'
+        with:
+          repository: openbindings/openapi-client
+          ref: main
+          path: openapi-client
       - uses: actions/setup-go@v7
         with:
           go-version-file: openbindings-go/${{ matrix.module }}/go.mod
@@ -159,9 +165,16 @@ jobs:
         if: matrix.module != '.'
         working-directory: openbindings-go
         run: |
-          go work init . "${{ matrix.module }}"
+          if [ "${{ matrix.module }}" = "formats/openapi" ]; then
+            go work init . "${{ matrix.module }}" ../openapi-client/go
+          else
+            go work init . "${{ matrix.module }}"
+          fi
           version=$(awk '/github.com\/openbindings\/openbindings-go v/ { print $NF }' "${{ matrix.module }}/go.mod")
           go work edit -replace "github.com/openbindings/openbindings-go@${version}=."
+          if [ "${{ matrix.module }}" = "formats/openapi" ]; then
+            go work edit -replace "github.com/openbindings/openapi-client/go@v0.1.0=../openapi-client/go"
+          fi
       - name: Vet
         working-directory: openbindings-go/${{ matrix.module }}
         run: go vet ./...
@@ -203,6 +216,11 @@ jobs:
           repository: openbindings/openbindings-ts
           ref: ${{ needs.resolve.outputs.typescript_ref }}
           path: openbindings-ts
+      - uses: actions/checkout@v7
+        with:
+          repository: openbindings/openapi-client
+          ref: main
+          path: openapi-client
       - uses: pnpm/action-setup@v6
         with:
           package_json_file: openbindings-ts/package.json
@@ -249,6 +267,11 @@ jobs:
           path: openbindings-go
       - uses: actions/checkout@v7
         with:
+          repository: openbindings/openapi-client
+          ref: main
+          path: openapi-client
+      - uses: actions/checkout@v7
+        with:
           repository: openbindings/ob
           ref: ${{ needs.resolve.outputs.ob_ref }}
           path: ob
@@ -264,6 +287,7 @@ jobs:
             relative="../openbindings-go${module#github.com/openbindings/openbindings-go}"
             go work edit -replace "$module=$relative"
           done
+          go work edit -replace "github.com/openbindings/openapi-client/go=../openapi-client/go"
       - working-directory: ob
         run: go build ./...
       - working-directory: ob
@@ -293,6 +317,11 @@ jobs:
           repository: openbindings/openbindings-ts
           ref: ${{ needs.resolve.outputs.typescript_ref }}
           path: openbindings-ts
+      - uses: actions/checkout@v7
+        with:
+          repository: openbindings/openapi-client
+          ref: main
+          path: openapi-client
       - uses: actions/checkout@v7
         with:
           repository: openbindings/interfaces
@@ -334,6 +363,7 @@ jobs:
             relative="./openbindings-go${module#github.com/openbindings/openbindings-go}"
             go work edit -replace "$module=$relative"
           done
+          go work edit -replace "github.com/openbindings/openapi-client/go=./openapi-client/go"
       - name: Build TypeScript SDK dependency
         working-directory: openbindings-ts
         run: |
