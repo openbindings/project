@@ -244,6 +244,12 @@ jobs:
           node-version: 22
           cache: pnpm
           cache-dependency-path: openbindings-ts/pnpm-lock.yaml
+      - name: Build standalone artifact clients
+        run: |
+          pnpm --dir openapi-client install --frozen-lockfile
+          pnpm --dir openapi-client build
+          pnpm --dir asyncapi-client install --frozen-lockfile
+          pnpm --dir asyncapi-client build
       - working-directory: openbindings-ts
         run: pnpm install --frozen-lockfile
       - working-directory: openbindings-ts
@@ -382,6 +388,12 @@ jobs:
         with:
           go-version-file: ob/go.mod
           cache: false
+      - name: Build standalone artifact clients
+        run: |
+          pnpm --dir openapi-client install --frozen-lockfile
+          pnpm --dir openapi-client build
+          pnpm --dir asyncapi-client install --frozen-lockfile
+          pnpm --dir asyncapi-client build
       - name: Resolve selected Go SDK modules for ob-start tests
         run: |
           go work init ./ob
