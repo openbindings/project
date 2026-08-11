@@ -157,6 +157,12 @@ jobs:
           repository: openbindings/openapi-client
           ref: main
           path: openapi-client
+      - uses: actions/checkout@v7
+        if: matrix.module == 'formats/asyncapi'
+        with:
+          repository: openbindings/asyncapi-client
+          ref: main
+          path: asyncapi-client
       - uses: actions/setup-go@v7
         with:
           go-version-file: openbindings-go/${{ matrix.module }}/go.mod
@@ -167,6 +173,8 @@ jobs:
         run: |
           if [ "${{ matrix.module }}" = "formats/openapi" ]; then
             go work init . "${{ matrix.module }}" ../openapi-client/go
+          elif [ "${{ matrix.module }}" = "formats/asyncapi" ]; then
+            go work init . "${{ matrix.module }}" ../asyncapi-client/go
           else
             go work init . "${{ matrix.module }}"
           fi
@@ -174,6 +182,8 @@ jobs:
           go work edit -replace "github.com/openbindings/openbindings-go@${version}=."
           if [ "${{ matrix.module }}" = "formats/openapi" ]; then
             go work edit -replace "github.com/openbindings/openapi-client/go@v0.1.0=../openapi-client/go"
+          elif [ "${{ matrix.module }}" = "formats/asyncapi" ]; then
+            go work edit -replace "github.com/openbindings/asyncapi-client/go@v0.1.0=../asyncapi-client/go"
           fi
       - name: Vet
         working-directory: openbindings-go/${{ matrix.module }}
@@ -221,6 +231,11 @@ jobs:
           repository: openbindings/openapi-client
           ref: main
           path: openapi-client
+      - uses: actions/checkout@v7
+        with:
+          repository: openbindings/asyncapi-client
+          ref: main
+          path: asyncapi-client
       - uses: pnpm/action-setup@v6
         with:
           package_json_file: openbindings-ts/package.json
@@ -272,6 +287,11 @@ jobs:
           path: openapi-client
       - uses: actions/checkout@v7
         with:
+          repository: openbindings/asyncapi-client
+          ref: main
+          path: asyncapi-client
+      - uses: actions/checkout@v7
+        with:
           repository: openbindings/ob
           ref: ${{ needs.resolve.outputs.ob_ref }}
           path: ob
@@ -288,6 +308,7 @@ jobs:
             go work edit -replace "$module=$relative"
           done
           go work edit -replace "github.com/openbindings/openapi-client/go=../openapi-client/go"
+          go work edit -replace "github.com/openbindings/asyncapi-client/go=../asyncapi-client/go"
       - working-directory: ob
         run: go build ./...
       - working-directory: ob
@@ -322,6 +343,11 @@ jobs:
           repository: openbindings/openapi-client
           ref: main
           path: openapi-client
+      - uses: actions/checkout@v7
+        with:
+          repository: openbindings/asyncapi-client
+          ref: main
+          path: asyncapi-client
       - uses: actions/checkout@v7
         with:
           repository: openbindings/interfaces
@@ -364,6 +390,7 @@ jobs:
             go work edit -replace "$module=$relative"
           done
           go work edit -replace "github.com/openbindings/openapi-client/go=./openapi-client/go"
+          go work edit -replace "github.com/openbindings/asyncapi-client/go=./asyncapi-client/go"
       - name: Build TypeScript SDK dependency
         working-directory: openbindings-ts
         run: |
