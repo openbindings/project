@@ -19,6 +19,23 @@ the CLI, UI packages, shared interfaces, the website, and the project-wide
 design system remain independently owned and independently versioned in their
 own repositories.
 
+## Semantic authority and cohort evidence
+
+Repository membership and cohort verification do not create semantic
+authority. For any OpenBindings source, the exact binding specification it
+names governs its source and binding semantics. That specification decides
+whether and on what terms another artifact, protocol, or model is
+incorporated; no upstream authority applies automatically.
+
+An implementation may complete behavior that its binding specification leaves
+open, but that completion remains implementation-defined. A cohort may prove
+that selected implementations work together with that local behavior; it must
+not report the behavior as portable meaning of the binding-specification
+identifier. The OpenBindings project's own brownfield candidates choose close
+upstream deference and require the OBI-B-02 completeness floor before first
+publication. Those are project quality and publication policies, not new
+authority conferred by a cohort.
+
 ## Repository map
 
 [`repositories.json`](repositories.json) is the machine-readable inventory of
