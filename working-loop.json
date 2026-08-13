@@ -108,6 +108,18 @@
         "mergedCommit": "73a8523c53c21aa14c229656955921233d6c7235"
       },
       "fixPullRequests": []
+    },
+    "openapi-client": {
+      "workingRef": null,
+      "decisionRequired": "Joined the catalog 2026-08-13 (standalone artifact runtimes brought into the coordination boundary per review-170 step 1); no integration wave has included them yet. Decide their first wave participation.",
+      "callerPullRequest": null,
+      "fixPullRequests": []
+    },
+    "asyncapi-client": {
+      "workingRef": null,
+      "decisionRequired": "Joined the catalog 2026-08-13 (standalone artifact runtimes brought into the coordination boundary per review-170 step 1); no integration wave has included them yet. Decide their first wave participation.",
+      "callerPullRequest": null,
+      "fixPullRequests": []
     }
   }
 }

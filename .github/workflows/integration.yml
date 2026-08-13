@@ -86,6 +86,8 @@ jobs:
       ob_ref: ${{ steps.resolve.outputs.ob_ref }}
       elements_ref: ${{ steps.resolve.outputs.elements_ref }}
       web_ref: ${{ steps.resolve.outputs.web_ref }}
+      openapi_client_ref: ${{ steps.resolve.outputs.openapi_client_ref }}
+      asyncapi_client_ref: ${{ steps.resolve.outputs.asyncapi_client_ref }}
       selection: ${{ steps.resolve.outputs.selection }}
     steps:
       - name: Check out project coordination
@@ -155,13 +157,13 @@ jobs:
         if: matrix.module == 'formats/openapi'
         with:
           repository: openbindings/openapi-client
-          ref: main
+          ref: ${{ needs.resolve.outputs.openapi_client_ref }}
           path: openapi-client
       - uses: actions/checkout@v7
         if: matrix.module == 'formats/asyncapi'
         with:
           repository: openbindings/asyncapi-client
-          ref: main
+          ref: ${{ needs.resolve.outputs.asyncapi_client_ref }}
           path: asyncapi-client
       - uses: actions/setup-go@v7
         with:
@@ -229,12 +231,12 @@ jobs:
       - uses: actions/checkout@v7
         with:
           repository: openbindings/openapi-client
-          ref: main
+          ref: ${{ needs.resolve.outputs.openapi_client_ref }}
           path: openapi-client
       - uses: actions/checkout@v7
         with:
           repository: openbindings/asyncapi-client
-          ref: main
+          ref: ${{ needs.resolve.outputs.asyncapi_client_ref }}
           path: asyncapi-client
       - uses: pnpm/action-setup@v6
         with:
@@ -289,12 +291,12 @@ jobs:
       - uses: actions/checkout@v7
         with:
           repository: openbindings/openapi-client
-          ref: main
+          ref: ${{ needs.resolve.outputs.openapi_client_ref }}
           path: openapi-client
       - uses: actions/checkout@v7
         with:
           repository: openbindings/asyncapi-client
-          ref: main
+          ref: ${{ needs.resolve.outputs.asyncapi_client_ref }}
           path: asyncapi-client
       - uses: actions/checkout@v7
         with:
@@ -347,12 +349,12 @@ jobs:
       - uses: actions/checkout@v7
         with:
           repository: openbindings/openapi-client
-          ref: main
+          ref: ${{ needs.resolve.outputs.openapi_client_ref }}
           path: openapi-client
       - uses: actions/checkout@v7
         with:
           repository: openbindings/asyncapi-client
-          ref: main
+          ref: ${{ needs.resolve.outputs.asyncapi_client_ref }}
           path: asyncapi-client
       - uses: actions/checkout@v7
         with:

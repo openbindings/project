@@ -56,6 +56,22 @@
       "defaultBranch": "main",
       "integrationRef": "main",
       "releaseMechanism": "continuous-deployment"
+    },
+    "openapi-client": {
+      "repository": "openbindings/openapi-client",
+      "role": "artifact-runtime",
+      "cohortTier": "required",
+      "defaultBranch": "main",
+      "integrationRef": "main",
+      "releaseMechanism": "annotated-module-tags-and-npm"
+    },
+    "asyncapi-client": {
+      "repository": "openbindings/asyncapi-client",
+      "role": "artifact-runtime",
+      "cohortTier": "required",
+      "defaultBranch": "main",
+      "integrationRef": "main",
+      "releaseMechanism": "annotated-module-tags-and-npm"
     }
   }
 }

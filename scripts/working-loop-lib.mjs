@@ -78,6 +78,16 @@ export function validateWorkingLoop(loop, project, label = "working-loop.json") 
         typeof entry.decisionRequired === "string" && entry.decisionRequired.length > 0,
         `${label}: ${key} needs decisionRequired while workingRef is null`,
       );
+      // A repository with no working state yet — e.g. one that joined the
+      // catalog between integration waves — has no caller pull request to
+      // record; the named decision is its entire loop state.
+      if (entry.callerPullRequest == null) {
+        invariant(
+          entry.fixPullRequests === undefined || (Array.isArray(entry.fixPullRequests) && entry.fixPullRequests.length === 0),
+          `${label}: ${key} cannot carry fix pull requests before its caller pull request exists`,
+        );
+        continue;
+      }
     } else {
       invariant(
         typeof entry.workingRef === "string" && entry.workingRef.length > 0,

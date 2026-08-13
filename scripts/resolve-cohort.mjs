@@ -31,7 +31,9 @@ try {
   const outputPath = argument("--github-output");
   if (outputPath) {
     const lines = [`mode=${selection.mode}`, `source=${selection.source}`];
-    for (const [key, ref] of Object.entries(selection.refs)) lines.push(`${key}_ref=${ref}`);
+    // Hyphenated component keys (openapi-client) sanitize to underscores so
+    // workflow expressions can use dot syntax (openapi_client_ref).
+    for (const [key, ref] of Object.entries(selection.refs)) lines.push(`${key.replace(/-/g, "_")}_ref=${ref}`);
     lines.push(`selection=${JSON.stringify(selection)}`);
     appendFileSync(outputPath, `${lines.join("\n")}\n`);
   } else {
