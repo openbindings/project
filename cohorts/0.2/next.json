@@ -6,53 +6,53 @@
   "components": {
     "spec": {
       "repository": "openbindings/spec",
-      "commit": "ad576e4259509dff73b3f29a8820dec3956b8f89",
+      "commit": "0113d0272211d0f2e59319af33bef8c839ed81d5",
       "version": "0.2.0",
       "releaseState": "working-draft"
     },
     "interfaces": {
       "repository": "openbindings/interfaces",
-      "commit": "610514f9b19e16e34ee12d7098c7c3c822010ec8",
+      "commit": "60d52cc0205fe6304611076b4847cfad8e564e5c",
       "releaseState": "working-draft"
     },
     "go": {
       "repository": "openbindings/openbindings-go",
-      "commit": "c551358a6796c2ab792333875cfab7623c60ca17",
+      "commit": "046fe12ca262cc0bdfbc9f4986c42128af7850c5",
       "version": "0.2.0",
       "releaseState": "working-draft"
     },
     "typescript": {
       "repository": "openbindings/openbindings-ts",
-      "commit": "4cc9137e86264a4f1879d301deacd1300b736f5d",
+      "commit": "f160147a40abea4619dbde382d0dadf6aa769863",
       "version": "0.2.0",
       "releaseState": "working-draft"
     },
     "ob": {
       "repository": "openbindings/ob",
-      "commit": "671d36a6027d977b224db9ec711712aaeea6ec80",
+      "commit": "ed3ea9e88e371989e522d50ceed419ffdc7342ca",
       "version": "0.2.0",
       "releaseState": "working-draft"
     },
     "elements": {
       "repository": "openbindings/elements",
-      "commit": "10c4041568713fd2a8aec92858488961a55d6c30",
+      "commit": "1b455f33943fa3183218358addcf5f324068fdb0",
       "version": "0.1.0",
       "releaseState": "working-draft"
     },
     "web": {
       "repository": "openbindings/web",
-      "commit": "2358680f69fe403be366a20d4f0ed31e96cdceaf",
+      "commit": "823ae70daaddf6ced0488693dd97c67cb118e0a3",
       "releaseState": "deployment-source"
     },
     "openapi-client": {
       "repository": "openbindings/openapi-client",
-      "commit": "0ebea9fad1f278fd31afe85cec1154f9c86b3df7",
+      "commit": "38b2ef100fc98f71a33fb37477b25d8356dcf9cd",
       "version": "0.1.0",
       "releaseState": "working-draft"
     },
     "asyncapi-client": {
       "repository": "openbindings/asyncapi-client",
-      "commit": "6503558a6b2f8243433a15df763a9b49b3f7f122",
+      "commit": "54678886c38cfc2a94bb06f4499004600a74473c",
       "version": "0.1.0",
       "releaseState": "working-draft"
     }
