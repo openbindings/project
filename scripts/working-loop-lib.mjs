@@ -101,6 +101,15 @@ export function validateWorkingLoop(loop, project, label = "working-loop.json") 
         entry.decisionRequired === undefined,
         `${label}: ${key}.decisionRequired must be removed after selecting workingRef`,
       );
+      // A newly coordinated repository can have its working ref selected
+      // before its first integration-wave caller pull request is opened.
+      if (entry.callerPullRequest == null) {
+        invariant(
+          entry.fixPullRequests === undefined || (Array.isArray(entry.fixPullRequests) && entry.fixPullRequests.length === 0),
+          `${label}: ${key} cannot carry fix pull requests before its caller pull request exists`,
+        );
+        continue;
+      }
     }
 
     validatePullRequest(
@@ -165,6 +174,7 @@ export function planWorkingLoop(loop, project) {
   for (const [key, entry] of Object.entries(loop.repositories)) {
     if (entry.workingRef === null) continue;
     const pullRequest = entry.callerPullRequest;
+    if (pullRequest == null) continue;
     if (pullRequest.status === "merged") continue;
     if (pullRequest.base !== entry.workingRef) {
       actions.push(`retarget ${pullRequest.url} from ${pullRequest.base} to ${entry.workingRef}`);
