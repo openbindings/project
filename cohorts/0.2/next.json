@@ -6,7 +6,7 @@
   "components": {
     "spec": {
       "repository": "openbindings/spec",
-      "commit": "0113d0272211d0f2e59319af33bef8c839ed81d5",
+      "commit": "149a365667bc9d16720815ec486e04a9920d7f91",
       "version": "0.2.0",
       "releaseState": "working-draft"
     },
@@ -17,19 +17,19 @@
     },
     "go": {
       "repository": "openbindings/openbindings-go",
-      "commit": "046fe12ca262cc0bdfbc9f4986c42128af7850c5",
+      "commit": "cc50e624119d1c31e7c232c200d600ef8f1f763e",
       "version": "0.2.0",
       "releaseState": "working-draft"
     },
     "typescript": {
       "repository": "openbindings/openbindings-ts",
-      "commit": "f160147a40abea4619dbde382d0dadf6aa769863",
+      "commit": "8407c06016a44434424d66aa899086c18ac0e0b1",
       "version": "0.2.0",
       "releaseState": "working-draft"
     },
     "ob": {
       "repository": "openbindings/ob",
-      "commit": "ed3ea9e88e371989e522d50ceed419ffdc7342ca",
+      "commit": "5e0e049693784774964b7fbe3f188ed49d730523",
       "version": "0.2.0",
       "releaseState": "working-draft"
     },
@@ -41,12 +41,12 @@
     },
     "web": {
       "repository": "openbindings/web",
-      "commit": "823ae70daaddf6ced0488693dd97c67cb118e0a3",
+      "commit": "40eda8e5c6d022b2d1add5290c3c45fc6ac0ae59",
       "releaseState": "deployment-source"
     },
     "openapi-client": {
       "repository": "openbindings/openapi-client",
-      "commit": "38b2ef100fc98f71a33fb37477b25d8356dcf9cd",
+      "commit": "a881f3752dd73a1247f24cc6c97a304533a7c6b1",
       "version": "0.1.0",
       "releaseState": "working-draft"
     },

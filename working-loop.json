@@ -111,14 +111,12 @@
     },
     "openapi-client": {
       "workingRef": "main",
-      "decisionRequired": "Joined the catalog 2026-08-13 (standalone artifact runtimes brought into the coordination boundary per review-170 step 1); no integration wave has included them yet. Decide their first wave participation.",
       "callerPullRequest": null,
       "fixPullRequests": [],
       "decision": "Ruled 2026-08-20: first-wave participation confirmed; workingRef is main (the clients' mains are their working lines \u2014 they version independently, no release branch needed; already SHA-pinned in the 0.2 candidate cohort). Supersedes the decisionRequired note below."
     },
     "asyncapi-client": {
       "workingRef": "main",
-      "decisionRequired": "Joined the catalog 2026-08-13 (standalone artifact runtimes brought into the coordination boundary per review-170 step 1); no integration wave has included them yet. Decide their first wave participation.",
       "callerPullRequest": null,
       "fixPullRequests": [],
       "decision": "Ruled 2026-08-20: first-wave participation confirmed; workingRef is main (the clients' mains are their working lines \u2014 they version independently, no release branch needed; already SHA-pinned in the 0.2 candidate cohort). Supersedes the decisionRequired note below."

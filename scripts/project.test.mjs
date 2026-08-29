@@ -87,7 +87,7 @@ test("the working loop names every unresolved human decision", () => {
   const plan = planWorkingLoop(workingLoop, project);
   assert.deepEqual(
     plan.decisions.map((decision) => decision.component).sort(),
-    ["asyncapi-client", "openapi-client"],
+    [],
   );
   assert.equal(plan.actions.some((action) => action.includes("openbindings-go/pull/61")), false);
   assert.equal(plan.actions.some((action) => action.includes("openbindings-ts/pull/63")), false);
