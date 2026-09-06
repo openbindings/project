@@ -4,6 +4,10 @@
 cohort. Numbered files such as `0.2-r1.json` are immutable verification
 records.
 
+The current OpenAPI landing is tracked in
+[openapi-release-path.md](openapi-release-path.md), including component PRs,
+declared integration branches, exact saved candidates, and remaining gates.
+
 The initial candidate pins commits reachable from the repositories' current
 remote integration refs when project coordination was introduced. It does not
 include unpublished local commits. Several repositories still use explicitly
