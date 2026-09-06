@@ -29,13 +29,13 @@
     },
     "ob": {
       "repository": "openbindings/ob",
-      "commit": "d10c0c02228d07d1ff81861015970c34a15c8669",
+      "commit": "74dc6abe4543b881c47f4f765089097fec7c9964",
       "version": "0.2.0",
       "releaseState": "working-draft"
     },
     "elements": {
       "repository": "openbindings/elements",
-      "commit": "eff9aa9634f294dd08f84dc2b32b60e4a832dcde",
+      "commit": "1bb8255108f218c690687efcf4fa8bc120576bac",
       "version": "0.1.0",
       "releaseState": "working-draft"
     },

@@ -43,9 +43,12 @@ landing ledger records the complete set without changing that policy.
 | ob | `5ef56244afee7393e9451007bd7d7ef2d211d4b0` | PR #43: build, vet, race/conformance tests, and executable/cross-surface journeys passed against the landed SDK. |
 | ob (selector-display asset follow-up) | `d10c0c02228d07d1ff81861015970c34a15c8669` | PR #44: all component checks passed. |
 | elements | `eff9aa9634f294dd08f84dc2b32b60e4a832dcde` | PR #8: all component checks passed after the approved conflict resolution and test/build setup repairs. |
+| ob (non-string guard asset) | `74dc6abe4543b881c47f4f765089097fec7c9964` | PR #45: all component checks passed. |
+| elements (non-string guard) | `1bb8255108f218c690687efcf4fa8bc120576bac` | PR #9: all component checks passed, including workbench journeys. |
 
 The merged trees are identical to their respective saved candidates (the final
-Elements candidate is `667a1a59234e8a3db93e225dd897553815281f61`).
+Elements candidate is `282ce839782d5bcc6354310cc30991cbc021e083`; the final OB
+asset candidate is `f6e5bd9bb276d56971b980acc6bfc506eccd907d`).
 `next.json` records confirmed landings
 only; its candidate status does not assert full extended validation or release
 readiness.
@@ -69,6 +72,17 @@ The preceding run 34060584086 failed before any component testing because the
 invocation supplied an abbreviated project commit and checkout treated it as
 a ref name. Run 34060674537 corrected that input to the full SHA; no test,
 workflow, or component implementation was changed to obtain the passing result.
+
+## Subsequent exact validation
+
+The first completed Elements landing (manifest
+`a7b6c633843d29444515e0d182b32e6920a2825c`, Elements `eff9aa9`, OB `d10c0c0`)
+passed [exact core integration 34065630445](https://github.com/openbindings/project/actions/runs/34065630445)
+and [exact Elements integration 34065631914](https://github.com/openbindings/project/actions/runs/34065631914).
+The dedicated Elements invocation supplied an override identical to its manifest
+pin, selecting only that extended lane; it did not change the selected source.
+Website validation and deployment were excluded. These results are evidence for
+those exact revisions, not for subsequent renderer-guard commits.
 
 ## Safe landing sequence
 
@@ -138,6 +152,18 @@ and OB race/conformance tests. No failed lane was suppressed.
 The rebuilt embedded asset landed via [ob#44](https://github.com/openbindings/ob/pull/44)
 at `d10c0c02228d07d1ff81861015970c34a15c8669` after component CI passed; its tree
 matches asset candidate `8d259442df7f348a37915b9d1e8f01ce92a0ecf6`.
+
+A final defensive review reproduced a non-string-selector exception before
+diagnostic rendering: `{ "selector": { "toString": null } }` threw while
+constructing the row key. A string guard fixes that coercion without changing
+valid selectors. Three added object/array cases bring the unit suite to 194;
+the failing regression passes after the guard, and all package/import checks,
+16 browser cases, and 34 workbench journeys pass locally on that guarded source.
+The corresponding embedded asset landed via
+[ob#45](https://github.com/openbindings/ob/pull/45) at
+`74dc6abe4543b881c47f4f765089097fec7c9964` after complete component CI passed.
+The source guard landed via [elements#9](https://github.com/openbindings/elements/pull/9)
+at `1bb8255108f218c690687efcf4fa8bc120576bac` after complete component CI passed.
 
 ## Evidence and honest qualification scope
 
