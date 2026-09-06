@@ -1,6 +1,6 @@
 # OpenAPI development-line landing — 2026-09-06
 
-Status: **component landing complete; not a verified cohort or release**.
+Status: **landing complete; exact core and Elements gates passed; not a verified cohort or release**.
 
 The maintainer requested that the accumulated, tested OpenAPI work enter the
 actual 0.2 development path before further iteration. The qualification
@@ -83,6 +83,26 @@ The dedicated Elements invocation supplied an override identical to its manifest
 pin, selecting only that extended lane; it did not change the selected source.
 Website validation and deployment were excluded. These results are evidence for
 those exact revisions, not for subsequent renderer-guard commits.
+
+### Final guarded candidate
+
+Project manifest/workflow commit `212ad5e74ca905d5fb3c736ea3e3d67786ff7e12`
+pins final Elements `1bb8255108f218c690687efcf4fa8bc120576bac` and OB
+`74dc6abe4543b881c47f4f765089097fec7c9964`. It passed both closing gates:
+
+- [Exact core integration 34066149928](https://github.com/openbindings/project/actions/runs/34066149928):
+  all nine Go lanes, TypeScript SDK/correspondence/conformance, OB race and
+  executable/cross-surface journeys, and aggregate result.
+- [Exact Elements integration 34066150918](https://github.com/openbindings/project/actions/runs/34066150918):
+  generated requirements, build/type checks, unit tests, package and import
+  verification, browser composition, all embedded workbench journeys, and
+  aggregate result. The Elements override again equals its manifest pin.
+
+Subsequent evidence-only edits do not change the selected manifest or workflow.
+This closes the Elements landing blocker and the bounded selector correction.
+Website validation, broader supported-platform/distribution qualification, and
+release promotion remain separate; no published specification or interface
+contract was changed, and `next.json` remains a candidate.
 
 ## Safe landing sequence
 
