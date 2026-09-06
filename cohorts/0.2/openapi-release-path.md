@@ -32,6 +32,21 @@ The standalone clients currently have no coordination caller; the existing
 working-loop validator does not admit fix PR records for that state, so this
 landing ledger records the complete set without changing that policy.
 
+## Confirmed development-line landings
+
+| Repository | Actual squash commit | Evidence |
+| --- | --- | --- |
+| openapi-client | `414124b65855ac4c908e1a3967422dd1073f9c63` | PR #38: all four Go/TypeScript component checks passed. |
+| spec | `63bba23885b5f8adc4d838f6547211c6b895d016` | PR #111: validation, authority checks, and all Go/TypeScript conformance lanes passed. |
+| openbindings-go | `402b01538ee55064bd15ffb6afd538435b51d4b2` | PR #108: all nine component lanes passed against the landed native client and corrected corpus. |
+| openbindings-ts | `83f58c006f132bfae1133df4fc5a97b108d0f3ff` | PR #107: complete component CI passed after the corrected corpus landed. |
+| ob | `5ef56244afee7393e9451007bd7d7ef2d211d4b0` | PR #43: build, vet, race/conformance tests, and executable/cross-surface journeys passed against the landed SDK. |
+
+The merged trees are identical to their saved candidates. Elements is not yet
+recorded as landed. `next.json` records confirmed landings
+only; its candidate status does not assert that the partially landed graph has
+passed exact-cohort validation.
+
 ## Safe landing sequence
 
 1. Pass native-client component checks and squash-merge its PR to `main`.
@@ -53,6 +68,12 @@ The first Go adapter CI attempt used the old client `main` and failed because
 and failed on the missing diagnostics, recognition, and runtime-support APIs.
 Those are concrete dependency-order failures; rerun them after upstream landing,
 not by weakening checks or declaring the old graph compatible.
+
+After native-client landing, the Go SDK's only remaining failure was the three
+old corpus expectations (`refusal` versus the corrected `context-required`).
+The spec's consumer checks passed against the new native client, allowing the
+corpus correction to land before rerunning the SDK. No check was waived and no
+temporary dependency override was added.
 
 ## Elements decision boundary
 
