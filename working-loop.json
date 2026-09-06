@@ -19,6 +19,12 @@
           "base": "chore/icon-refresh",
           "status": "merged",
           "mergedCommit": "db2ca9a29f8e7a22d6bf960f5e30f2069a558a92"
+        },
+        {
+          "url": "https://github.com/openbindings/spec/pull/111",
+          "base": "release/0.2",
+          "status": "merged",
+          "mergedCommit": "63bba23885b5f8adc4d838f6547211c6b895d016"
         }
       ]
     },
@@ -48,6 +54,12 @@
           "base": "experiment/obi-first",
           "status": "merged",
           "mergedCommit": "71cb38e26d2969dd8b5d4fb0d8dff3376f39f9ff"
+        },
+        {
+          "url": "https://github.com/openbindings/openbindings-go/pull/108",
+          "base": "release/0.2",
+          "status": "merged",
+          "mergedCommit": "402b01538ee55064bd15ffb6afd538435b51d4b2"
         }
       ]
     },
@@ -66,6 +78,12 @@
           "base": "experiment/obi-first",
           "status": "merged",
           "mergedCommit": "2f8eb24a2584e7b43401437ccdbee1069b548a94"
+        },
+        {
+          "url": "https://github.com/openbindings/openbindings-ts/pull/107",
+          "base": "release/0.2",
+          "status": "merged",
+          "mergedCommit": "83f58c006f132bfae1133df4fc5a97b108d0f3ff"
         }
       ]
     },
@@ -84,6 +102,12 @@
           "base": "experiment/obi-first",
           "status": "merged",
           "mergedCommit": "ccf5349866049eb0a2a0ceb8399c2f7000ef7995"
+        },
+        {
+          "url": "https://github.com/openbindings/ob/pull/43",
+          "base": "release/0.2",
+          "status": "merged",
+          "mergedCommit": "5ef56244afee7393e9451007bd7d7ef2d211d4b0"
         }
       ]
     },
@@ -96,7 +120,13 @@
         "status": "merged",
         "mergedCommit": "e1862834bb5034bb3adfb41647e2cf18e5386f03"
       },
-      "fixPullRequests": []
+      "fixPullRequests": [
+        {
+          "url": "https://github.com/openbindings/elements/pull/8",
+          "base": "main",
+          "status": "open"
+        }
+      ]
     },
     "web": {
       "workingRef": "main",
