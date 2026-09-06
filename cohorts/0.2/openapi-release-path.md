@@ -44,8 +44,28 @@ landing ledger records the complete set without changing that policy.
 
 The merged trees are identical to their saved candidates. Elements is not yet
 recorded as landed. `next.json` records confirmed landings
-only; its candidate status does not assert that the partially landed graph has
-passed exact-cohort validation.
+only; its candidate status does not assert full extended validation or release
+readiness.
+
+## Exact core validation
+
+[Project integration run 34060674537](https://github.com/openbindings/project/actions/runs/34060674537)
+passed against project manifest commit
+`92b25bb126a1045bacfa855bef75eaa7421900a2`: exact input resolution, all nine Go
+lanes, TypeScript SDK and correspondence, OB CLI/runtime race and conformance
+tests, executable/cross-surface journeys, and the aggregate result. Subsequent
+ledger-only edits do not change that manifest or workflow.
+
+Elements and website lanes were deliberately excluded and are not claimed as
+passing. The Elements manifest remains on its existing main commit until the
+conflict below is resolved and the resulting source passes its own checks.
+Extended validation remains outstanding; this core result does not promote
+the candidate to a verified cohort.
+
+The preceding run 34060584086 failed before any component testing because the
+invocation supplied an abbreviated project commit and checkout treated it as
+a ref name. Run 34060674537 corrected that input to the full SHA; no test,
+workflow, or component implementation was changed to obtain the passing result.
 
 ## Safe landing sequence
 
