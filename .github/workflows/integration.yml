@@ -409,7 +409,7 @@ jobs:
         working-directory: openbindings-ts
         run: |
           pnpm install --frozen-lockfile
-          pnpm --filter @openbindings/sdk build
+          pnpm --filter @openbindings/sdk... build
       - working-directory: elements
         run: pnpm install --frozen-lockfile
       - name: Verify generated requirements
