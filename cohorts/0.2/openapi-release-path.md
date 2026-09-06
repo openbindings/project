@@ -1,6 +1,6 @@
 # OpenAPI development-line landing — 2026-09-06
 
-Status: **landing in progress; not a verified cohort or release**.
+Status: **component landing complete; not a verified cohort or release**.
 
 The maintainer requested that the accumulated, tested OpenAPI work enter the
 actual 0.2 development path before further iteration. The qualification
@@ -41,9 +41,12 @@ landing ledger records the complete set without changing that policy.
 | openbindings-go | `402b01538ee55064bd15ffb6afd538435b51d4b2` | PR #108: all nine component lanes passed against the landed native client and corrected corpus. |
 | openbindings-ts | `83f58c006f132bfae1133df4fc5a97b108d0f3ff` | PR #107: complete component CI passed after the corrected corpus landed. |
 | ob | `5ef56244afee7393e9451007bd7d7ef2d211d4b0` | PR #43: build, vet, race/conformance tests, and executable/cross-surface journeys passed against the landed SDK. |
+| ob (selector-display asset follow-up) | `d10c0c02228d07d1ff81861015970c34a15c8669` | PR #44: all component checks passed. |
+| elements | `eff9aa9634f294dd08f84dc2b32b60e4a832dcde` | PR #8: all component checks passed after the approved conflict resolution and test/build setup repairs. |
 
-The merged trees are identical to their saved candidates. Elements is not yet
-recorded as landed. `next.json` records confirmed landings
+The merged trees are identical to their respective saved candidates (the final
+Elements candidate is `667a1a59234e8a3db93e225dd897553815281f61`).
+`next.json` records confirmed landings
 only; its candidate status does not assert full extended validation or release
 readiness.
 
@@ -56,11 +59,11 @@ lanes, TypeScript SDK and correspondence, OB CLI/runtime race and conformance
 tests, executable/cross-surface journeys, and the aggregate result. Subsequent
 ledger-only edits do not change that manifest or workflow.
 
-Elements and website lanes were deliberately excluded and are not claimed as
-passing. The Elements manifest remains on its existing main commit until the
-conflict below is resolved and the resulting source passes its own checks.
-Extended validation remains outstanding; this core result does not promote
-the candidate to a verified cohort.
+Elements and website lanes were deliberately excluded from that initial run
+and are not claimed as passing in that evidence. The approved Elements
+resolution below supersedes the earlier landing blocker. Separate final-pin
+validation is required after that landing; the initial core result does not
+promote the candidate to a verified cohort.
 
 The preceding run 34060584086 failed before any component testing because the
 invocation supplied an abbreviated project commit and checkout treated it as
@@ -95,7 +98,7 @@ The spec's consumer checks passed against the new native client, allowing the
 corpus correction to land before rerunning the SDK. No check was waived and no
 temporary dependency override was added.
 
-## Elements decision boundary
+## Elements decision boundary — resolved by the maintainer
 
 Elements `main` contains selector-renaming commit
 `1b455f33943fa3183218358addcf5f324068fdb0`, which is not an ancestor of the tested
@@ -103,10 +106,38 @@ candidate. The merge conflicts include `SourceInspection.targets[].selector`:
 main permits absence; the candidate requires a string and treats empty string
 as the whole-source display. This is not a purely textual conflict.
 
-The landing is paused at that conflict pending the maintainer's choice. No
-branch was reset, no conflict side was silently selected, and no shared
-integration ref was changed. The original tested Elements candidate remains
-available at the saved upstream branch and SHA above.
+The maintainer approved retaining the published Source Inspector contract's
+required string selector, distinguishing an empty string from a missing or
+non-string field, and removing the generic "whole source" inference. This
+corrects the Elements projection; it does not alter the Source Inspector
+contract, Core, binding specifications, invocation, or context-storage rules.
+Saved OBI bindings display an absent selector as "Selector omitted" without
+claiming it is valid or assigning it a target. Existing typed Elements callers
+that omit inspection selectors must supply the actual inspector output, not an
+invented empty value. The known workbench caller already receives the required
+field from the SDKs.
+
+Resolution commit `975fd0210d2f960f25ccf97b8d95013a7f0632ce` preserves both main's
+selector terminology cleanup and the candidate's diagnostics and invocation-mode
+work. Follow-up `667a1a59234e8a3db93e225dd897553815281f61` repairs two objectively
+observed qualification-harness defects:
+
+- Clean Elements CI built the SDK facade before its workspace dependencies.
+  The build now selects `@openbindings/sdk...` so its four dependencies build
+  first. The project Elements lane uses the same corrected selection.
+- The late-old-document test used a 700 ms timer that could expire before
+  document replacement, allowing the old challenge to interrupt test setup.
+  The fixture now proves a request is held and releases it only after replacement;
+  its security assertions remain intact. Five repeated cases passed.
+
+Local validation passed: build/type checks, 191 unit tests including required
+selector and malformed-runtime-input cases, design assets, 12 packed packages,
+browser/SSR imports, 16 browser composition cases, all 34 workbench journeys,
+and OB race/conformance tests. No failed lane was suppressed.
+
+The rebuilt embedded asset landed via [ob#44](https://github.com/openbindings/ob/pull/44)
+at `d10c0c02228d07d1ff81861015970c34a15c8669` after component CI passed; its tree
+matches asset candidate `8d259442df7f348a37915b9d1e8f01ce92a0ecf6`.
 
 ## Evidence and honest qualification scope
 
