@@ -6,13 +6,13 @@
   "components": {
     "spec": {
       "repository": "openbindings/spec",
-      "commit": "63bba23885b5f8adc4d838f6547211c6b895d016",
+      "commit": "ba070485d8ae6d79e25a4b31969898ab2adf5c02",
       "version": "0.2.0",
       "releaseState": "working-draft"
     },
     "interfaces": {
       "repository": "openbindings/interfaces",
-      "commit": "c814756e9143a7dd8b6782478c4cabf91bc3b66b",
+      "commit": "5060990be0a1e146ed6b6f6f2018825186d8168c",
       "releaseState": "working-draft"
     },
     "go": {

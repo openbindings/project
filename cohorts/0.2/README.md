@@ -8,6 +8,11 @@ The current OpenAPI landing is tracked in
 [openapi-release-path.md](openapi-release-path.md), including component PRs,
 declared integration branches, exact saved candidates, and remaining gates.
 
+The subsequent spec-only generation/reporting cleanup is recorded in
+[openapi-generation-reporting-cleanup.md](openapi-generation-reporting-cleanup.md).
+It refreshes only the spec and interfaces pins; numerical-fidelity decisions
+and release promotion remain separate.
+
 The initial candidate pins commits reachable from the repositories' current
 remote integration refs when project coordination was introduced. It does not
 include unpublished local commits. Several repositories still use explicitly
