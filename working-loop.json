@@ -25,6 +25,12 @@
           "base": "release/0.2",
           "status": "merged",
           "mergedCommit": "63bba23885b5f8adc4d838f6547211c6b895d016"
+        },
+        {
+          "url": "https://github.com/openbindings/spec/pull/112",
+          "base": "release/0.2",
+          "status": "merged",
+          "mergedCommit": "ba070485d8ae6d79e25a4b31969898ab2adf5c02"
         }
       ]
     },
@@ -37,7 +43,14 @@
         "status": "merged",
         "mergedCommit": "61e8021a4ba582ac869d03326d8859f75faf5328"
       },
-      "fixPullRequests": []
+      "fixPullRequests": [
+        {
+          "url": "https://github.com/openbindings/interfaces/pull/31",
+          "base": "main",
+          "status": "merged",
+          "mergedCommit": "5060990be0a1e146ed6b6f6f2018825186d8168c"
+        }
+      ]
     },
     "go": {
       "workingRef": "release/0.2",
