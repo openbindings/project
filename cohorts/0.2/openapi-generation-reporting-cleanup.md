@@ -49,10 +49,31 @@ versions, release states, integration refs, and the `candidate` status remain
 unchanged. This preserves the accumulated implementation work recorded in
 [openapi-release-path.md](openapi-release-path.md).
 
-Exact-cohort integration evidence will be recorded below after the candidate
-is checked with the existing workflow, including the extended Elements and
-website build/test lanes. Those lanes do not deploy the website. Until that
-evidence is recorded, this ledger claims component CI only.
+## Exact-cohort evidence
+
+[Project integration 34157766484](https://github.com/openbindings/project/actions/runs/34157766484)
+ran at Project workflow/manifest commit
+`ad352a9b89cd26fa0de230ca165fdcc96b9184ad`, in cohort mode with no component
+overrides and `include_extended=true`. Exact input resolution, all nine Go
+lanes, TypeScript SDK/correspondence, OB CLI/runtime and executable journeys,
+and Elements extended integration passed. Subsequent ledger-only edits do not
+change the selected manifest or workflow.
+
+The **overall run failed**, because the website lane could not check out
+`openbindings/web`: the central workflow reported `Repository not found`
+before any website installation, projection, build or test. Read-only checks
+confirmed the repository is private and the unchanged pinned commit
+`2c0236404e308c3d732e04c4bf3a9999e558fbb0` exists. This is not a website test
+result, nor evidence that the cleanup caused a rendering failure.
+
+Per `policies/development-loop.md`, website validation must use its own caller
+context or exact local checkouts, without making the repository public or
+introducing a cross-repository secret. The existing private-repository
+`project-integration.yml` caller can run the same non-deploying website lane
+after this candidate refresh reaches Project main. Its result will be linked
+in the [candidate landing PR](https://github.com/openbindings/project/pull/9).
+At this ledger revision website qualification remains outstanding; the other
+lanes above are actual passing results, not a claim of a fully green workflow.
 
 No release tags, package publication, deployment, numbered cohort, or
 promotion to `verified` is part of this landing.
