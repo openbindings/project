@@ -49,6 +49,9 @@ layers are:
 | `openbindings/interfaces` | Nonnormative shared contracts and profiles | Required |
 | `openbindings/openbindings-go` | Go reference implementation | Required |
 | `openbindings/openbindings-ts` | TypeScript reference implementation | Required |
+| `openbindings/jsonata` | Independently usable JSONata runtime family | Required for runtime-dependent candidates |
+| `openbindings/openapi-client` | Standalone OpenAPI invocation client | Required |
+| `openbindings/asyncapi-client` | Standalone AsyncAPI invocation client | Required |
 | `openbindings/ob` | CLI and runtime | Required |
 | `openbindings/elements` | Independently released UI packages | Extended verification |
 | `openbindings/web` | Publication and teaching surface | Extended verification |
@@ -57,6 +60,14 @@ layers are:
 user must install every component, or that any implementation has normative
 standing. A third-party implementation can conform to OpenBindings without
 appearing in a project cohort.
+
+Runtime-dependent candidates select an exact `jsonata` source commit. Integration
+fails closed if that input is missing, dirty or different from the selected SHA.
+Runtime changes exercise the SDK/CLI consumers as well as the runtime itself.
+Reviewed static findings remain source-bound: raw reports are retained, and any
+unreviewed change or scanner failure blocks qualification. Passing this policy
+does not mean that the raw reports contain zero findings. Source selection does
+not publish a Go tag or npm package, and it does not add numerical rules to Core.
 
 Project-wide authority repositories sit beside those cohort components:
 

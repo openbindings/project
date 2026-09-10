@@ -574,7 +574,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        lane: [go, javascript, shared, resource, packages, dependency]
+        lane: [go, javascript, shared, resource, packages, generated, dependency, reviewed-static]
     steps:
       - uses: actions/checkout@v7
         with:
@@ -590,6 +590,11 @@ jobs:
           ref: ${{ needs.resolve.outputs.jsonata_ref }}
           repository: ${{ needs.resolve.outputs.jsonata_repository }}
           build-javascript: 'true'
+      - name: Install pinned analyzer for reviewed findings
+        if: matrix.lane == 'reviewed-static'
+        run: go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.12.2
+        env:
+          GOTOOLCHAIN: go1.26.2
       - working-directory: jsonata
         run: node maintenance/run.mjs "$LANE"
         env:

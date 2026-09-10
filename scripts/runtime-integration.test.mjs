@@ -11,12 +11,12 @@ const root=path.resolve(path.dirname(new URL(import.meta.url).pathname),'..');
 const project=loadProject(root),original=project.cohorts.get('cohorts/0.2/next.json');
 function fixture(){
   const catalog=structuredClone(project.catalog),cohort=structuredClone(original);
-  // Hypothetical registration for resolver tests, not an adopted catalog/ref.
+  // Synthetic revisions exercise override behavior without claiming publication.
   catalog.repositories['jsonata']={repository:'openbindings/jsonata',role:'artifact-runtime',cohortTier:'required',defaultBranch:'main',integrationRef:'main',releaseMechanism:'independent-go-and-npm'};
   cohort.components['jsonata']={repository:'openbindings/jsonata',commit:'1'.repeat(40),releaseState:'test fixture only; not published'};
   return {catalog,cohort};
 }
-test('hypothetical runtime selection pins exact SHA and supports component/repository overrides',()=>{
+test('runtime selection pins exact SHA and supports component/repository overrides',()=>{
   const {catalog,cohort}=fixture();validateCohort(cohort,catalog,'fixture/cohorts/0.2/next.json');
   for(const source of ['jsonata','openbindings/jsonata']){
     const selection=resolveSelection({catalog,cohort,overrideRepository:source,overrideSha:'2'.repeat(40)});
@@ -35,7 +35,9 @@ test('runtime events cannot produce a false-green result from skipped consumer j
   assert.throws(()=>requireIntegrationResults(plan,{...results,go:'failure'}));
 });
 test('older cohorts without the dependency stay valid, new SDK inputs fail closed',()=>{
-  const selection=resolveSelection({catalog:project.catalog,cohort:original});assert.equal(integrationPlan(selection).runtime,false);
+  const older=structuredClone(original);delete older.components.jsonata;
+  const selection=resolveSelection({catalog:project.catalog,cohort:older});assert.equal(integrationPlan(selection).runtime,false);
+  assert.equal(integrationPlan(resolveSelection({catalog:project.catalog,cohort:original})).runtime,true);
   const workspace=fs.mkdtempSync(path.join(os.tmpdir(),'runtime-selection-'));
   fs.mkdirSync(path.join(workspace,'openbindings-go'));
   fs.writeFileSync(path.join(workspace,'openbindings-go/go.mod'),'module example.test/old\n');

@@ -1,6 +1,14 @@
 {
   "format": "openbindings.repository-catalog@1",
   "repositories": {
+    "jsonata": {
+      "repository": "openbindings/jsonata",
+      "role": "artifact-runtime",
+      "cohortTier": "required",
+      "defaultBranch": "main",
+      "integrationRef": "main",
+      "releaseMechanism": "annotated-module-tags-and-npm"
+    },
     "spec": {
       "repository": "openbindings/spec",
       "role": "normative-specification",

@@ -4,49 +4,54 @@
   "specificationLine": "0.2",
   "status": "candidate",
   "components": {
+    "jsonata": {
+      "repository": "openbindings/jsonata",
+      "commit": "e2a5e518e6b5bd247ab327d427c591dc72743f2d",
+      "releaseState": "working-draft"
+    },
     "spec": {
       "repository": "openbindings/spec",
-      "commit": "ba070485d8ae6d79e25a4b31969898ab2adf5c02",
+      "commit": "a28d6b880cea5d714f2a0aad650b4af757e98cba",
       "version": "0.2.0",
       "releaseState": "working-draft"
     },
     "interfaces": {
       "repository": "openbindings/interfaces",
-      "commit": "5060990be0a1e146ed6b6f6f2018825186d8168c",
+      "commit": "c0d08055ff3d2f659e79d1b4a1149ff2b5a1e904",
       "releaseState": "working-draft"
     },
     "go": {
       "repository": "openbindings/openbindings-go",
-      "commit": "402b01538ee55064bd15ffb6afd538435b51d4b2",
+      "commit": "56f5d1f05cfb1e5637bc980441788a31e64f8f8a",
       "version": "0.2.0",
       "releaseState": "working-draft"
     },
     "typescript": {
       "repository": "openbindings/openbindings-ts",
-      "commit": "83f58c006f132bfae1133df4fc5a97b108d0f3ff",
+      "commit": "1b4fdff3d37ecc17b81a4debfff2499db6d69668",
       "version": "0.2.0",
       "releaseState": "working-draft"
     },
     "ob": {
       "repository": "openbindings/ob",
-      "commit": "74dc6abe4543b881c47f4f765089097fec7c9964",
+      "commit": "040a8727a39d32a8a321fd00efab1641808f6765",
       "version": "0.2.0",
       "releaseState": "working-draft"
     },
     "elements": {
       "repository": "openbindings/elements",
-      "commit": "1bb8255108f218c690687efcf4fa8bc120576bac",
+      "commit": "11d56abe85475048e99861889b29caec2c6bbde2",
       "version": "0.1.0",
       "releaseState": "working-draft"
     },
     "web": {
       "repository": "openbindings/web",
-      "commit": "2c0236404e308c3d732e04c4bf3a9999e558fbb0",
+      "commit": "4ded172c046c80aedc9af34a740e98a118ec3c7f",
       "releaseState": "deployment-source"
     },
     "openapi-client": {
       "repository": "openbindings/openapi-client",
-      "commit": "414124b65855ac4c908e1a3967422dd1073f9c63",
+      "commit": "3a5daef99aa3d815f41f7008b3eb6eb6847ad464",
       "version": "0.1.0",
       "releaseState": "working-draft"
     },
