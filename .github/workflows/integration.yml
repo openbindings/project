@@ -89,6 +89,10 @@ jobs:
       openapi_client_ref: ${{ steps.resolve.outputs.openapi_client_ref }}
       asyncapi_client_ref: ${{ steps.resolve.outputs.asyncapi_client_ref }}
       selection: ${{ steps.resolve.outputs.selection }}
+      lanes: ${{ steps.resolve.outputs.lanes }}
+      project_sha: ${{ steps.project-sha.outputs.sha }}
+      jsonata_runtime_ref: ${{ steps.resolve.outputs.jsonata_runtime_ref }}
+      jsonata_runtime_repository: ${{ steps.resolve.outputs.jsonata_runtime_repository }}
     steps:
       - name: Check out project coordination
         uses: actions/checkout@v7
@@ -99,6 +103,8 @@ jobs:
       - uses: actions/setup-node@v7
         with:
           node-version: 22
+      - id: project-sha
+        run: echo "sha=$(git -C project rev-parse HEAD)" >> "$GITHUB_OUTPUT"
       - name: Resolve cohort and event override
         id: resolve
         working-directory: project
@@ -107,8 +113,9 @@ jobs:
           COHORT: ${{ inputs.cohort || github.event.client_payload.cohort || 'cohorts/0.2/next.json' }}
           SOURCE_REPOSITORY: ${{ inputs.source_repository || github.event.client_payload.repository || '' }}
           SOURCE_SHA: ${{ inputs.source_sha || github.event.client_payload.sha || '' }}
+          INCLUDE_EXTENDED: ${{ inputs.include_extended || github.event.client_payload.include_extended || 'false' }}
         run: |
-          args=(--mode "$MODE" --cohort "$COHORT" --github-output "$GITHUB_OUTPUT")
+          args=(--mode "$MODE" --cohort "$COHORT" --include-extended "$INCLUDE_EXTENDED" --github-output "$GITHUB_OUTPUT")
           if [ -n "$SOURCE_REPOSITORY" ] || [ -n "$SOURCE_SHA" ]; then
             args+=(--override-repository "$SOURCE_REPOSITORY" --override-sha "$SOURCE_SHA")
           fi
@@ -121,7 +128,7 @@ jobs:
   go:
     name: Go (${{ matrix.module }})
     needs: resolve
-    if: ${{ contains(fromJSON('["all","spec","interfaces","go"]'), needs.resolve.outputs.source) }}
+    if: ${{ fromJSON(needs.resolve.outputs.lanes).go }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -187,6 +194,16 @@ jobs:
           elif [ "${{ matrix.module }}" = "formats/asyncapi" ]; then
             go work edit -replace "github.com/openbindings/asyncapi-client/go@v0.1.0=../asyncapi-client/go"
           fi
+      - uses: actions/checkout@v7
+        with:
+          repository: openbindings/project
+          ref: ${{ needs.resolve.outputs.project_sha }}
+          path: project
+      - uses: ./project/.github/actions/runtime-input
+        with:
+          ref: ${{ needs.resolve.outputs.jsonata_runtime_ref }}
+          repository: ${{ needs.resolve.outputs.jsonata_runtime_repository }}
+          go-work: openbindings-go
       - name: Vet
         working-directory: openbindings-go/${{ matrix.module }}
         run: go vet ./...
@@ -205,7 +222,7 @@ jobs:
   typescript:
     name: TypeScript SDK and correspondence
     needs: resolve
-    if: ${{ contains(fromJSON('["all","spec","interfaces","go","typescript"]'), needs.resolve.outputs.source) }}
+    if: ${{ fromJSON(needs.resolve.outputs.lanes).typescript }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
@@ -246,6 +263,27 @@ jobs:
           node-version: 22
           cache: pnpm
           cache-dependency-path: openbindings-ts/pnpm-lock.yaml
+      - uses: actions/setup-go@v7
+        with:
+          go-version-file: openbindings-go/go.mod
+          cache: false
+      - uses: actions/checkout@v7
+        with:
+          repository: openbindings/project
+          ref: ${{ needs.resolve.outputs.project_sha }}
+          path: project
+      - uses: ./project/.github/actions/runtime-input
+        with:
+          ref: ${{ needs.resolve.outputs.jsonata_runtime_ref }}
+          repository: ${{ needs.resolve.outputs.jsonata_runtime_repository }}
+          go-work: openbindings-go
+          build-javascript: 'true'
+      - name: Build selected JSON prerequisites before the clients
+        if: needs.resolve.outputs.jsonata_runtime_ref != ''
+        working-directory: openbindings-ts
+        run: |
+          pnpm install --frozen-lockfile --ignore-scripts
+          pnpm --filter @openbindings/json --filter @openbindings/json-schema build
       - name: Build standalone artifact clients
         run: |
           pnpm --dir openapi-client install --frozen-lockfile
@@ -275,7 +313,7 @@ jobs:
   ob:
     name: ob CLI and runtime
     needs: resolve
-    if: ${{ contains(fromJSON('["all","spec","interfaces","go","ob"]'), needs.resolve.outputs.source) }}
+    if: ${{ fromJSON(needs.resolve.outputs.lanes).ob }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
@@ -317,6 +355,16 @@ jobs:
           done
           go work edit -replace "github.com/openbindings/openapi-client/go=../openapi-client/go"
           go work edit -replace "github.com/openbindings/asyncapi-client/go=../asyncapi-client/go"
+      - uses: actions/checkout@v7
+        with:
+          repository: openbindings/project
+          ref: ${{ needs.resolve.outputs.project_sha }}
+          path: project
+      - uses: ./project/.github/actions/runtime-input
+        with:
+          ref: ${{ needs.resolve.outputs.jsonata_runtime_ref }}
+          repository: ${{ needs.resolve.outputs.jsonata_runtime_repository }}
+          go-work: ob
       - working-directory: ob
         run: go build ./...
       - working-directory: ob
@@ -338,7 +386,7 @@ jobs:
   elements:
     name: Elements extended integration
     needs: resolve
-    if: ${{ needs.resolve.outputs.source == 'elements' || ((inputs.include_extended || github.event.client_payload.include_extended == true || github.event.client_payload.include_extended == 'true') && contains(fromJSON('["all","spec","interfaces","go","typescript","ob"]'), needs.resolve.outputs.source)) }}
+    if: ${{ fromJSON(needs.resolve.outputs.lanes).elements }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
@@ -391,6 +439,9 @@ jobs:
           go-version-file: ob/go.mod
           cache: false
       - name: Build standalone artifact clients
+        # Runtime-dependent candidates build their leaf JSON packages first.
+        # Older cohorts keep their original source/build path.
+        if: needs.resolve.outputs.jsonata_runtime_ref == ''
         run: |
           pnpm --dir openapi-client install --frozen-lockfile
           pnpm --dir openapi-client build
@@ -405,6 +456,26 @@ jobs:
           done
           go work edit -replace "github.com/openbindings/openapi-client/go=./openapi-client/go"
           go work edit -replace "github.com/openbindings/asyncapi-client/go=./asyncapi-client/go"
+      - uses: actions/checkout@v7
+        with:
+          repository: openbindings/project
+          ref: ${{ needs.resolve.outputs.project_sha }}
+          path: project
+      - uses: ./project/.github/actions/runtime-input
+        with:
+          ref: ${{ needs.resolve.outputs.jsonata_runtime_ref }}
+          repository: ${{ needs.resolve.outputs.jsonata_runtime_repository }}
+          go-work: '.'
+          build-javascript: 'true'
+      - name: Build runtime-candidate JSON and client prerequisites
+        if: needs.resolve.outputs.jsonata_runtime_ref != ''
+        run: |
+          pnpm --dir openbindings-ts install --frozen-lockfile --ignore-scripts
+          pnpm --dir openbindings-ts --filter @openbindings/json --filter @openbindings/json-schema build
+          pnpm --dir openapi-client install --frozen-lockfile --ignore-scripts
+          pnpm --dir openapi-client build
+          pnpm --dir asyncapi-client install --frozen-lockfile --ignore-scripts
+          pnpm --dir asyncapi-client build
       - name: Build TypeScript SDK dependency
         working-directory: openbindings-ts
         run: |
@@ -438,7 +509,7 @@ jobs:
   web:
     name: Website projection
     needs: resolve
-    if: ${{ needs.resolve.outputs.source == 'web' || ((inputs.include_extended || github.event.client_payload.include_extended == true || github.event.client_payload.include_extended == 'true') && contains(fromJSON('["all","spec","interfaces","ob"]'), needs.resolve.outputs.source)) }}
+    if: ${{ fromJSON(needs.resolve.outputs.lanes).web }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
@@ -495,13 +566,61 @@ jobs:
       - working-directory: web
         run: pnpm test:e2e
 
+  runtime:
+    name: JSONata runtime (${{ matrix.lane }})
+    needs: resolve
+    if: ${{ fromJSON(needs.resolve.outputs.lanes).runtime }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        lane: [go, javascript, shared, resource, packages, dependency]
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          repository: openbindings/project
+          ref: ${{ needs.resolve.outputs.project_sha }}
+          path: project
+      - uses: actions/setup-go@v7
+        with:
+          go-version: '1.25.13'
+          cache: false
+      - uses: ./project/.github/actions/runtime-input
+        with:
+          ref: ${{ needs.resolve.outputs.jsonata_runtime_ref }}
+          repository: ${{ needs.resolve.outputs.jsonata_runtime_repository }}
+          build-javascript: 'true'
+      - working-directory: jsonata-runtime
+        run: node maintenance/run.mjs "$LANE"
+        env:
+          LANE: ${{ matrix.lane }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: project-runtime-${{ matrix.lane }}
+          path: jsonata-runtime/.maintenance-output/
+          include-hidden-files: true
+          if-no-files-found: error
+
   result:
     name: Integration result
     if: ${{ always() }}
-    needs: [resolve, go, typescript, ob, elements, web]
+    needs: [resolve, runtime, go, typescript, ob, elements, web]
     runs-on: ubuntu-latest
     steps:
-      - name: Require every selected lane to pass
+      - name: Require successful input resolution
+        env:
+          RESOLVE: ${{ needs.resolve.result }}
+        run: test "$RESOLVE" = success
+      - uses: actions/checkout@v7
+        with:
+          repository: openbindings/project
+          ref: ${{ needs.resolve.outputs.project_sha }}
+          path: project
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '22.23.2'
+      - name: Require every selected lane to pass without skipping
         env:
           RESOLVE: ${{ needs.resolve.result }}
           GO: ${{ needs.go.result }}
@@ -509,11 +628,11 @@ jobs:
           OB: ${{ needs.ob.result }}
           ELEMENTS: ${{ needs.elements.result }}
           WEB: ${{ needs.web.result }}
+          RUNTIME: ${{ needs.runtime.result }}
+          LANES: ${{ needs.resolve.outputs.lanes }}
         run: |
-          for result in "$RESOLVE" "$GO" "$TYPESCRIPT" "$OB" "$ELEMENTS" "$WEB"; do
-            if [ "$result" != "success" ] && [ "$result" != "skipped" ]; then
-              echo "::error::one or more selected integration lanes failed"
-              exit 1
-            fi
-          done
-          echo "all selected integration lanes passed"
+          node --input-type=module -e '
+            import {requireIntegrationResults} from "./project/scripts/integration-plan.mjs";
+            const names=["resolve","runtime","go","typescript","ob","elements","web"];
+            requireIntegrationResults(JSON.parse(process.env.LANES),Object.fromEntries(names.map(name=>[name,process.env[name.toUpperCase()]])));
+          '
