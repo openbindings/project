@@ -4,6 +4,7 @@ import { appendFileSync } from "node:fs";
 import { dirname, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { loadProject, resolveSelection } from "./project-lib.mjs";
+import { integrationPlan } from "./integration-plan.mjs";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -31,6 +32,11 @@ try {
   const outputPath = argument("--github-output");
   if (outputPath) {
     const lines = [`mode=${selection.mode}`, `source=${selection.source}`];
+    const extended = argument("--include-extended", "false") === "true";
+    const plan = integrationPlan(selection, extended);
+    lines.push(`lanes=${JSON.stringify(plan)}`);
+    for (const [lane, enabled] of Object.entries(plan)) lines.push(`run_${lane}=${enabled}`);
+    lines.push(`jsonata_repository=${selection.refs['jsonata'] ? project.catalog.repositories['jsonata'].repository : ''}`);
     // Hyphenated component keys (openapi-client) sanitize to underscores so
     // workflow expressions can use dot syntax (openapi_client_ref).
     for (const [key, ref] of Object.entries(selection.refs)) lines.push(`${key.replace(/-/g, "_")}_ref=${ref}`);

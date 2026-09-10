@@ -1,0 +1,42 @@
+name: Selected JSONata runtime input
+description: Validate and compose an explicitly selected source checkout; never publishes
+inputs:
+  ref:
+    required: false
+    description: Exact cohort SHA, or explicitly selected heads-mode ref
+  repository:
+    required: false
+    description: Repository from the approved catalog, not an implicit default
+  go-work:
+    required: false
+    description: Existing workspace directory to extend (empty for no Go composition)
+  build-javascript:
+    required: false
+    default: 'false'
+    description: Build the selected runtime before a TypeScript source install
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-node@v7
+      with:
+        node-version: '22.23.2'
+    - uses: actions/checkout@v7
+      if: inputs.ref != ''
+      with:
+        repository: ${{ inputs.repository }}
+        ref: ${{ inputs.ref }}
+        path: jsonata
+        persist-credentials: false
+    - name: Fail closed on missing runtime dependencies
+      shell: bash
+      env:
+        RUNTIME_REF: ${{ inputs.ref }}
+        GO_WORK: ${{ inputs.go-work }}
+      run: node "$GITHUB_ACTION_PATH/../../../scripts/runtime-input.mjs" "$GITHUB_WORKSPACE" "$RUNTIME_REF" "$GO_WORK"
+    - name: Build selected JavaScript runtime
+      if: inputs.ref != '' && inputs.build-javascript == 'true'
+      shell: bash
+      working-directory: jsonata/javascript
+      run: |
+        npm ci --ignore-scripts --no-audit --no-fund
+        npm run build
