@@ -7,12 +7,12 @@ import {fileURLToPath} from 'node:url';
 export function needsRuntime(workspace){
   const go=path.join(workspace,'openbindings-go/go.mod');
   const ts=path.join(workspace,'openbindings-ts/package.json');
-  return fs.existsSync(go)&&/github\.com\/openbindings\/jsonata-runtime\/go\s/.test(fs.readFileSync(go,'utf8')) ||
-    fs.existsSync(ts)&&!!JSON.parse(fs.readFileSync(ts)).devDependencies?.['@openbindings/jsonata-runtime'];
+  return fs.existsSync(go)&&/github\.com\/openbindings\/jsonata\/go\s/.test(fs.readFileSync(go,'utf8')) ||
+    fs.existsSync(ts)&&!!JSON.parse(fs.readFileSync(ts)).devDependencies?.['@openbindings/jsonata'];
 }
 export function verifyRuntimeInput(workspace,ref){
-  const required=needsRuntime(workspace), runtime=path.join(workspace,'jsonata-runtime');
-  if(required)assert(ref,'Selected SDK requires jsonata-runtime, but the cohort/selection does not include it');
+  const required=needsRuntime(workspace), runtime=path.join(workspace,'jsonata');
+  if(required)assert(ref,'Selected SDK requires jsonata, but the cohort/selection does not include it');
   if(!ref)return {required,selected:false};
   assert(fs.existsSync(path.join(runtime,'go/go.mod'))&&fs.existsSync(path.join(runtime,'javascript/package-lock.json')),'Selected runtime checkout is missing/incomplete');
   const head=execFileSync('git',['rev-parse','HEAD'],{cwd:runtime,encoding:'utf8'}).trim();
@@ -27,8 +27,8 @@ if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.ur
   if(result.selected&&workArg){
     const cwd=path.resolve(workArg),run=args=>execFileSync('go',args,{cwd,stdio:'inherit',env:{...process.env,GOWORK:path.join(cwd,'go.work')}});
     if(!fs.existsSync(path.join(cwd,'go.work')))run(['work','init','.']);
-    run(['work','edit','-use',path.join(workspace,'jsonata-runtime/go')]);
-    const module='github.com/openbindings/jsonata-runtime/go';
+    run(['work','edit','-use',path.join(workspace,'jsonata/go')]);
+    const module='github.com/openbindings/jsonata/go';
     // Go forbids replacing every version of a module that is also a workspace
     // member. Replace only explicit prerelease requirements from selected inputs.
     run(['work','edit','-dropreplace',module]);
@@ -38,7 +38,7 @@ if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.ur
       const value=JSON.parse(execFileSync('go',['mod','edit','-json',manifest],{encoding:'utf8'}));
       for(const dependency of value.Require??[])if(dependency.Path===module)versions.add(dependency.Version);
     }
-    for(const version of versions)run(['work','edit','-replace',module+'@'+version+'='+path.join(workspace,'jsonata-runtime/go')]);
+    for(const version of versions)run(['work','edit','-replace',module+'@'+version+'='+path.join(workspace,'jsonata/go')]);
   }
   console.log(JSON.stringify({...result,purpose:'Selected source integration, not registry install proof'}));
 }

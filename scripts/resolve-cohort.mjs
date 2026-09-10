@@ -36,7 +36,7 @@ try {
     const plan = integrationPlan(selection, extended);
     lines.push(`lanes=${JSON.stringify(plan)}`);
     for (const [lane, enabled] of Object.entries(plan)) lines.push(`run_${lane}=${enabled}`);
-    lines.push(`jsonata_runtime_repository=${selection.refs['jsonata-runtime'] ? project.catalog.repositories['jsonata-runtime'].repository : ''}`);
+    lines.push(`jsonata_repository=${selection.refs['jsonata'] ? project.catalog.repositories['jsonata'].repository : ''}`);
     // Hyphenated component keys (openapi-client) sanitize to underscores so
     // workflow expressions can use dot syntax (openapi_client_ref).
     for (const [key, ref] of Object.entries(selection.refs)) lines.push(`${key.replace(/-/g, "_")}_ref=${ref}`);

@@ -25,7 +25,7 @@ runs:
       with:
         repository: ${{ inputs.repository }}
         ref: ${{ inputs.ref }}
-        path: jsonata-runtime
+        path: jsonata
         persist-credentials: false
     - name: Fail closed on missing runtime dependencies
       shell: bash
@@ -36,7 +36,7 @@ runs:
     - name: Build selected JavaScript runtime
       if: inputs.ref != '' && inputs.build-javascript == 'true'
       shell: bash
-      working-directory: jsonata-runtime/javascript
+      working-directory: jsonata/javascript
       run: |
         npm ci --ignore-scripts --no-audit --no-fund
         npm run build

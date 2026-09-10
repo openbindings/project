@@ -91,8 +91,8 @@ jobs:
       selection: ${{ steps.resolve.outputs.selection }}
       lanes: ${{ steps.resolve.outputs.lanes }}
       project_sha: ${{ steps.project-sha.outputs.sha }}
-      jsonata_runtime_ref: ${{ steps.resolve.outputs.jsonata_runtime_ref }}
-      jsonata_runtime_repository: ${{ steps.resolve.outputs.jsonata_runtime_repository }}
+      jsonata_ref: ${{ steps.resolve.outputs.jsonata_ref }}
+      jsonata_repository: ${{ steps.resolve.outputs.jsonata_repository }}
     steps:
       - name: Check out project coordination
         uses: actions/checkout@v7
@@ -201,8 +201,8 @@ jobs:
           path: project
       - uses: ./project/.github/actions/runtime-input
         with:
-          ref: ${{ needs.resolve.outputs.jsonata_runtime_ref }}
-          repository: ${{ needs.resolve.outputs.jsonata_runtime_repository }}
+          ref: ${{ needs.resolve.outputs.jsonata_ref }}
+          repository: ${{ needs.resolve.outputs.jsonata_repository }}
           go-work: openbindings-go
       - name: Vet
         working-directory: openbindings-go/${{ matrix.module }}
@@ -274,12 +274,12 @@ jobs:
           path: project
       - uses: ./project/.github/actions/runtime-input
         with:
-          ref: ${{ needs.resolve.outputs.jsonata_runtime_ref }}
-          repository: ${{ needs.resolve.outputs.jsonata_runtime_repository }}
+          ref: ${{ needs.resolve.outputs.jsonata_ref }}
+          repository: ${{ needs.resolve.outputs.jsonata_repository }}
           go-work: openbindings-go
           build-javascript: 'true'
       - name: Build selected JSON prerequisites before the clients
-        if: needs.resolve.outputs.jsonata_runtime_ref != ''
+        if: needs.resolve.outputs.jsonata_ref != ''
         working-directory: openbindings-ts
         run: |
           pnpm install --frozen-lockfile --ignore-scripts
@@ -362,8 +362,8 @@ jobs:
           path: project
       - uses: ./project/.github/actions/runtime-input
         with:
-          ref: ${{ needs.resolve.outputs.jsonata_runtime_ref }}
-          repository: ${{ needs.resolve.outputs.jsonata_runtime_repository }}
+          ref: ${{ needs.resolve.outputs.jsonata_ref }}
+          repository: ${{ needs.resolve.outputs.jsonata_repository }}
           go-work: ob
       - working-directory: ob
         run: go build ./...
@@ -441,7 +441,7 @@ jobs:
       - name: Build standalone artifact clients
         # Runtime-dependent candidates build their leaf JSON packages first.
         # Older cohorts keep their original source/build path.
-        if: needs.resolve.outputs.jsonata_runtime_ref == ''
+        if: needs.resolve.outputs.jsonata_ref == ''
         run: |
           pnpm --dir openapi-client install --frozen-lockfile
           pnpm --dir openapi-client build
@@ -463,12 +463,12 @@ jobs:
           path: project
       - uses: ./project/.github/actions/runtime-input
         with:
-          ref: ${{ needs.resolve.outputs.jsonata_runtime_ref }}
-          repository: ${{ needs.resolve.outputs.jsonata_runtime_repository }}
+          ref: ${{ needs.resolve.outputs.jsonata_ref }}
+          repository: ${{ needs.resolve.outputs.jsonata_repository }}
           go-work: '.'
           build-javascript: 'true'
       - name: Build runtime-candidate JSON and client prerequisites
-        if: needs.resolve.outputs.jsonata_runtime_ref != ''
+        if: needs.resolve.outputs.jsonata_ref != ''
         run: |
           pnpm --dir openbindings-ts install --frozen-lockfile --ignore-scripts
           pnpm --dir openbindings-ts --filter @openbindings/json --filter @openbindings/json-schema build
@@ -587,10 +587,10 @@ jobs:
           cache: false
       - uses: ./project/.github/actions/runtime-input
         with:
-          ref: ${{ needs.resolve.outputs.jsonata_runtime_ref }}
-          repository: ${{ needs.resolve.outputs.jsonata_runtime_repository }}
+          ref: ${{ needs.resolve.outputs.jsonata_ref }}
+          repository: ${{ needs.resolve.outputs.jsonata_repository }}
           build-javascript: 'true'
-      - working-directory: jsonata-runtime
+      - working-directory: jsonata
         run: node maintenance/run.mjs "$LANE"
         env:
           LANE: ${{ matrix.lane }}
@@ -598,7 +598,7 @@ jobs:
         if: always()
         with:
           name: project-runtime-${{ matrix.lane }}
-          path: jsonata-runtime/.maintenance-output/
+          path: jsonata/.maintenance-output/
           include-hidden-files: true
           if-no-files-found: error
 

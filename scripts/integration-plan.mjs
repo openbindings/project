@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 export function integrationPlan(selection,extended=false){
-  const source=selection.source, runtime='jsonata-runtime';
+  const source=selection.source, runtime='jsonata';
   assert(source==='all'||Object.hasOwn(selection.refs,source),'Unselected source');
   const selected=names=>names.includes(source);
   return {
