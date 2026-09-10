@@ -21,8 +21,12 @@ selection (project332051, run34532970840) and separate Elements selection
 (run34532973187) pass. Normal-process qualification nevertheless finds two
 material adapter defects: Swagger schema references are not rebased when embedded
 in an OBI, and an empty SDK hook carrier bypasses native scalar-text decoding.
-Both reproduce across the five real platform lanes. The three3.x JSON/path/base
-journeys and multipart numeric-item controls pass independently.
+Both reproduce on the four Unix platform lanes. Windows also exhibits the
+Swagger defect, but its3.x source bases retain a drive-letter location instead
+of a file URI, and subsequent scalar/multipart attempts fail source loading
+with zero operation receipts. The three3.x JSON/path/base journeys and multipart
+numeric-item controls pass on Unix only. The Windows end-to-end path gap remains
+open; passing URI helper tests do not close it.
 
 **REVISE / NOT LANDED:** the final consumer trace also identifies a published
 prepareOperation HTTP body/handler mismatch, and the existing run-to-output
