@@ -6,7 +6,7 @@
   "components": {
     "jsonata": {
       "repository": "openbindings/jsonata",
-      "commit": "e2a5e518e6b5bd247ab327d427c591dc72743f2d",
+      "commit": "119dc7dfba6e810f8f223e49aa9e3c7daadfe361",
       "releaseState": "working-draft"
     },
     "spec": {

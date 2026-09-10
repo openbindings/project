@@ -6,7 +6,13 @@
   "repositories": {
     "jsonata": {
       "workingRef": "main",
-      "callerPullRequest": null,
+      "callerPullRequest": {
+        "url": "https://github.com/openbindings/jsonata/pull/2",
+        "base": "main",
+        "status": "merged",
+        "mergedCommit": "119dc7dfba6e810f8f223e49aa9e3c7daadfe361",
+        "triggerRef": "main"
+      },
       "fixPullRequests": [],
       "decision": "Approved 2026-09-10: independently versioned JSONata runtime family on main, public source, required exact-cohort participation and source-bound reviewed-finding CI policy. Package publication and release tags remain separate authorization."
     },
