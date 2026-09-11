@@ -1,6 +1,7 @@
 # Existing-work baseline before retained-value development
 
-Status: landing in progress. The retained-value implementation has not started.
+Status: existing-work component baseline complete. Retained-value implementation
+starts from this record after it lands.
 This is a recovery and integration record, not a 0.2 release, a verified cohort,
 or approval of unfinished binding specifications.
 
@@ -49,9 +50,15 @@ replace normative corpus qualification or fill historical sealed-evidence gaps.
 The final website source built locally, passed 145 unit tests and all 27 production
 browser tests with zero retries. No deployment occurred.
 
-Remaining: exact candidate core and Elements extended validation, followed by
-merging this Project recovery record. Component checks alone do not establish
-whole-stack readiness.
+The [exact core candidate](https://github.com/openbindings/project/actions/runs/34559654148)
+and [Elements extended integration](https://github.com/openbindings/project/actions/runs/34559655530)
+passed using Project input commit `70be4336d621fc47781270e7822fc1708298b7fe`.
+The ledger preserves the complete tested manifest under `qualifiedSelection`,
+including the intentionally retained AsyncAPI dependency, so future edits to
+`next.json` do not erase this recovery point. Only this prose and the ledger
+were completed after qualification; the manifest and execution code are unchanged.
+This is permission to begin the already authorized development loop, not a
+0.2 release or a statement that its new architecture is implemented.
 
 ## Recovery procedure
 

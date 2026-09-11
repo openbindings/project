@@ -1,7 +1,7 @@
 {
   "purpose": "Preserve existing work before retained-value implementation; no release or binding-family completion claim.",
-  "status": "landing-in-progress",
-  "observedAt": "2026-09-11T03:44:47.202114+00:00",
+  "status": "component-baseline-complete",
+  "observedAt": "2026-09-11T03:53:53.094114+00:00",
   "components": {
     "jsonata": {
       "repository": "openbindings/jsonata",
@@ -54,9 +54,7 @@
       "commit": "29b909c069f6a4a256d60a7120fa79e007bf7990"
     }
   },
-  "pending": [
-    "Exact candidate core and Elements extended validation, then Project baseline merge"
-  ],
+  "pending": [],
   "deferred": {
     "asyncapi": "User will return to unfinished work; no further completion or dedicated qualification is required for this baseline. Existing candidate dependency54678886 remains selected. Already merged client29b909c is recorded as history, not promoted here.",
     "grpcSpecification": "Unaccepted work preserved remotely; no integration or completion claim."
@@ -225,6 +223,16 @@
       "scope": "CLI build, vet, race and cross-surface conformance",
       "url": "https://github.com/openbindings/ob/actions/runs/34558941347",
       "result": "pass"
+    },
+    {
+      "scope": "Exact core candidate: all nine Go modules, TypeScript SDK/correspondence, CLI and all eight JSONata lanes",
+      "url": "https://github.com/openbindings/project/actions/runs/34559654148",
+      "result": "pass"
+    },
+    {
+      "scope": "Exact Elements extended integration, including package, browser and embedded workbench checks",
+      "url": "https://github.com/openbindings/project/actions/runs/34559655530",
+      "result": "pass"
     }
   ],
   "publicCorroboration": {
@@ -239,5 +247,76 @@
     "strictRefusals": "PokeAPI page previous:null and detail order:null conflict with the acquired source schemas; operation validation refused them. No validation weakening.",
     "negativeAcquisition": "Non-artifact API response and missing-source 404 body rejected as OpenAPI inputs.",
     "limit": "Corroboration only; not a sealed or normative corpus. GET accounting reserves upper bounds per command, not server-observed counts."
+  },
+  "qualifiedSelection": {
+    "projectInputCommit": "70be4336d621fc47781270e7822fc1708298b7fe",
+    "manifestSHA256": "5f00e8cd9b82dbf39aaa1329f2a7b1c5fdd6eabd070eff23fd0d8b5acf97962d",
+    "manifest": {
+      "format": "openbindings.release-cohort@1",
+      "id": "openbindings-0.2-next",
+      "specificationLine": "0.2",
+      "status": "candidate",
+      "components": {
+        "jsonata": {
+          "repository": "openbindings/jsonata",
+          "commit": "119dc7dfba6e810f8f223e49aa9e3c7daadfe361",
+          "releaseState": "working-draft"
+        },
+        "spec": {
+          "repository": "openbindings/spec",
+          "commit": "5ae3a9a997c8d5b8e5dc55a6246d38e0410281c7",
+          "version": "0.2.0",
+          "releaseState": "working-draft"
+        },
+        "interfaces": {
+          "repository": "openbindings/interfaces",
+          "commit": "c0d08055ff3d2f659e79d1b4a1149ff2b5a1e904",
+          "releaseState": "working-draft"
+        },
+        "go": {
+          "repository": "openbindings/openbindings-go",
+          "commit": "4b176954a6772f85bef7f78eb1e4cecc1ea7bf0d",
+          "version": "0.2.0",
+          "releaseState": "working-draft"
+        },
+        "typescript": {
+          "repository": "openbindings/openbindings-ts",
+          "commit": "8272b75031ad2588ece6e1d0a8e9c8364d1c4b4e",
+          "version": "0.2.0",
+          "releaseState": "working-draft"
+        },
+        "ob": {
+          "repository": "openbindings/ob",
+          "commit": "5bf9d92fc43586ff2fe4cc2fb3948c4031e4f490",
+          "version": "0.2.0",
+          "releaseState": "working-draft"
+        },
+        "elements": {
+          "repository": "openbindings/elements",
+          "commit": "eb590acafecb94c4701bf16e878f59212cbf032c",
+          "version": "0.1.0",
+          "releaseState": "working-draft"
+        },
+        "web": {
+          "repository": "openbindings/web",
+          "commit": "d79630f712f8401e324d2e54a86a9f7736f00f60",
+          "releaseState": "deployment-source"
+        },
+        "openapi-client": {
+          "repository": "openbindings/openapi-client",
+          "commit": "9f8020e2d9a76712d552e429efb3845276cb8f64",
+          "version": "0.1.0",
+          "releaseState": "working-draft"
+        },
+        "asyncapi-client": {
+          "repository": "openbindings/asyncapi-client",
+          "commit": "54678886c38cfc2a94bb06f4499004600a74473c",
+          "version": "0.1.0",
+          "releaseState": "working-draft"
+        }
+      }
+    },
+    "recordOnlyChangesAfterQualification": "Only this ledger and the baseline prose were completed after exact qualification. The manifest, coordination scripts and workflow sources are unchanged.",
+    "publicationState": "Candidate only; no release, tags, publishing, deployment or numbered-cohort promotion."
   }
 }
