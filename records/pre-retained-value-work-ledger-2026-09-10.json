@@ -165,5 +165,17 @@
       "head": "337127023d133743d2299644e10b5a0d5b8373a9"
     }
   ],
-  "historicalProposalDisposition": "Preserved on existing remote branches. Their old corpus IDs/counts and expectations predate the accepted corpus rewrite; do not blindly reapply them or claim every old fixture was adopted. They are historical proposals, not missing integration commits from the current qualified OpenAPI candidate."
+  "historicalProposalDisposition": "Preserved on existing remote branches. Their old corpus IDs/counts and expectations predate the accepted corpus rewrite; do not blindly reapply them or claim every old fixture was adopted. They are historical proposals, not missing integration commits from the current qualified OpenAPI candidate.",
+  "historicalDocuments": [
+    {
+      "path": "records/history/openapi-implementation-qualification-loop-2026-09-06.md",
+      "originalSHA256": "53bb467b8e8d2d372e5772da21f514962e14ecb3b93fd7299834b3b42e8b3b34",
+      "preservation": "Original retained in the local archive; historical copy adds context and uses workspace-relative execution references."
+    },
+    {
+      "path": "records/history/oas-closeout-qualification-2026-09-10.md",
+      "originalSHA256": "c1cc1810e41868b0cef700717ab976150d5cf300cf42247dacafd62f975c31ed",
+      "preservation": "Original retained in the local archive; historical copy adds context and uses workspace-relative execution references."
+    }
+  ]
 }
