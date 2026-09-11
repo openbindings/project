@@ -1,0 +1,322 @@
+{
+  "purpose": "Preserve existing work before retained-value implementation; no release or binding-family completion claim.",
+  "status": "component-baseline-complete",
+  "observedAt": "2026-09-11T03:53:53.094114+00:00",
+  "components": {
+    "jsonata": {
+      "repository": "openbindings/jsonata",
+      "ref": "main",
+      "commit": "119dc7dfba6e810f8f223e49aa9e3c7daadfe361"
+    },
+    "spec": {
+      "repository": "openbindings/spec",
+      "ref": "release/0.2",
+      "commit": "5ae3a9a997c8d5b8e5dc55a6246d38e0410281c7"
+    },
+    "interfaces": {
+      "repository": "openbindings/interfaces",
+      "ref": "main",
+      "commit": "c0d08055ff3d2f659e79d1b4a1149ff2b5a1e904"
+    },
+    "go": {
+      "repository": "openbindings/openbindings-go",
+      "ref": "release/0.2",
+      "commit": "4b176954a6772f85bef7f78eb1e4cecc1ea7bf0d"
+    },
+    "typescript": {
+      "repository": "openbindings/openbindings-ts",
+      "ref": "release/0.2",
+      "commit": "8272b75031ad2588ece6e1d0a8e9c8364d1c4b4e"
+    },
+    "ob": {
+      "repository": "openbindings/ob",
+      "ref": "release/0.2",
+      "commit": "5bf9d92fc43586ff2fe4cc2fb3948c4031e4f490"
+    },
+    "elements": {
+      "repository": "openbindings/elements",
+      "ref": "main",
+      "commit": "eb590acafecb94c4701bf16e878f59212cbf032c"
+    },
+    "web": {
+      "repository": "openbindings/web",
+      "ref": "main",
+      "commit": "d79630f712f8401e324d2e54a86a9f7736f00f60"
+    },
+    "openapi-client": {
+      "repository": "openbindings/openapi-client",
+      "ref": "main",
+      "commit": "9f8020e2d9a76712d552e429efb3845276cb8f64"
+    },
+    "asyncapi-client": {
+      "repository": "openbindings/asyncapi-client",
+      "ref": "main",
+      "commit": "29b909c069f6a4a256d60a7120fa79e007bf7990"
+    }
+  },
+  "pending": [],
+  "deferred": {
+    "asyncapi": "User will return to unfinished work; no further completion or dedicated qualification is required for this baseline. Existing candidate dependency54678886 remains selected. Already merged client29b909c is recorded as history, not promoted here.",
+    "grpcSpecification": "Unaccepted work preserved remotely; no integration or completion claim."
+  },
+  "preservedSpecificationBranches": [
+    {
+      "repository": "openbindings/spec",
+      "branch": "codex/preserved-asyncapi-binding-family-20260910",
+      "commit": "1f276b1a0895f056b932f8f03661125e4ff4f9c0"
+    },
+    {
+      "repository": "openbindings/spec",
+      "branch": "codex/preserved-grpc-binding-family-20260910",
+      "commit": "456ecb50f0c225f738be805ccc01c1d5c6766ac6"
+    }
+  ],
+  "emptyPullRequests": [
+    {
+      "url": "https://github.com/openbindings/openbindings-ts/pull/101",
+      "headRefOid": "859937d1dd5d4a9e70655640539de00c146e0376",
+      "disposition": "Closed zero-diff proposal: original change and its revert cancel. Remote branch retained."
+    },
+    {
+      "url": "https://github.com/openbindings/openbindings-ts/pull/99",
+      "headRefOid": "419cd704e8fd55d361b936e9f7ec1753b34125f6",
+      "disposition": "Closed zero-diff proposal: original change and its revert cancel. Remote branch retained."
+    },
+    {
+      "url": "https://github.com/openbindings/openbindings-ts/pull/98",
+      "headRefOid": "55036963cabe1b92ea453ee1f2dfc4262ae09f31",
+      "disposition": "Closed zero-diff proposal: original change and its revert cancel. Remote branch retained."
+    },
+    {
+      "url": "https://github.com/openbindings/openbindings-ts/pull/96",
+      "headRefOid": "a78decf3bcee0f6546649c3d21d2e4e058ac6e5c",
+      "disposition": "Closed zero-diff proposal: original change and its revert cancel. Remote branch retained."
+    },
+    {
+      "url": "https://github.com/openbindings/openbindings-go/pull/103",
+      "headRefOid": "ffe86670a7411260948253627ef6455d881b804e",
+      "disposition": "Closed zero-diff proposal: original change and its revert cancel. Remote branch retained."
+    },
+    {
+      "url": "https://github.com/openbindings/openbindings-go/pull/102",
+      "headRefOid": "82aebfbf9da26b92611e34067bf589deb5b21001",
+      "disposition": "Closed zero-diff proposal: original change and its revert cancel. Remote branch retained."
+    },
+    {
+      "url": "https://github.com/openbindings/openbindings-go/pull/101",
+      "headRefOid": "1c9dbaf293acaf2a6a1caaf1d03171eca86fa2be",
+      "disposition": "Closed zero-diff proposal: original change and its revert cancel. Remote branch retained."
+    },
+    {
+      "url": "https://github.com/openbindings/openbindings-go/pull/100",
+      "headRefOid": "ce1ece6b9107358a680ea4a93495c8a7d8fe69fa",
+      "disposition": "Closed zero-diff proposal: original change and its revert cancel. Remote branch retained."
+    },
+    {
+      "url": "https://github.com/openbindings/openapi-client/pull/34",
+      "headRefOid": "3bedb55800b9a17170b980b0b61cb57e302f20eb",
+      "disposition": "Closed zero-diff proposal: original change and its revert cancel. Remote branch retained."
+    },
+    {
+      "url": "https://github.com/openbindings/openapi-client/pull/32",
+      "headRefOid": "b5c050e39476aac8f7639b4179086c7c83808b85",
+      "disposition": "Closed zero-diff proposal: original change and its revert cancel. Remote branch retained."
+    },
+    {
+      "url": "https://github.com/openbindings/openapi-client/pull/31",
+      "headRefOid": "9d887a5de283d8065ac5892386ecb538fcb20e0b",
+      "disposition": "Closed zero-diff proposal: original change and its revert cancel. Remote branch retained."
+    },
+    {
+      "url": "https://github.com/openbindings/spec/pull/105",
+      "headRefOid": "529ae2716c39390fb239a393c9dc5d96ba917909",
+      "disposition": "Closed zero-diff proposal: original change and its revert cancel. Remote branch retained."
+    },
+    {
+      "url": "https://github.com/openbindings/spec/pull/103",
+      "headRefOid": "ba04504c91a48c5f2755ac53cd13576a596f71c8",
+      "disposition": "Closed zero-diff proposal: original change and its revert cancel. Remote branch retained."
+    },
+    {
+      "url": "https://github.com/openbindings/spec/pull/102",
+      "headRefOid": "d76681f4bf3463339f25b5a4ee479177e2b7baa0",
+      "disposition": "Closed zero-diff proposal: original change and its revert cancel. Remote branch retained."
+    },
+    {
+      "url": "https://github.com/openbindings/spec/pull/100",
+      "headRefOid": "fe1a7235711dd99e48bb8c8617f602ea24119f70",
+      "disposition": "Closed zero-diff proposal: original change and its revert cancel. Remote branch retained."
+    }
+  ],
+  "historicalOpenAPIProposals": [
+    {
+      "url": "https://github.com/openbindings/openbindings-ts/pull/104",
+      "head": "d8720628a8b437061116197578a692d8300fc8af"
+    },
+    {
+      "url": "https://github.com/openbindings/openbindings-go/pull/105",
+      "head": "35c2db917d4303f1b0f4d324d95dcb546a99f803"
+    },
+    {
+      "url": "https://github.com/openbindings/spec/pull/109",
+      "head": "337127023d133743d2299644e10b5a0d5b8373a9"
+    }
+  ],
+  "historicalProposalDisposition": "Preserved on existing remote branches. Their old corpus IDs/counts and expectations predate the accepted corpus rewrite; do not blindly reapply them or claim every old fixture was adopted. They are historical proposals, not missing integration commits from the current qualified OpenAPI candidate.",
+  "historicalDocuments": [
+    {
+      "path": "records/history/openapi-implementation-qualification-loop-2026-09-06.md",
+      "originalSHA256": "53bb467b8e8d2d372e5772da21f514962e14ecb3b93fd7299834b3b42e8b3b34",
+      "preservation": "Original retained in the local archive; historical copy adds context and uses workspace-relative execution references."
+    },
+    {
+      "path": "records/history/oas-closeout-qualification-2026-09-10.md",
+      "originalSHA256": "c1cc1810e41868b0cef700717ab976150d5cf300cf42247dacafd62f975c31ed",
+      "preservation": "Original retained in the local archive; historical copy adds context and uses workspace-relative execution references."
+    }
+  ],
+  "nativeOpenAPILandings": [
+    {
+      "url": "https://github.com/openbindings/openapi-client/pull/41",
+      "commit": "ac80672e110bdf663b94573d1c3fea6d5e660778"
+    },
+    {
+      "url": "https://github.com/openbindings/openapi-client/pull/42",
+      "commit": "2a6d9dbd48393d501d1198863288b902552c822d"
+    },
+    {
+      "url": "https://github.com/openbindings/openapi-client/pull/43",
+      "commit": "9f8020e2d9a76712d552e429efb3845276cb8f64"
+    }
+  ],
+  "qualificationEvidence": [
+    {
+      "scope": "Native OpenAPI parse reuse and package qualification",
+      "url": "https://github.com/openbindings/openapi-client/actions/runs/34558121299",
+      "result": "pass"
+    },
+    {
+      "scope": "Elements component, package, browser and embedded workbench qualification",
+      "url": "https://github.com/openbindings/elements/actions/runs/34557403308",
+      "result": "pass"
+    },
+    {
+      "scope": "CLI candidate557f60c workbench36 and journeys5, including run-to-output387ms against400ms",
+      "url": "https://github.com/openbindings/ob/actions/runs/34558485150",
+      "result": "browser journeys passed; overall run not accepted because the later public probe exceeded argv size; fixed in candidateb13e6fe"
+    },
+    {
+      "scope": "Final website source d79630f local build,145unit tests,27production browser tests, retries0",
+      "result": "pass; no deployment",
+      "localEvidenceNames": [
+        "web-final-build-1.json",
+        "web-final-test-1.json",
+        "web-final-e2e-1.json"
+      ]
+    },
+    {
+      "scope": "Final CLI candidate b13e6fe; merged as 5bf9d92fc43586ff2fe4cc2fb3948c4031e4f490",
+      "url": "https://github.com/openbindings/ob/actions/runs/34558941370",
+      "result": "All five platforms passed. 36 workbench tests and five journeys passed without retries or skips. Run-to-output 398 ms <= 400 ms; navigation 704 ms <= 1500 ms. Individual qualification observations, not a statistical performance guarantee."
+    },
+    {
+      "scope": "CLI build, vet, race and cross-surface conformance",
+      "url": "https://github.com/openbindings/ob/actions/runs/34558941347",
+      "result": "pass"
+    },
+    {
+      "scope": "Exact core candidate: all nine Go modules, TypeScript SDK/correspondence, CLI and all eight JSONata lanes",
+      "url": "https://github.com/openbindings/project/actions/runs/34559654148",
+      "result": "pass"
+    },
+    {
+      "scope": "Exact Elements extended integration, including package, browser and embedded workbench checks",
+      "url": "https://github.com/openbindings/project/actions/runs/34559655530",
+      "result": "pass"
+    }
+  ],
+  "publicCorroboration": {
+    "run": "https://github.com/openbindings/ob/actions/runs/34558941370",
+    "acquisitionAndValidation": "PokeAPI, Open-Meteo and Petstore artifacts acquired and generated interfaces validated. Raw artifact workbench import/exploration succeeded.",
+    "successfulInvocations": [
+      "PokeAPI page with offset 2",
+      "Explicit raw PokeAPI detail",
+      "Open-Meteo with explicitly selected public server",
+      "Petstore read-only order"
+    ],
+    "strictRefusals": "PokeAPI page previous:null and detail order:null conflict with the acquired source schemas; operation validation refused them. No validation weakening.",
+    "negativeAcquisition": "Non-artifact API response and missing-source 404 body rejected as OpenAPI inputs.",
+    "limit": "Corroboration only; not a sealed or normative corpus. GET accounting reserves upper bounds per command, not server-observed counts."
+  },
+  "qualifiedSelection": {
+    "projectInputCommit": "70be4336d621fc47781270e7822fc1708298b7fe",
+    "manifestSHA256": "5f00e8cd9b82dbf39aaa1329f2a7b1c5fdd6eabd070eff23fd0d8b5acf97962d",
+    "manifest": {
+      "format": "openbindings.release-cohort@1",
+      "id": "openbindings-0.2-next",
+      "specificationLine": "0.2",
+      "status": "candidate",
+      "components": {
+        "jsonata": {
+          "repository": "openbindings/jsonata",
+          "commit": "119dc7dfba6e810f8f223e49aa9e3c7daadfe361",
+          "releaseState": "working-draft"
+        },
+        "spec": {
+          "repository": "openbindings/spec",
+          "commit": "5ae3a9a997c8d5b8e5dc55a6246d38e0410281c7",
+          "version": "0.2.0",
+          "releaseState": "working-draft"
+        },
+        "interfaces": {
+          "repository": "openbindings/interfaces",
+          "commit": "c0d08055ff3d2f659e79d1b4a1149ff2b5a1e904",
+          "releaseState": "working-draft"
+        },
+        "go": {
+          "repository": "openbindings/openbindings-go",
+          "commit": "4b176954a6772f85bef7f78eb1e4cecc1ea7bf0d",
+          "version": "0.2.0",
+          "releaseState": "working-draft"
+        },
+        "typescript": {
+          "repository": "openbindings/openbindings-ts",
+          "commit": "8272b75031ad2588ece6e1d0a8e9c8364d1c4b4e",
+          "version": "0.2.0",
+          "releaseState": "working-draft"
+        },
+        "ob": {
+          "repository": "openbindings/ob",
+          "commit": "5bf9d92fc43586ff2fe4cc2fb3948c4031e4f490",
+          "version": "0.2.0",
+          "releaseState": "working-draft"
+        },
+        "elements": {
+          "repository": "openbindings/elements",
+          "commit": "eb590acafecb94c4701bf16e878f59212cbf032c",
+          "version": "0.1.0",
+          "releaseState": "working-draft"
+        },
+        "web": {
+          "repository": "openbindings/web",
+          "commit": "d79630f712f8401e324d2e54a86a9f7736f00f60",
+          "releaseState": "deployment-source"
+        },
+        "openapi-client": {
+          "repository": "openbindings/openapi-client",
+          "commit": "9f8020e2d9a76712d552e429efb3845276cb8f64",
+          "version": "0.1.0",
+          "releaseState": "working-draft"
+        },
+        "asyncapi-client": {
+          "repository": "openbindings/asyncapi-client",
+          "commit": "54678886c38cfc2a94bb06f4499004600a74473c",
+          "version": "0.1.0",
+          "releaseState": "working-draft"
+        }
+      }
+    },
+    "recordOnlyChangesAfterQualification": "Only this ledger and the baseline prose were completed after exact qualification. The manifest, coordination scripts and workflow sources are unchanged.",
+    "publicationState": "Candidate only; no release, tags, publishing, deployment or numbered-cohort promotion."
+  }
+}

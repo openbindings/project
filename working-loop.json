@@ -49,6 +49,24 @@
           "base": "release/0.2",
           "status": "merged",
           "mergedCommit": "a28d6b880cea5d714f2a0aad650b4af757e98cba"
+        },
+        {
+          "url": "https://github.com/openbindings/spec/pull/114",
+          "base": "release/0.2",
+          "status": "merged",
+          "mergedCommit": "e87ac2e264208dd9bcb1beac5878c1ee3c506f3f"
+        },
+        {
+          "url": "https://github.com/openbindings/spec/pull/116",
+          "base": "release/0.2",
+          "status": "merged",
+          "mergedCommit": "85200c92818580e81f2fdb027736370cca9144f5"
+        },
+        {
+          "url": "https://github.com/openbindings/spec/pull/117",
+          "base": "release/0.2",
+          "status": "merged",
+          "mergedCommit": "5ae3a9a997c8d5b8e5dc55a6246d38e0410281c7"
         }
       ]
     },
@@ -103,6 +121,18 @@
           "base": "release/0.2",
           "status": "merged",
           "mergedCommit": "56f5d1f05cfb1e5637bc980441788a31e64f8f8a"
+        },
+        {
+          "url": "https://github.com/openbindings/openbindings-go/pull/110",
+          "base": "release/0.2",
+          "status": "merged",
+          "mergedCommit": "6e0b8cf5d2193c0fdfe50108f69628e600223470"
+        },
+        {
+          "url": "https://github.com/openbindings/openbindings-go/pull/111",
+          "base": "release/0.2",
+          "status": "merged",
+          "mergedCommit": "4b176954a6772f85bef7f78eb1e4cecc1ea7bf0d"
         }
       ]
     },
@@ -133,6 +163,12 @@
           "base": "release/0.2",
           "status": "merged",
           "mergedCommit": "1b4fdff3d37ecc17b81a4debfff2499db6d69668"
+        },
+        {
+          "url": "https://github.com/openbindings/openbindings-ts/pull/109",
+          "base": "release/0.2",
+          "status": "merged",
+          "mergedCommit": "8272b75031ad2588ece6e1d0a8e9c8364d1c4b4e"
         }
       ]
     },
@@ -175,6 +211,12 @@
           "base": "release/0.2",
           "status": "merged",
           "mergedCommit": "040a8727a39d32a8a321fd00efab1641808f6765"
+        },
+        {
+          "url": "https://github.com/openbindings/ob/pull/47",
+          "base": "release/0.2",
+          "status": "merged",
+          "mergedCommit": "5bf9d92fc43586ff2fe4cc2fb3948c4031e4f490"
         }
       ]
     },
@@ -205,6 +247,18 @@
           "base": "main",
           "status": "merged",
           "mergedCommit": "11d56abe85475048e99861889b29caec2c6bbde2"
+        },
+        {
+          "url": "https://github.com/openbindings/elements/pull/11",
+          "base": "main",
+          "status": "merged",
+          "mergedCommit": "b0c4428ccf4003be141111040bb92f6acfdca32f"
+        },
+        {
+          "url": "https://github.com/openbindings/elements/pull/12",
+          "base": "main",
+          "status": "merged",
+          "mergedCommit": "eb590acafecb94c4701bf16e878f59212cbf032c"
         }
       ]
     },
@@ -223,6 +277,12 @@
           "base": "main",
           "status": "merged",
           "mergedCommit": "4ded172c046c80aedc9af34a740e98a118ec3c7f"
+        },
+        {
+          "url": "https://github.com/openbindings/web/pull/27",
+          "base": "main",
+          "status": "merged",
+          "mergedCommit": "d79630f712f8401e324d2e54a86a9f7736f00f60"
         }
       ]
     },
@@ -230,13 +290,13 @@
       "workingRef": "main",
       "callerPullRequest": null,
       "fixPullRequests": [],
-      "decision": "Ruled 2026-08-20: first-wave participation confirmed; workingRef is main (the clients' mains are their working lines — they version independently, no release branch needed; already SHA-pinned in the 0.2 candidate cohort). Supersedes the decisionRequired note below."
+      "decision": "Ruled 2026-08-20: first-wave participation confirmed; workingRef is main (the clients' mains are their working lines \u2014 they version independently, no release branch needed; already SHA-pinned in the 0.2 candidate cohort). Supersedes the decisionRequired note below."
     },
     "asyncapi-client": {
       "workingRef": "main",
       "callerPullRequest": null,
       "fixPullRequests": [],
-      "decision": "Ruled 2026-08-20: first-wave participation confirmed; workingRef is main (the clients' mains are their working lines — they version independently, no release branch needed; already SHA-pinned in the 0.2 candidate cohort). Supersedes the decisionRequired note below."
+      "decision": "Ruled 2026-08-20: first-wave participation confirmed; workingRef is main (the clients' mains are their working lines \u2014 they version independently, no release branch needed; already SHA-pinned in the 0.2 candidate cohort). Supersedes the decisionRequired note below."
     }
   }
 }
