@@ -11,7 +11,7 @@ return to; gRPC specification work remains preserved and unaccepted.
 
 ## What is recorded
 
-[the work ledger](../../records/pre-retained-value-work-ledger-2026-09-10.json) records actual integration heads, preserved
+[The work ledger](../../records/pre-retained-value-work-ledger-2026-09-10.json) records actual integration heads, preserved
 unfinished branches, the disposition of empty pull requests, and historical
 OpenAPI proposals. `next.json` is the mutable candidate selection; versions,
 release states, repository visibility, and integration refs retain their values.
@@ -29,21 +29,29 @@ correspondence fixes, existing website teaching work, and the workbench's exact
 binding identifier import correction. Scope is limited to demonstrated defects
 and preserving a recoverable starting point.
 
-## Validation still to complete
+## Validation
 
-The CLI candidate uses merged SDK and native-client revisions, exact merged
-Elements tests, and rebuilt embedded assets. Its final five-platform run must
-pass, including all 36 workbench tests, five journeys, the unchanged 400 ms
-first-invocation gate, and bounded public-artifact corroboration. The earlier
-561 ms browser result remains a failure until new evidence supersedes it.
+CLI PR47 is merged at `5bf9d92fc43586ff2fe4cc2fb3948c4031e4f490`.
+Its [final five-platform run](https://github.com/openbindings/ob/actions/runs/34558941370)
+and [build/race/conformance CI](https://github.com/openbindings/ob/actions/runs/34558941347)
+passed. All 36 workbench tests and five journeys passed with zero skips or retries.
+First invocation measured 398 ms against the unchanged 400 ms gate; navigation
+measured 704 ms against 1,500 ms. These are individual qualification observations,
+not a statistical performance guarantee. The earlier 561 ms failure remains
+historical evidence; it was followed by a measured native parsing correction.
 
-After CLI landing, record its actual squash SHA, resolve the full candidate,
-and run exact core and extended validation. Keep website validation separate
-from deployment. A passing component check or local timing measurement alone
-does not establish whole-stack readiness.
+Public artifact acquisition, workbench import/exploration, and selected PokeAPI,
+Open-Meteo and Petstore requests succeeded. Strict PokeAPI validation correctly
+refused schema-incompatible nulls; explicit raw access succeeded. Negative
+non-artifact and missing-source inputs were rejected. These observations do not
+replace normative corpus qualification or fill historical sealed-evidence gaps.
 
-Historical heldout/acquisition evidence gaps in earlier OpenAPI reports remain
-historical gaps. A later run must not be presented as a previously sealed corpus.
+The final website source built locally, passed 145 unit tests and all 27 production
+browser tests with zero retries. No deployment occurred.
+
+Remaining: exact candidate core and Elements extended validation, followed by
+merging this Project recovery record. Component checks alone do not establish
+whole-stack readiness.
 
 ## Recovery procedure
 

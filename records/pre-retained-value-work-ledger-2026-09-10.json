@@ -1,7 +1,7 @@
 {
   "purpose": "Preserve existing work before retained-value implementation; no release or binding-family completion claim.",
   "status": "landing-in-progress",
-  "observedAt": "2026-09-11T03:29:18.370449+00:00",
+  "observedAt": "2026-09-11T03:44:47.202114+00:00",
   "components": {
     "jsonata": {
       "repository": "openbindings/jsonata",
@@ -31,7 +31,7 @@
     "ob": {
       "repository": "openbindings/ob",
       "ref": "release/0.2",
-      "commit": "040a8727a39d32a8a321fd00efab1641808f6765"
+      "commit": "5bf9d92fc43586ff2fe4cc2fb3948c4031e4f490"
     },
     "elements": {
       "repository": "openbindings/elements",
@@ -55,8 +55,7 @@
     }
   },
   "pending": [
-    "CLI PR47 platform and browser qualification, then squash merge",
-    "Final candidate SHA update and exact-cohort/extended validation"
+    "Exact candidate core and Elements extended validation, then Project baseline merge"
   ],
   "deferred": {
     "asyncapi": "User will return to unfinished work; no further completion or dedicated qualification is required for this baseline. Existing candidate dependency54678886 remains selected. Already merged client29b909c is recorded as history, not promoted here.",
@@ -177,5 +176,68 @@
       "originalSHA256": "c1cc1810e41868b0cef700717ab976150d5cf300cf42247dacafd62f975c31ed",
       "preservation": "Original retained in the local archive; historical copy adds context and uses workspace-relative execution references."
     }
-  ]
+  ],
+  "nativeOpenAPILandings": [
+    {
+      "url": "https://github.com/openbindings/openapi-client/pull/41",
+      "commit": "ac80672e110bdf663b94573d1c3fea6d5e660778"
+    },
+    {
+      "url": "https://github.com/openbindings/openapi-client/pull/42",
+      "commit": "2a6d9dbd48393d501d1198863288b902552c822d"
+    },
+    {
+      "url": "https://github.com/openbindings/openapi-client/pull/43",
+      "commit": "9f8020e2d9a76712d552e429efb3845276cb8f64"
+    }
+  ],
+  "qualificationEvidence": [
+    {
+      "scope": "Native OpenAPI parse reuse and package qualification",
+      "url": "https://github.com/openbindings/openapi-client/actions/runs/34558121299",
+      "result": "pass"
+    },
+    {
+      "scope": "Elements component, package, browser and embedded workbench qualification",
+      "url": "https://github.com/openbindings/elements/actions/runs/34557403308",
+      "result": "pass"
+    },
+    {
+      "scope": "CLI candidate557f60c workbench36 and journeys5, including run-to-output387ms against400ms",
+      "url": "https://github.com/openbindings/ob/actions/runs/34558485150",
+      "result": "browser journeys passed; overall run not accepted because the later public probe exceeded argv size; fixed in candidateb13e6fe"
+    },
+    {
+      "scope": "Final website source d79630f local build,145unit tests,27production browser tests, retries0",
+      "result": "pass; no deployment",
+      "localEvidenceNames": [
+        "web-final-build-1.json",
+        "web-final-test-1.json",
+        "web-final-e2e-1.json"
+      ]
+    },
+    {
+      "scope": "Final CLI candidate b13e6fe; merged as 5bf9d92fc43586ff2fe4cc2fb3948c4031e4f490",
+      "url": "https://github.com/openbindings/ob/actions/runs/34558941370",
+      "result": "All five platforms passed. 36 workbench tests and five journeys passed without retries or skips. Run-to-output 398 ms <= 400 ms; navigation 704 ms <= 1500 ms. Individual qualification observations, not a statistical performance guarantee."
+    },
+    {
+      "scope": "CLI build, vet, race and cross-surface conformance",
+      "url": "https://github.com/openbindings/ob/actions/runs/34558941347",
+      "result": "pass"
+    }
+  ],
+  "publicCorroboration": {
+    "run": "https://github.com/openbindings/ob/actions/runs/34558941370",
+    "acquisitionAndValidation": "PokeAPI, Open-Meteo and Petstore artifacts acquired and generated interfaces validated. Raw artifact workbench import/exploration succeeded.",
+    "successfulInvocations": [
+      "PokeAPI page with offset 2",
+      "Explicit raw PokeAPI detail",
+      "Open-Meteo with explicitly selected public server",
+      "Petstore read-only order"
+    ],
+    "strictRefusals": "PokeAPI page previous:null and detail order:null conflict with the acquired source schemas; operation validation refused them. No validation weakening.",
+    "negativeAcquisition": "Non-artifact API response and missing-source 404 body rejected as OpenAPI inputs.",
+    "limit": "Corroboration only; not a sealed or normative corpus. GET accounting reserves upper bounds per command, not server-observed counts."
+  }
 }
