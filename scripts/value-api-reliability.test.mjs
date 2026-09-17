@@ -105,3 +105,15 @@ test('assertion recording never coerces retained comparison operands or stores t
  const {recorder}=await import('./value-api-reliability/fixtures/observations.mjs');let calls=0;const native={toString(){calls++;throw Error('force');},toJSON(){calls++;throw Error('force');}};
  const manifest={cases:[{assertions:[{id:'A',lanes:['node'],evidenceKind:'runtime'}]}]};const r=recorder(manifest,'node','id','selection');await r.observe('A',async({equal,rejects})=>{equal(native,native);return rejects(()=>{throw native;},e=>e===native);});assert.equal(r.finish().summary.failed,0);assert.doesNotThrow(()=>JSON.stringify(r.finish()));assert.equal(calls,0);
 });
+
+
+test('scope includes required compatibility documentation while excluding downstream production', async () => {
+  const {permitsChange} = await import('./value-api-reliability/scope.mjs');
+  for (const file of ['CHANGELOG.md', 'packages/json/src/codec.ts', 'packages/json-schema/README.md']) assert.equal(permitsChange('openbindings-ts',file),true);
+  for (const file of ['package.json','packages/sdk/src/index.ts','packages/core/src/types.ts','packages/openapi/src/index.ts','packages/jsonata/src/index.ts']) assert.equal(permitsChange('openbindings-ts',file),false);
+  assert.equal(permitsChange('jsonata','javascript/src/jsonata.js'),true);
+  assert.equal(permitsChange('jsonata','go/eval.go'),false);
+  assert.equal(permitsChange('project','scripts/value-api-reliability.test.mjs'),true);
+  assert.equal(permitsChange('project','scripts/value-api-reliability-escape.mjs'),false);
+  assert.equal(permitsChange('openapi-client','typescript/src/index.ts'),false);
+});
