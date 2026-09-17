@@ -49,11 +49,20 @@ migration qualifies.
 
 ## Exact-cohort qualification
 
-The updated selection still needs the exact-cohort integration run, including
-extended validation. Component green checks above are not a substitute for that
-run. The central workflow cannot check out a private website with its ordinary
-token; if that restriction persists, website validation must use its own caller
-context or an exact local checkout without deploying or changing visibility.
+[Exact-cohort run 35259141011](https://github.com/openbindings/project/actions/runs/35259141011)
+uses Project manifest/workflow source `685c47991a3648118c0a87a438b64ca14b3161da`,
+no component override, and `include_extended=true`. At this ledger revision,
+all nine Go lanes and all eight JSONata runtime lanes passed; TypeScript and
+Elements are still running. The OB lane failed before compilation completed
+because the Go proxy returned an HTTP/2 `INTERNAL_ERROR` downloading
+`github.com/calico32/kdl-go@v0.15.0`; this requires a retry, not a waived check.
+The website lane failed checkout (`Repository not found`) because the central
+workflow cannot access the private repository with its ordinary token.
+
+This is not a green exact-cohort result. Website validation must use its own
+caller context or an exact local checkout without deploying or changing
+visibility. Follow-up results belong on the candidate landing PR and local
+landing ledger; this record does not assert completion ahead of those results.
 
 No tag, package publication, deployment, local CLI installation, real registry
 conversion, numbered cohort, or promotion to `verified` is authorized here.
