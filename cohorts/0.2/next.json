@@ -6,7 +6,7 @@
   "components": {
     "jsonata": {
       "repository": "openbindings/jsonata",
-      "commit": "119dc7dfba6e810f8f223e49aa9e3c7daadfe361",
+      "commit": "c5f8ef028d97ce88a8c56547a07e20311def0359",
       "releaseState": "working-draft"
     },
     "spec": {
@@ -28,7 +28,7 @@
     },
     "typescript": {
       "repository": "openbindings/openbindings-ts",
-      "commit": "8272b75031ad2588ece6e1d0a8e9c8364d1c4b4e",
+      "commit": "c53ef707ca1170c705775532fd30a8d7e87e3e5e",
       "version": "0.2.0",
       "releaseState": "working-draft"
     },

@@ -33,6 +33,16 @@ runs:
         RUNTIME_REF: ${{ inputs.ref }}
         GO_WORK: ${{ inputs.go-work }}
       run: node "$GITHUB_ACTION_PATH/../../../scripts/runtime-input.mjs" "$GITHUB_WORKSPACE" "$RUNTIME_REF" "$GO_WORK"
+    - name: Build selected standalone JSON dependency when required
+      if: inputs.ref != '' && inputs.build-javascript == 'true'
+      shell: bash
+      working-directory: ${{ github.workspace }}
+      run: |
+        if node -e "process.exit(require('./jsonata/javascript/package.json').dependencies?.['@openbindings/json'] ? 0 : 1)"; then
+          test -f openbindings-ts/packages/json/package.json
+          pnpm --dir openbindings-ts install --frozen-lockfile --ignore-scripts
+          pnpm --dir openbindings-ts --filter @openbindings/json build
+        fi
     - name: Build selected JavaScript runtime
       if: inputs.ref != '' && inputs.build-javascript == 'true'
       shell: bash

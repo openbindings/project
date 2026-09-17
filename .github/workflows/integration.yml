@@ -585,6 +585,15 @@ jobs:
         with:
           go-version: '1.25.13'
           cache: false
+      - uses: actions/checkout@v7
+        with:
+          repository: openbindings/openbindings-ts
+          ref: ${{ needs.resolve.outputs.typescript_ref }}
+          path: openbindings-ts
+          persist-credentials: false
+      - uses: pnpm/action-setup@v6
+        with:
+          package_json_file: openbindings-ts/package.json
       - uses: ./project/.github/actions/runtime-input
         with:
           ref: ${{ needs.resolve.outputs.jsonata_ref }}
