@@ -4,7 +4,16 @@
 `run.mjs <configuration.json>` runs one command; its JSON configuration supplies
 the run root, frozen selection, argument array, working directory and lane.
 `reports` lists structured files the command writes. Their hashes are bound to
-that command at exit. The collector never manufactures assertions from logs.
+that command at exit. Fresh collection rechecks every declared report, including
+raw suite and coverage reports underlying derived observations. Missing, changed
+or duplicate declared reports reject. The collector never manufactures assertions
+from logs.
+
+Commands run in owned POSIX process groups. Deadline and log-overflow termination
+include wrapper descendants; normal wrapper exit also ends remaining group work.
+Output draining and group cleanup are bounded, and cleanup failures reject
+qualification. This is for controlled commands on POSIX hosts, not a sandbox for
+programs that deliberately escape their process group.
 
 An observation report has format `value-reliability.observations@1`, the command
 ID and selection digest provided in `VALUE_RELIABILITY_COMMAND_ID` and

@@ -31,6 +31,7 @@ for (const [name, mutate] of Object.entries({
   'failed coverage': f => { f.command.exitCode = 2; },
   'killed command': f => { f.command.exitCode = null; f.command.signal = 'SIGKILL'; },
   'timeout': f => { f.command.timedOut = true; },
+  'cleanup failure': f => { f.command.cleanupError = 'descendant remains'; },
   'truncated command': f => { f.command.truncated = true; },
   'missing lane': f => { f.options.reportFiles = []; },
   'missing vector': f => { f.report.observations = []; f.report.summary.executed = 0; },
@@ -116,4 +117,54 @@ test('scope includes required compatibility documentation while excluding downst
   assert.equal(permitsChange('project','scripts/value-api-reliability.test.mjs'),true);
   assert.equal(permitsChange('project','scripts/value-api-reliability-escape.mjs'),false);
   assert.equal(permitsChange('openapi-client','typescript/src/index.ts'),false);
+});
+
+for (const damage of ['delete','replace','record-missing','duplicate']) test('F2: refuses '+damage+' of an underlying non-observation report',t=>{
+  const f=fixture(t),raw=path.join(f.root,'suite.json');
+  fs.writeFileSync(raw,JSON.stringify({passes:100,failures:0}));
+  f.command.reports.push({path:'suite.json',sha256:fileHash(raw)});
+  if(damage==='record-missing') f.command.reports[1]={path:'suite.json',missing:true};
+  if(damage==='duplicate') f.command.reports.push({...f.command.reports[1]});
+  fs.writeFileSync(path.join(f.root,'command.json'),JSON.stringify(f.command));
+  if(damage==='delete') fs.unlinkSync(raw);
+  if(damage==='replace') fs.writeFileSync(raw,JSON.stringify({passes:0,failures:100}));
+  assert.throws(()=>collect(f.options));
+});
+
+test('F2: complete underlying report dependencies pass',t=>{
+  const f=fixture(t),raw=path.join(f.root,'suite.json');
+  fs.writeFileSync(raw,'{"passes":100,"failures":0}');
+  f.command.reports.push({path:'suite.json',sha256:fileHash(raw)});
+  fs.writeFileSync(path.join(f.root,'command.json'),JSON.stringify(f.command));
+  assert.equal(collect(f.options).status,'COMPLETE');
+});
+
+for (const trigger of ['timeout','overflow']) test('F5: '+trigger+' stops the owned descendant process tree',async t=>{
+  const f=fixture(t),marker=path.join(f.root,'descendant-ran');
+  const descendant='setTimeout(()=>require("node:fs").writeFileSync('+JSON.stringify(marker)+',"survived"),700)';
+  const parent='require("node:child_process").spawn(process.execPath,["-e",'+JSON.stringify(descendant)+'],{stdio:"inherit"});'+(trigger==='overflow'?'setTimeout(()=>console.log("x".repeat(1000)),100);':'')+'setInterval(()=>{},1000)';
+  const started=performance.now();
+  const record=await runCommand({root:f.root,selection:f.selection,lane:'node',cwd:f.root,command:[process.execPath,'-e',parent],timeout:200,maxLogBytes:trigger==='overflow'?64:1024});
+  const elapsed=performance.now()-started;
+  await new Promise(resolve=>setTimeout(resolve,800));
+  assert.equal(fs.existsSync(marker),false,'descendant continued after '+trigger);
+  assert(elapsed<650,'output collection was held by descendant pipes');
+  assert.equal(trigger==='timeout'?record.timedOut:record.truncated,true);
+});
+
+
+test('F5: a successful wrapper cannot leave background descendants',async t=>{
+  const f=fixture(t),marker=path.join(f.root,'background');
+  const descendant='setTimeout(()=>require("node:fs").writeFileSync('+JSON.stringify(marker)+',"survived"),500)';
+  const parent='const c=require("node:child_process").spawn(process.execPath,["-e",'+JSON.stringify(descendant)+'],{stdio:"ignore"});c.unref();';
+  const record=await runCommand({root:f.root,selection:f.selection,lane:'node',cwd:f.root,command:[process.execPath,'-e',parent],timeout:2000});
+  assert.equal(record.exitCode,0);assert.equal(record.cleanupError,undefined);
+  await new Promise(resolve=>setTimeout(resolve,600));
+  assert.equal(fs.existsSync(marker),false);
+});
+
+test('F5: spawn errors settle without signaling a nonexistent process group',async t=>{
+  const f=fixture(t);
+  const record=await runCommand({root:f.root,selection:f.selection,lane:'node',cwd:f.root,command:[path.join(f.root,'missing-command')],timeout:200});
+  assert.match(record.spawnError,/ENOENT/);assert.equal(record.timedOut,false);
 });

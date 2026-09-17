@@ -17,9 +17,11 @@ await report.observe('CLOSE-01.2',async({equal,rejects,check})=>{
   ['stale pass',x=>{x.reports[0].selection='stale';}],
   ['unknown format',x=>{x.reports[0].format='unknown';}],
   ['changed runner',x=>{x.config.selection.externalInputs[0].sha256='0'.repeat(64);}],
-  ['changed archive',x=>{const f=x.config.selection.files.find(f=>f.path.endsWith('.tgz'));fs.appendFileSync(path.join(x.root,f.path),'changed');}]
+  ['changed archive',x=>{const f=x.config.selection.files.find(f=>f.path.endsWith('.tgz'));fs.appendFileSync(path.join(x.root,f.path),'changed');}],
+  ['missing raw suite',x=>{fs.unlinkSync(path.join(x.root,'suites/jsonata.json'));},true],
+  ['changed raw coverage',x=>{fs.writeFileSync(path.join(x.root,'suites/coverage/coverage-summary.json'),JSON.stringify({total:{statements:{pct:0},branches:{pct:0},functions:{pct:0},lines:{pct:0}}}));},true]
  ];
- for(const [name,mutate]of changes){
+ for(const [name,mutate,preserveRecords]of changes){
   const root=fs.mkdtempSync(path.join(os.tmpdir(),'value-final-control-'));
   try{
    const config=structuredClone(good);config.root=root;const names=new Set([...good.commandFiles,...good.reportFiles,...good.selection.files.map(f=>f.path)]);
@@ -28,8 +30,10 @@ await report.observe('CLOSE-01.2',async({equal,rejects,check})=>{
    equal(collect(config).status,'COMPLETE');
    const commands=good.commandFiles.map(f=>read(path.join(root,f))),reports=good.reportFiles.map(f=>read(path.join(root,f)));
    mutate({root,config,commands,reports});
+   if(!preserveRecords) {
    for(const [i,r]of reports.entries())fs.writeFileSync(path.join(root,good.reportFiles[i]),JSON.stringify(r));
    for(const [i,command]of commands.entries()){for(const r of command.reports||[])if(!r.missing)r.sha256=fileHash(path.join(root,r.path));fs.writeFileSync(path.join(root,good.commandFiles[i]),JSON.stringify(command));}
+   }
    await rejects(()=>collect(config));
   }finally{fs.rmSync(root,{recursive:true,force:true});}
  }
@@ -40,6 +44,6 @@ await report.observe('CLOSE-02.1',({equal})=>{for(const [file,sha]of Object.entr
 await report.observe('CLOSE-02.2',({equal})=>{for(const s of Object.values(selection.sources)){equal(git(s.dir,'rev-parse','HEAD'),s.commit);equal(git(s.dir,'status','--porcelain'),'');}for(const f of selection.externalInputs)equal(fileHash(f.path),f.sha256);});
 await report.observe('CLOSE-02.3',({equal})=>{for(const [name,s]of Object.entries(packages.sources)){equal(git(s.dir,'rev-parse','HEAD'),s.commit);for(const [f,sha]of Object.entries(s.inputs))equal(fileHash(path.join(s.dir,f)),sha);}for(const p of packages.packages)equal(fileHash(path.join(path.dirname(c.packages),p.file)),p.sha256);});
 await report.observe('CLOSE-02.4',({check})=>{const text=fs.readFileSync(c.rollback,'utf8');for(const name of ['openbindings-ts','jsonata'])check(text.includes(base.sources[name].commit));for(const p of c.baselineArchives)check(text.includes(p.sha256));check(text.includes('coordinated'));});
-await report.observe('CLOSE-02.5',({check,equal})=>{equal(packages.publication,false);for(const name of ['openbindings-ts','jsonata','project'])check(git(selection.sources[name].dir,'branch','--show-current').startsWith('codex/value-api-reliability-')); // Read-only corpus fixtures may be detached.
+await report.observe('CLOSE-02.5',({check,equal})=>{equal(packages.publication,false);for(const name of ['openbindings-ts','jsonata','project'])equal(git(selection.sources[name].dir,'branch','--show-current'),base.branch); // Read-only corpus fixtures may be detached.
  for(const file of fs.readdirSync(path.join(c.root,'commands')).filter(x=>x.endsWith('.json'))){const r=read(path.join(c.root,'commands',file));check(!r.command.some(x=>['push','publish','deploy','promotion','merge'].includes(x)));}});
 const result=report.finish();result.finalInvalidControls=Boolean(c.previousCollection);fs.writeFileSync(c.output,JSON.stringify(result,null,2),{flag:'wx'});console.log(JSON.stringify({summary:result.summary,failed:result.observations.filter(x=>x.status==='FAIL')}));if(result.summary.failed)process.exitCode=1;
