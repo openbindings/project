@@ -22,7 +22,7 @@
     },
     "go": {
       "repository": "openbindings/openbindings-go",
-      "commit": "4b176954a6772f85bef7f78eb1e4cecc1ea7bf0d",
+      "commit": "48ba4edd35677d75a6b105153fa07ff470da12a9",
       "version": "0.2.0",
       "releaseState": "working-draft"
     },
@@ -57,7 +57,7 @@
     },
     "asyncapi-client": {
       "repository": "openbindings/asyncapi-client",
-      "commit": "54678886c38cfc2a94bb06f4499004600a74473c",
+      "commit": "7326ce4e18c12e1dcb36c3587fbe0f7fe52ec749",
       "version": "0.1.0",
       "releaseState": "working-draft"
     }

@@ -133,6 +133,12 @@
           "base": "release/0.2",
           "status": "merged",
           "mergedCommit": "4b176954a6772f85bef7f78eb1e4cecc1ea7bf0d"
+        },
+        {
+          "url": "https://github.com/openbindings/openbindings-go/pull/112",
+          "base": "release/0.2",
+          "status": "merged",
+          "mergedCommit": "48ba4edd35677d75a6b105153fa07ff470da12a9"
         }
       ]
     },
