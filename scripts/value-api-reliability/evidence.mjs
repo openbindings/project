@@ -4,7 +4,11 @@ import { createHash, randomUUID } from 'node:crypto';
 import { spawn } from 'node:child_process';
 
 export const hash = value => createHash('sha256').update(value).digest('hex');
-export const fileHash = file => hash(fs.readFileSync(file));
+export const fileHash = file => {
+  const state=createHash('sha256'),fd=fs.openSync(file,'r'),buffer=Buffer.allocUnsafe(65536);
+  try { let bytes;while((bytes=fs.readSync(fd,buffer,0,buffer.length,null))!==0)state.update(buffer.subarray(0,bytes));return state.digest('hex'); }
+  finally { fs.closeSync(fd); }
+};
 const canonical = value => Array.isArray(value) ? value.map(canonical) : value && typeof value === 'object'
   ? Object.fromEntries(Object.keys(value).sort().map(key => [key, canonical(value[key])])) : value;
 export const digest = value => hash(JSON.stringify(canonical(value)));
