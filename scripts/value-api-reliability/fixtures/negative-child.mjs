@@ -1,0 +1,13 @@
+import {createRequire} from 'node:module';import fs from 'node:fs';import path from 'node:path';
+const [root,mode]=process.argv.slice(2);
+if(mode==='diagnostic')Object.defineProperty(JSON,'rawJSON',{value:undefined,configurable:true});
+const require=createRequire(path.join(root,'package.json')),json=require('@openbindings/json'),jsonata=require('@openbindings/jsonata'),schema=require('@openbindings/json-schema');
+let result;
+if(mode==='equality'){const shared={n:{n:1}};try{result={value:json.equal({n:shared},shared)};}catch(e){result={error:e.code};}}
+if(mode==='schema'){const remote={$id:'https://negative.invalid/policy',maximum:1},v=schema.compile({$ref:remote.$id},{remotes:[remote]});const before=v.validate(2).valid;remote.maximum=3;result={before,after:v.validate(2).valid};}
+if(mode==='options'){try{result={value:await jsonata.createJSONata({limits:{maxByte:1}})('$').evaluate('long')};}catch(e){result={error:e.code};}}
+if(mode==='diagnostic'){try{await jsonata('n>"x"').evaluate({n:json.number('0.1')});result={unexpected:true};}catch(e){result={code:e.code,message:e.message};}}
+if(mode==='costs'){let aCalls=0,bCalls=0;const a=json.encoded(Uint8Array.of(1),{length:()=>1,encode:()=>{aCalls++;return'a';}}),b=json.encoded(Uint8Array.of(2),{length:()=>1,encode:()=>{bCalls++;return'b';}}),A=jsonata('$length($)').session(a),B=jsonata('$uppercase($)').session(b);try{await Promise.all([A.complete(),B.complete()]);result={aCalls,bCalls,A:A.costs().encodes,B:B.costs().encodes};}finally{A.close();B.close();}}
+if(mode==='sort'){const {sort}=require(path.join(path.dirname(require.resolve('@openbindings/jsonata')),'functions.js'));result=[];for(const n of [128,256,512,1024]){const data=Array.from({length:n},(_,i)=>n-i),slice=Array.prototype.slice,push=Array.prototype.push;let copies=0,comparisons=0,out;Array.prototype.slice=function(...args){const value=slice.apply(this,args);copies+=value.length;return value;};Array.prototype.push=function(...items){copies+=items.length;return push.apply(this,items);};try{out=await sort(data,(a,b)=>{comparisons++;return a>b;});}finally{Array.prototype.slice=slice;Array.prototype.push=push;}if(out[0]!==1||out[n-1]!==n||data[0]!==n)throw Error('baseline semantics');result.push({n,copies,comparisons,ceiling:4*n*Math.ceil(Math.log2(n))+4*n});}}
+if(mode==='budget'){const {assertResult}=require(path.join(path.dirname(require.resolve('@openbindings/jsonata')),'json-executor.js'));try{assertResult([1,2],{maxValueNodes:2});result={ignored:true};}catch(e){result={error:e.code};}}
+if(result===undefined)throw Error('Unknown negative fixture');console.log(JSON.stringify({version:process.version,result}));

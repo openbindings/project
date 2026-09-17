@@ -1,0 +1,31 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import {pathToFileURL} from 'node:url';
+import {createRequire} from 'node:module';
+import {recorder} from './observations.mjs';
+import {publicCases} from './public-cases.mjs';
+import {resourceCases} from './resource-cases.mjs';
+const [configuration,only]=process.argv.slice(2),config=JSON.parse(fs.readFileSync(configuration));
+if(config.lane==='no-rawjson')Object.defineProperty(JSON,'rawJSON',{value:undefined,configurable:true});
+if(config.version&&process.version!==config.version)throw Error('Wrong actual runtime: '+process.version);
+const require=createRequire(path.join(config.consumer,'package.json'));
+const json=require(config.source?.json||'@openbindings/json'),jsonata=require(config.source?.jsonata||'@openbindings/jsonata');
+const schema=require(config.source?.schema||'@openbindings/json-schema'),advanced=require(config.source?.advanced||'@openbindings/json/advanced');
+const nodeAPI=require(config.source?.node||'@openbindings/jsonata/node');
+const manifest=JSON.parse(fs.readFileSync(config.manifest));
+if(config.inventory)manifest.cases.push({assertions:JSON.parse(fs.readFileSync(config.inventory)).assertions});
+if(only)for(const family of manifest.cases)family.assertions=family.assertions.filter(a=>a.id===only);
+const report=recorder(manifest,config.lane,process.env.VALUE_RELIABILITY_COMMAND_ID,process.env.VALUE_RELIABILITY_SELECTION);
+const docs=config.docs? (await import(pathToFileURL(config.docs))).runDocs:undefined;
+await publicCases({docs,json,jsonata,schema,advanced,nodeAPI,requireAPI:{jsonata}},report);
+if(config.privateCases){
+ const entry=config.source?.jsonata||require.resolve('@openbindings/jsonata');
+ const load=name=>require(path.join(path.dirname(entry),name+'.js'));
+ const {checkInput}=require(config.supervisor);
+ await resourceCases({load,jsonata,json,checkInput},report);
+}
+const result={...report.finish(),runtime:{version:process.version,execPath:process.execPath,rawJSON:typeof JSON.rawJSON}};
+const output=only?path.join(config.childReports,only+'.json'):config.output;
+fs.mkdirSync(path.dirname(output),{recursive:true});fs.writeFileSync(output,JSON.stringify(result,null,2)+'\n',{flag:'wx'});
+console.log(JSON.stringify({lane:config.lane,summary:result.summary,failed:result.observations.filter(x=>x.status==='FAIL')}));
+if(result.summary.failed||result.summary.executed===0)process.exitCode=1;

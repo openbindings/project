@@ -31,6 +31,7 @@ export function publish(root, name, record) {
 
 /** Record the real command exit separately from behavioral observations. */
 export async function runCommand({ root, selection, command, cwd, lane, id = randomUUID(), env = {}, reports = [], timeout = 300000, maxLogBytes = 33554432 }) {
+  ensure(typeof id === 'string' && /^[A-Za-z0-9][A-Za-z0-9._-]*$/.test(id), 'safe command id required');
   ensure(Array.isArray(command) && command.length > 0 && command.every(x => typeof x === 'string'), 'command argv required');
   ensure(Number.isSafeInteger(timeout) && timeout > 0 && Number.isSafeInteger(maxLogBytes) && maxLogBytes > 0, 'positive command bounds required');
   const started = new Date().toISOString(), chunks = { stdout: [], stderr: [] };
@@ -86,12 +87,17 @@ export function obligations(manifest, inventory) {
 }
 
 /** Pure collection of immutable command/report files. No output files are modified. */
-export function collect({ root, manifest, inventory, selection, baselineSelection, commandFiles, reportFiles }) {
+export function collect({ root, manifest, inventory, selection, baselineSelection, commandFiles, reportFiles, close = false }) {
   ensure(selection.acceptance === digest(manifest), 'acceptance hash mismatch');
   if (manifest.rules.resourceInventoryVectorsMustAlsoBeCollected) ensure(selection.inventory === digest(inventory), 'inventory hash mismatch');
+  for (const file of selection.externalInputs ?? []) ensure(path.isAbsolute(file.path) && fileHash(file.path) === file.sha256, 'selected external input changed: ' + file.path);
   for (const file of selection.files ?? []) ensure(fileHash(resolveEvidence(root, file.path)) === file.sha256, 'selected file changed: ' + file.path);
   const read = name => JSON.parse(fs.readFileSync(resolveEvidence(root, name), 'utf8'));
   const commands = new Map(), observations = new Map(), required = obligations(manifest, inventory);
+  // These two propositions concern this very collection. Derive them only after
+  // checking every external obligation; requiring a prewritten PASS would be circular.
+  const terminal = close ? ['CLOSE-01.1/closing', 'CLOSE-01.3/closing'] : [];
+  for (const key of terminal) ensure(required.get(key)?.evidenceKind === 'runtime', 'missing terminal contract');
   for (const name of commandFiles) {
     const command = read(name);
     ensure(command.format === 'value-reliability.command@1' && typeof command.id === 'string', 'invalid command record');
@@ -112,6 +118,7 @@ export function collect({ root, manifest, inventory, selection, baselineSelectio
     ensure(report.summary && report.summary.executed === report.observations.length && report.summary.skipped === 0 && report.summary.failed === 0, 'incomplete report');
     for (const observation of report.observations) {
       const key = observation.id + '/' + report.lane, obligation = required.get(key);
+      ensure(!terminal.includes(key), 'terminal observation must be derived by collection');
       ensure(obligation && !observations.has(key), 'unknown or duplicate observation ' + key);
       const subject = obligation.observationSubject === 'preserved-baseline' ? baselineSelection : selection;
       ensure(subject && report.selection === digest(subject), 'stale selection for ' + key);
@@ -119,7 +126,8 @@ export function collect({ root, manifest, inventory, selection, baselineSelectio
       observations.set(key, observation);
     }
   }
-  const missing = [...required.keys()].filter(key => !observations.has(key));
+  const missing = [...required.keys()].filter(key => !observations.has(key) && !terminal.includes(key));
   ensure(missing.length === 0, 'missing required observations: ' + missing.join(', '));
-  return Object.freeze({ status: 'COMPLETE', selection: digest(selection), required: required.size, passed: observations.size });
+  const terminalObservations = terminal.map(key => ({id:required.get(key).id,lane:'closing',evidenceKind:'runtime',status:'PASS',checks:1,selection:digest(selection),derivedBy:'fresh collector',claim:required.get(key).claim}));
+  return Object.freeze({ status: 'COMPLETE', selection: digest(selection), required: required.size, passed: observations.size + terminalObservations.length, terminalObservations });
 }

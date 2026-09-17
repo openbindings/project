@@ -78,3 +78,30 @@ test('runner records independent command failures and real signals', async t => 
   const pass = await runCommand({ root: f.root, selection: f.selection, lane: 'node', command: [process.execPath, '-e', 'console.log("ok")'], cwd: f.root });
   assert.equal(pass.exitCode, 0);
 });
+
+test('command identifiers cannot escape the immutable run directory', async () => {
+  for (const id of ['../outside', '/absolute', 'a/b', '']) {
+    await assert.rejects(runCommand({root:'/unused',selection:{},command:[process.execPath,'-e','throw Error("must not run")'],cwd:process.cwd(),lane:'test',id}), /safe command id/);
+  }
+});
+
+
+test('closure derives its self-referential propositions only after all input checks', t => {
+  const f=fixture(t);f.manifest.lanes.closing='fresh collection';
+  f.manifest.cases.push({assertions:['CLOSE-01.1','CLOSE-01.3'].map(id=>({id,lanes:['closing'],evidenceKind:'runtime'}))});
+  f.selection.acceptance=digest(f.manifest);f.command.selection=digest(f.selection);f.report.selection=f.command.selection;f.write();
+  assert.throws(()=>collect(f.options),/missing required/);
+  const result=collect({...f.options,close:true});assert.equal(result.passed,3);assert.equal(result.terminalObservations.length,2);
+  f.report.observations=[];f.report.summary.executed=0;f.write();assert.throws(()=>collect({...f.options,close:true}),/missing required/);
+});
+
+
+test('collection rechecks live source/tool/consumer inputs against the frozen selection',t=>{
+ const f=fixture(t),file=path.join(f.root,'external');fs.writeFileSync(file,'original');f.selection.externalInputs=[{path:file,sha256:fileHash(file)}];f.command.selection=digest(f.selection);f.report.selection=f.command.selection;f.write();assert.equal(collect(f.options).status,'COMPLETE');fs.writeFileSync(file,'changed');assert.throws(()=>collect(f.options),/external input changed/);
+});
+
+
+test('assertion recording never coerces retained comparison operands or stores thrown domain objects',async()=>{
+ const {recorder}=await import('./value-api-reliability/fixtures/observations.mjs');let calls=0;const native={toString(){calls++;throw Error('force');},toJSON(){calls++;throw Error('force');}};
+ const manifest={cases:[{assertions:[{id:'A',lanes:['node'],evidenceKind:'runtime'}]}]};const r=recorder(manifest,'node','id','selection');await r.observe('A',async({equal,rejects})=>{equal(native,native);return rejects(()=>{throw native;},e=>e===native);});assert.equal(r.finish().summary.failed,0);assert.doesNotThrow(()=>JSON.stringify(r.finish()));assert.equal(calls,0);
+});
