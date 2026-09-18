@@ -16,6 +16,12 @@
       "fixPullRequests": [],
       "decision": "Approved 2026-09-10: independently versioned JSONata runtime family on main, public source, required exact-cohort participation and source-bound reviewed-finding CI policy. Package publication and release tags remain separate authorization."
     },
+    "jsonata-evaluator": {
+      "workingRef": "main",
+      "callerPullRequest": null,
+      "fixPullRequests": [],
+      "decision": "Approved 2026-09-18: new repository with fresh history for the JSONata evaluator class (class definition, shared conformance suite, per-language members, Go first). Integration on main; extended cohort tier until a member ships; the prior jsonata repository is reference material only. Package publication and release tags remain separate authorization."
+    },
     "spec": {
       "workingRef": "release/0.2",
       "callerPullRequest": {
@@ -296,13 +302,13 @@
       "workingRef": "main",
       "callerPullRequest": null,
       "fixPullRequests": [],
-      "decision": "Ruled 2026-08-20: first-wave participation confirmed; workingRef is main (the clients' mains are their working lines \u2014 they version independently, no release branch needed; already SHA-pinned in the 0.2 candidate cohort). Supersedes the decisionRequired note below."
+      "decision": "Ruled 2026-08-20: first-wave participation confirmed; workingRef is main (the clients' mains are their working lines — they version independently, no release branch needed; already SHA-pinned in the 0.2 candidate cohort). Supersedes the decisionRequired note below."
     },
     "asyncapi-client": {
       "workingRef": "main",
       "callerPullRequest": null,
       "fixPullRequests": [],
-      "decision": "Ruled 2026-08-20: first-wave participation confirmed; workingRef is main (the clients' mains are their working lines \u2014 they version independently, no release branch needed; already SHA-pinned in the 0.2 candidate cohort). Supersedes the decisionRequired note below."
+      "decision": "Ruled 2026-08-20: first-wave participation confirmed; workingRef is main (the clients' mains are their working lines — they version independently, no release branch needed; already SHA-pinned in the 0.2 candidate cohort). Supersedes the decisionRequired note below."
     }
   }
 }
