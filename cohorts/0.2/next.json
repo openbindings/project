@@ -11,47 +11,47 @@
     },
     "spec": {
       "repository": "openbindings/spec",
-      "commit": "5ae3a9a997c8d5b8e5dc55a6246d38e0410281c7",
+      "commit": "0d6d51113d010aac6040dfdac2939dba0088c37b",
       "version": "0.2.0",
       "releaseState": "working-draft"
     },
     "interfaces": {
       "repository": "openbindings/interfaces",
-      "commit": "c0d08055ff3d2f659e79d1b4a1149ff2b5a1e904",
+      "commit": "fe526cc5c750a21f4dd61efaa758c35c6af91192",
       "releaseState": "working-draft"
     },
     "go": {
       "repository": "openbindings/openbindings-go",
-      "commit": "48ba4edd35677d75a6b105153fa07ff470da12a9",
+      "commit": "71cbd964a8df7a5d2b2981756d351d3a59b86c5d",
       "version": "0.2.0",
       "releaseState": "working-draft"
     },
     "typescript": {
       "repository": "openbindings/openbindings-ts",
-      "commit": "c53ef707ca1170c705775532fd30a8d7e87e3e5e",
+      "commit": "0d9268dbde99274053eeb8d67cee2853f6ed4684",
       "version": "0.2.0",
       "releaseState": "working-draft"
     },
     "ob": {
       "repository": "openbindings/ob",
-      "commit": "5bf9d92fc43586ff2fe4cc2fb3948c4031e4f490",
+      "commit": "2a35e399e098c63a3cf75ff24cdb80990f971d3b",
       "version": "0.2.0",
       "releaseState": "working-draft"
     },
     "elements": {
       "repository": "openbindings/elements",
-      "commit": "eb590acafecb94c4701bf16e878f59212cbf032c",
+      "commit": "abfc919574731116e155e6288bbc0ed4130c1e96",
       "version": "0.1.0",
       "releaseState": "working-draft"
     },
     "web": {
       "repository": "openbindings/web",
-      "commit": "d79630f712f8401e324d2e54a86a9f7736f00f60",
+      "commit": "c54f6d716445673a19d532cce246253b27205d59",
       "releaseState": "deployment-source"
     },
     "openapi-client": {
       "repository": "openbindings/openapi-client",
-      "commit": "9f8020e2d9a76712d552e429efb3845276cb8f64",
+      "commit": "7b15d57e960faa6a9e010eb9cbea80fd83f0d02e",
       "version": "0.1.0",
       "releaseState": "working-draft"
     },
