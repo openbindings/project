@@ -43,12 +43,25 @@ Surfaces must not imply it is integral: the web navigation folds it into the
 binding-specifications group, and the authority-layering page states the
 ruling. Watch for re-elevation in future documentation.
 
-### GraphQL is a published binding specification
+### Incomplete families do not remain as quasi-supported surfaces
 
-`openbindings.graphql@1` is published, with full Invoker and Synthesizer
-implementations in both SDKs. The former Workers RPC draft and its
-implementations were removed rather than retained: incomplete families do not
-remain as quasi-supported surfaces.
+The former Workers RPC draft and its implementations were removed rather than
+retained. Nothing of it survives beyond changelog history: there is no binding
+specification and no SDK package. That is the ruling, and it holds.
+
+GraphQL is the live illustration of the same principle, and its status is
+easy to overstate. **`openbindings.graphql@1` is not published.** The
+specification's own §1 on `release/0.2` reads "unreleased first-revision
+candidate ... the identifier has not been published and this candidate remains
+mutable." Both SDKs nonetheless carry implementations (Go
+`formats/graphql`, TypeScript `packages/graphql`), so implementation presence
+is not evidence of publication here.
+
+A substantially expanded revision exists on `spec` branch
+`feat/graphql-binding-family` (23,658 words against 1,415 on `release/0.2`,
+restructured into twelve sections adding subscriptions and security
+considerations). It is not landed. Do not describe this family as published
+until the identifier is minted under OBI-B-01.
 
 ## Implementation idiom
 
