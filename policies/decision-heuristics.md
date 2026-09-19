@@ -12,20 +12,25 @@ precedent. Shipped behavior, reference implementations, examples, and tests
 do not become authority merely because they exist. Distinguish silence from
 a source we have not read.
 
-## 2. Support exactly what upstream supports
+## 2. Fidelity before coverage
 
-Implement the declared supported domain faithfully. Coverage does not justify
-changing semantics. State unsupported cases explicitly, within the restrictions
-the governing contract permits. Where documentation leaves a choice open,
-reference behavior is useful evidence; it does not automatically import
-another implementation's types, value model, or resource assumptions.
+Fidelity concerns what a supported case means; coverage concerns which cases
+we support. Follow the governing contract's coverage requirements and describe
+partial support honestly. Accepting more inputs never justifies changing their
+meaning. Where documentation is silent, reference behavior is evidence, not
+automatic adoption of another implementation's value model.
+
+For example, a popular parser accepts an input that the incorporated format
+forbids. Matching that parser would improve apparent compatibility, but the
+format's requirement wins. Apply the required refusal at the scope the
+governing contract specifies.
 
 ## 3. Every layer claims exactly its job
 
-Put a responsibility in the layer that owns it. A shared specification defines
-shared meaning; a host API exposes it naturally. Each interface should make
-sense on its own. A local choice does not silently become a shared rule.
-Judge an element by its observable job, not its implementation size.
+Ask where the responsibility belongs. A shared specification defines shared
+meaning; a host API exposes it naturally. Each interface should make sense on
+its own. A local choice does not silently become a shared rule. Judge an
+element by its observable job, not its implementation size.
 
 ## 4. Suspect uniformity that couples
 
@@ -53,7 +58,8 @@ require the necessary input instead of silently inventing it.
 Name the audience and task before choosing the idiom. Choose analogues because
 they do the same kind of job, not because they have convenient names. When
 familiar patterns conflict, compare their effects on actual callers rather
-than claiming one is universally idiomatic.
+than claiming one is universally idiomatic. Familiarity is evidence about
+what callers expect; actual caller effort is the question under rule 5.
 
 ## 8. Predictable and loud
 
@@ -70,6 +76,11 @@ portable. State enough for two implementers to reach the same observable
 result. Shared meaning need not require identical host types, signatures,
 or internal machinery.
 
+For example, copying a protocol's names into a CLI would simplify name
+matching but could make the CLI awkward. Keep natural CLI names and map them
+in the binding. The operation's meaning and values stay intact while each
+surface serves its own users.
+
 ## 10. Rule the general form
 
 Explain why the choice fits this class of problem, including its conditions
@@ -79,7 +90,8 @@ questions have the same answer.
 
 ## 11. Challenge gaps before filling them
 
-Identify the use that needs an addition and what existing operations lack.
+Ask whether an addition is needed. Identify its use and what existing
+operations lack.
 A concrete intended use can justify a first version before callers exist.
 Repeated boilerplate, error-prone adaptation, and recovery work can justify
 conveniences. An example invented solely to demonstrate a feature does not
@@ -87,10 +99,10 @@ prove demand. Defer speculative additions until the need becomes concrete.
 
 ## 12. Systems serve shipping
 
-Build what advances the intended use. Avoid making general infrastructure a
-prerequisite for a problem that can be solved directly. Prefer a small,
-reversible choice when evidence does not justify a larger commitment.
-Extension points should serve recognizable needs.
+Once a need is established, choose a complete solution proportionate to it.
+Avoid making general infrastructure a prerequisite for a problem that can be
+solved directly. Prefer a small, reversible choice when evidence does not
+justify a larger commitment.
 
 ## When the heuristics point in different directions
 
