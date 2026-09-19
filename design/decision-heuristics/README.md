@@ -1,5 +1,11 @@
 # Design heuristics review loop
 
+Historical record. The user subsequently clarified that the document should
+contain design decision heuristics, not a review or loop procedure. The
+[current design heuristics](../../policies/decision-heuristics.md) have been
+rewritten to that scope. The grades below describe the archived procedural
+drafts; they do not assess the current document or establish its requirements.
+
 The user resumed the handoff on 2026-09-19 with the goal of improving the
 design heuristics document for future public API loops. Work continues in an
 isolated project worktree based on project main commit
@@ -10,7 +16,7 @@ Completed: the reviewed sixth draft met the A- quality gate. The delivered
 closing revision includes three checked fixes after that panel; the original
 cap was not extended. See the [outcome and validation record](FINAL.md).
 
-- [Current procedure](../../policies/decision-heuristics.md)
+- [Archived procedure](iteration-6/procedure-closing.md)
 - [Worked examples](EXAMPLES.md)
 - [Original charter](LOOP.md)
 - [Source handoff](source/HANDOFF.md)

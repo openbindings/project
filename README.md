@@ -163,10 +163,8 @@ The pre-release development-line agent loop is in
 branch and pull-request routing is recorded in [`working-loop.json`](working-loop.json).
 Run `npm run loop` to print safe actions and the next human-decision boundary.
 
-Proposed guidance for public API and design review loops is in the
-[design decision procedure](policies/decision-heuristics.md), with
-[worked cases and review evidence](design/decision-heuristics/README.md).
-It remains a draft and does not amend specification or release authority.
+The [design heuristics](policies/decision-heuristics.md) describe how we make
+design decisions across the repositories.
 
 ## Local checks
 

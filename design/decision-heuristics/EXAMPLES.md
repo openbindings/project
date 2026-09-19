@@ -1,6 +1,8 @@
 # Applying the design decision procedure
 
-Companion to [draft 6, closing revision](../../policies/decision-heuristics.md). These are
+Historical companion to [draft 6, closing revision](iteration-6/procedure-closing.md).
+These examples belong to the superseded procedural draft, not the current
+design heuristics. These are
 replays for checking the procedure, not new evaluator rulings. None edits the
 evaluator. A recommendation can be sensible without being uniquely forced.
 

@@ -1,5 +1,9 @@
 # Design heuristics loop outcome
 
+Historical outcome for the procedural draft. The user subsequently rejected
+that scope, and the current document was rewritten as design heuristics alone.
+The grades and conclusions here apply to the archived drafts below.
+
 Completed 2026-09-19 under the original six-iteration charter.
 
 The reviewed draft 6 reached the quality gate: all five overall grades were
@@ -8,7 +12,7 @@ applied and checked. The delivered closing revision has not received another
 full panel; the cap was honored. The grade belongs to the reviewed snapshot,
 not automatically to the closing revision.
 
-- [Delivered procedure](../../policies/decision-heuristics.md)
+- [Archived procedure](iteration-6/procedure-closing.md)
 - [Worked examples and evaluator case studies](EXAMPLES.md)
 - [Final panel grades](iteration-6/grades.md)
 - [Closing findings and checks](iteration-6/CHANGES.md)
