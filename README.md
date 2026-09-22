@@ -163,6 +163,9 @@ The pre-release development-line agent loop is in
 branch and pull-request routing is recorded in [`working-loop.json`](working-loop.json).
 Run `npm run loop` to print safe actions and the next human-decision boundary.
 
+The [design heuristics](policies/decision-heuristics.md) describe how we make
+design decisions across the repositories.
+
 ## Local checks
 
 The repository has no runtime dependencies:
