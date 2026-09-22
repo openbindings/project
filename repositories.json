@@ -9,6 +9,14 @@
       "integrationRef": "main",
       "releaseMechanism": "annotated-module-tags-and-npm"
     },
+    "jsonata-evaluator": {
+      "repository": "openbindings/jsonata-evaluator",
+      "role": "artifact-runtime",
+      "cohortTier": "extended",
+      "defaultBranch": "main",
+      "integrationRef": "main",
+      "releaseMechanism": "annotated-module-tags"
+    },
     "spec": {
       "repository": "openbindings/spec",
       "role": "normative-specification",

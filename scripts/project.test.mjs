@@ -17,7 +17,7 @@ const cohort = project.cohorts.get("cohorts/0.2/next.json");
 const workingLoop = readJson(resolve(root, "working-loop.json"));
 
 test("the repository catalog and checked-in cohorts validate", () => {
-  assert.equal(Object.keys(project.catalog.repositories).length, 10);
+  assert.equal(Object.keys(project.catalog.repositories).length, 11);
   assert.equal(project.catalog.repositories.jsonata.integrationRef, "main");
   assert.equal(cohort.status, "candidate");
 });

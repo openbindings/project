@@ -9,6 +9,12 @@
       "commit": "c5f8ef028d97ce88a8c56547a07e20311def0359",
       "releaseState": "working-draft"
     },
+    "jsonata-evaluator": {
+      "repository": "openbindings/jsonata-evaluator",
+      "commit": "41d4fcae5df7d185ec96498136b823b3ca1a3169",
+      "version": "0.1.0",
+      "releaseState": "working-draft"
+    },
     "spec": {
       "repository": "openbindings/spec",
       "commit": "0d6d51113d010aac6040dfdac2939dba0088c37b",
