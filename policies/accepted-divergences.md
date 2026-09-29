@@ -140,6 +140,31 @@ not ship. This placement is unaffected by the engine migration.
 
 ## Behavior
 
+### The Go SDK does not carry lone UTF-16 surrogates
+
+Ruled by Matt, 2026-09-23. A JSON string escaping an isolated UTF-16
+surrogate (`"\uD800"`) is RFC 8259 JSON, so a document holding one breaks no
+core rule, and Appendix A of the core specification notes that a conformant
+OBI may hold strings not expressible as Unicode. JavaScript strings are
+UTF-16, so the TypeScript SDK carries such a string and judges the document
+in full. Go strings are UTF-8, and encoding/json replaces the escape with
+U+FFFD, so the Go core SDK does not carry it: its document model refuses to
+decode the document, and validation decides OBI-D-01 and reports every other
+rule inconclusive (conformance undetermined), never violated. For such a
+document the two SDKs therefore conclude differently, and Go tools such as
+`ob` cannot load it.
+
+Accepted because lone surrogates come only from broken producers (a string
+cut between the two halves of a surrogate pair), the specification requires
+only that a validator not reach a wrong verdict, and carrying them in Go
+meant keeping a private copy of encoding/json or maintaining JSON string
+handling of our own, with the WTF-8 representation still reaching Go strings
+and the JSON Schema library. This ruling covers OBI documents in the core
+SDK; how the invocation layer treats runtime values is decided separately.
+
+Re-open if such documents appear in practice, or if encoding/json gains a way
+to carry lone surrogates.
+
 ### Embedded content is normalized JSON
 
 `ob` embeds content as normalized JSON (parse, then marshal) rather than
