@@ -545,6 +545,27 @@ jobs:
           cache-dependency-path: web/pnpm-lock.yaml
       - working-directory: web
         run: pnpm install --frozen-lockfile
+      - name: Fetch website-pinned source commits
+        working-directory: web
+        run: |
+          # Selected cohort checkouts are shallow; web may pin older or divergent commits.
+          node --input-type=module <<'NODE'
+          import { existsSync, readFileSync } from 'node:fs';
+          import { execFileSync } from 'node:child_process';
+
+          if (!existsSync('site/content-sources.json')) process.exit(0);
+          const pins = JSON.parse(readFileSync('site/content-sources.json', 'utf8'));
+          for (const [repository, source] of [
+            ['spec', 'specCurrent'],
+            ['spec', 'specHistorical'],
+            ['interfaces', 'interfaces'],
+            ['ob', 'ob']
+          ]) {
+            execFileSync('git', ['-C', `../${repository}`, 'fetch', '--no-tags', 'origin', pins[source]], {
+              stdio: 'inherit'
+            });
+          }
+          NODE
       - name: Vendor selected project content
         working-directory: web
         env:
@@ -558,8 +579,15 @@ jobs:
         run: pnpm run format:check
       - working-directory: web
         run: pnpm test
-      - working-directory: web
-        run: pnpm run build:site
+      - name: Build website
+        working-directory: web
+        run: |
+          # SvelteKit revisions use build:site; the vanilla revision uses build.
+          if node -e "process.exit(require('./package.json').scripts['build:site'] ? 0 : 1)"; then
+            pnpm run build:site
+          else
+            pnpm run build
+          fi
       - name: Install Chromium
         working-directory: web
         run: pnpm exec playwright install --with-deps chromium
