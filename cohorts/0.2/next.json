@@ -11,7 +11,7 @@
     },
     "spec": {
       "repository": "openbindings/spec",
-      "commit": "0d6d51113d010aac6040dfdac2939dba0088c37b",
+      "commit": "6420093d4b88c326b6b061521961eb661354b91e",
       "version": "0.2.0",
       "releaseState": "working-draft"
     },
@@ -22,7 +22,7 @@
     },
     "go": {
       "repository": "openbindings/openbindings-go",
-      "commit": "71cbd964a8df7a5d2b2981756d351d3a59b86c5d",
+      "commit": "57e12e050c63b1a08791aa77f86ff9fedc3d5b15",
       "version": "0.2.0",
       "releaseState": "working-draft"
     },
