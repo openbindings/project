@@ -29,6 +29,9 @@ request. Current `0.2.x` behavior is unaffected. Supporting a specification
 line is distinct from an SDK package version: core specifies major.minor lines
 after 1.0 too, while Go's future-major path still assumes major-wide support.
 
+Follow-up: the user subsequently requested that alignment; it is recorded in
+[Major.minor specification support](major-minor-support-2026-10-02.md).
+
 The existing GraphQL and TypeScript binding-conformance failures remain visible
 under their recorded baseline disposition. The earlier whole-candidate run is
 still not evidence of a verified integration: private runtime checkouts and
