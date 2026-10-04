@@ -43,3 +43,26 @@ deployment, or verified-cohort promotion is part of this change. The existing
 whole-project input/legacy-module failures and unrelated GraphQL/TypeScript
 binding failures retain their recorded disposition. This addition does not
 establish that the wider project is ready for release.
+
+The [Go-triggered integration run](https://github.com/openbindings/openbindings-go/actions/runs/37214821672)
+resolved its inputs successfully and failed with exactly the same error-signature
+multiset as the [previous Go integration run](https://github.com/openbindings/openbindings-go/actions/runs/37063212805):
+33 JSONata repository-not-found messages, 11 corresponding Git exit-128 messages,
+eight missing runtime-output artifacts, one missing `go.mod` for each of the
+eight removed legacy format modules, and the failing integration aggregate.
+No check was suppressed or weakened.
+
+[Post-merge Go CI](https://github.com/openbindings/openbindings-go/actions/runs/37214820979)
+also passed at the actual squash commit.
+
+The [full exact-candidate run, including extended lanes](https://github.com/openbindings/project/actions/runs/37215022805)
+resolved the candidate from project revision
+`6db07e8e3e6553dd63a18ddb428fa28ec4217a00`; the final coordination record retains
+that same component selection. It remains unverified: the shared jobs cannot
+fetch the JSONata repository, the website job cannot fetch the website
+repository, and the Go format jobs name the same eight absent legacy modules.
+The additional Elements lane stops at the same JSONata input failure. Error
+logs contain 36 JSONata and three website repository-not-found messages,
+13 corresponding Git exit-128 messages, eight missing runtime-output artifacts,
+eight missing legacy module files, and the failing aggregate. No component was
+deployed or published.
