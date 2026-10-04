@@ -40,3 +40,26 @@ document semantics, specification authority, or companion rule classification.
 The candidate records the actual Go squash commit. Component versions and
 release states are unchanged; no tag, publication, deployment or verified
 cohort promotion is part of this change.
+
+## Integration replay
+
+[Post-merge Go CI](https://github.com/openbindings/openbindings-go/actions/runs/37221596825)
+also passed on the actual squash commit. Project tests, working-loop validation
+and exact-SHA candidate resolution passed locally.
+
+The [Go-triggered integration run](https://github.com/openbindings/openbindings-go/actions/runs/37221597443)
+failed with exactly the same error-signature multiset as the
+[preceding run](https://github.com/openbindings/openbindings-go/actions/runs/37214821672):
+33 JSONata repository-not-found messages, 11 corresponding Git exit-128 messages,
+eight missing runtime-output artifacts, one missing go.mod for each of the
+eight removed legacy format modules, and the failing aggregate.
+
+The [full exact-candidate run with extended lanes](https://github.com/openbindings/project/actions/runs/37221693240)
+resolved project revision `ebd424618dcf03f6caba17138ae0e7b766ac80f6`. Its
+error-signature multiset also matches the
+[preceding full run](https://github.com/openbindings/project/actions/runs/37215022805)
+exactly: 36 JSONata and three website repository-not-found messages, 13 Git
+exit-128 messages, eight missing runtime-output artifacts, eight missing legacy
+module files, and the failing aggregate. The final coordination record retains
+the same exact component selection. These existing failures keep the candidate
+unverified; no check was suppressed or weakened.
