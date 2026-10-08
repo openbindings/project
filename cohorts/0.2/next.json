@@ -11,18 +11,18 @@
     },
     "spec": {
       "repository": "openbindings/spec",
-      "commit": "5ae3a02858c1d800799764792bb9ea2a57173566",
+      "commit": "01b596b5c79469d286e2ef48e03c3f3f5c1e0165",
       "version": "0.2.0",
       "releaseState": "working-draft"
     },
     "interfaces": {
       "repository": "openbindings/interfaces",
-      "commit": "02d0c95901d839b77d7c673a678eb336a8e2d1d0",
+      "commit": "e91905db2185fb14316b2e998d3ad8d8f908331e",
       "releaseState": "working-draft"
     },
     "go": {
       "repository": "openbindings/openbindings-go",
-      "commit": "ac530439d79fc4bcedf5a7e98c07ab9babcd4161",
+      "commit": "b3e0194c81eaf4c0194eca3681eac0050ce424ed",
       "version": "0.2.0",
       "releaseState": "working-draft"
     },
