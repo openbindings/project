@@ -1,0 +1,93 @@
+/* Generated from tokens/machine-material.json.
+   Machine-material revision 1; maturity: stable. Do not edit by hand. */
+
+:root,
+[data-ob-theme="light"] {
+  --ob-machine-color-surface: #f7f7f5;
+  --ob-machine-color-plain: #000000;
+  --ob-machine-color-primary: #2456c4;
+  --ob-machine-color-secondary: #0d7050;
+  --ob-machine-color-tertiary: #94510a;
+  --ob-machine-color-quaternary: #7c2fb8;
+  --ob-machine-color-muted: #666666;
+  --ob-machine-color-invalid: #b83b32;
+  --ob-machine-role-surface: var(--ob-machine-color-surface);
+  --ob-machine-role-plain: var(--ob-machine-color-plain);
+  --ob-machine-role-name: var(--ob-machine-color-primary);
+  --ob-machine-role-string: var(--ob-machine-color-secondary);
+  --ob-machine-role-number: var(--ob-machine-color-tertiary);
+  --ob-machine-role-keyword: var(--ob-machine-color-quaternary);
+  --ob-machine-role-punctuation: var(--ob-machine-color-muted);
+  --ob-machine-role-comment: var(--ob-machine-color-muted);
+  --ob-machine-role-invalid: var(--ob-machine-color-invalid);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-ob-theme]),
+  [data-ob-theme="system"] {
+    --ob-machine-color-surface: #101010;
+    --ob-machine-color-plain: #e5e5e5;
+    --ob-machine-color-primary: #8fb4ff;
+    --ob-machine-color-secondary: #6bd6a4;
+    --ob-machine-color-tertiary: #f0b45f;
+    --ob-machine-color-quaternary: #d3a2ff;
+    --ob-machine-color-muted: #a3a3a3;
+    --ob-machine-color-invalid: #ff9187;
+    --ob-machine-role-surface: var(--ob-machine-color-surface);
+    --ob-machine-role-plain: var(--ob-machine-color-plain);
+    --ob-machine-role-name: var(--ob-machine-color-primary);
+    --ob-machine-role-string: var(--ob-machine-color-secondary);
+    --ob-machine-role-number: var(--ob-machine-color-tertiary);
+    --ob-machine-role-keyword: var(--ob-machine-color-quaternary);
+    --ob-machine-role-punctuation: var(--ob-machine-color-muted);
+    --ob-machine-role-comment: var(--ob-machine-color-muted);
+    --ob-machine-role-invalid: var(--ob-machine-color-invalid);
+  }
+}
+
+[data-ob-theme="dark"] {
+  --ob-machine-color-surface: #101010;
+  --ob-machine-color-plain: #e5e5e5;
+  --ob-machine-color-primary: #8fb4ff;
+  --ob-machine-color-secondary: #6bd6a4;
+  --ob-machine-color-tertiary: #f0b45f;
+  --ob-machine-color-quaternary: #d3a2ff;
+  --ob-machine-color-muted: #a3a3a3;
+  --ob-machine-color-invalid: #ff9187;
+  --ob-machine-role-surface: var(--ob-machine-color-surface);
+  --ob-machine-role-plain: var(--ob-machine-color-plain);
+  --ob-machine-role-name: var(--ob-machine-color-primary);
+  --ob-machine-role-string: var(--ob-machine-color-secondary);
+  --ob-machine-role-number: var(--ob-machine-color-tertiary);
+  --ob-machine-role-keyword: var(--ob-machine-color-quaternary);
+  --ob-machine-role-punctuation: var(--ob-machine-color-muted);
+  --ob-machine-role-comment: var(--ob-machine-color-muted);
+  --ob-machine-role-invalid: var(--ob-machine-color-invalid);
+}
+
+:root,
+[data-ob-theme] {
+  --ob-code-surface: var(--ob-machine-role-surface);
+  --ob-editor-token-key: var(--ob-machine-role-name);
+  --ob-editor-token-string: var(--ob-machine-role-string);
+  --ob-editor-token-number: var(--ob-machine-role-number);
+  --ob-editor-token-keyword: var(--ob-machine-role-keyword);
+  --ob-editor-token-punct: var(--ob-machine-role-punctuation);
+  --ob-editor-token-comment: var(--ob-machine-role-comment);
+  --ob-editor-token-invalid: var(--ob-machine-role-invalid);
+}
+
+@media (forced-colors: active) {
+  :root,
+  [data-ob-theme] {
+    --ob-machine-role-surface: Canvas;
+    --ob-machine-role-plain: CanvasText;
+    --ob-machine-role-name: CanvasText;
+    --ob-machine-role-string: CanvasText;
+    --ob-machine-role-number: CanvasText;
+    --ob-machine-role-keyword: CanvasText;
+    --ob-machine-role-punctuation: CanvasText;
+    --ob-machine-role-comment: GrayText;
+    --ob-machine-role-invalid: CanvasText;
+  }
+}

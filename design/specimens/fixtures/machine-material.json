@@ -1,0 +1,13 @@
+{
+  "openbindings": "0.1.0",
+  "name": "Task Service",
+  "enabled": true,
+  "retries": 3,
+  "sources": [
+    {
+      "format": "openapi@3.1",
+      "location": "./openapi.yaml"
+    }
+  ],
+  "metadata": null
+}

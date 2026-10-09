@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="en" data-ob-theme="system">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>OpenBindings machine-material specimen</title>
+    <link rel="icon" href="../assets/generated/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="../tokens/generated/openbindings-theme.css" />
+    <link rel="stylesheet" href="../tokens/generated/openbindings-machine-material.css" />
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        min-width: 20rem;
+        margin: 0;
+        color: var(--ob-theme-color-text);
+        background: var(--ob-theme-color-background);
+        font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+      }
+
+      header,
+      main {
+        width: min(76rem, 100%);
+        margin: 0 auto;
+        padding: 1.5rem;
+      }
+
+      header {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid var(--ob-theme-color-border);
+      }
+
+      h1,
+      h2,
+      p {
+        margin: 0;
+      }
+
+      h1 {
+        font-size: 1.125rem;
+      }
+
+      h2 {
+        margin-bottom: 0.8rem;
+        font-size: 0.95rem;
+      }
+
+      .note {
+        margin-top: 0.25rem;
+        color: var(--ob-theme-color-text-faint);
+        font-size: 0.82rem;
+      }
+
+      .theme-control,
+      .swatches,
+      .fixtures {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+      }
+
+      button {
+        min-height: 2.25rem;
+        padding: 0.4rem 0.75rem;
+        color: var(--ob-theme-color-text);
+        background: var(--ob-theme-color-surface);
+        border: 1px solid var(--ob-theme-color-border-strong);
+        border-radius: 0.4rem;
+        font: inherit;
+      }
+
+      button[aria-pressed="true"] {
+        color: var(--ob-theme-color-accent-contrast);
+        background: var(--ob-theme-color-accent);
+        border-color: var(--ob-theme-color-accent);
+      }
+
+      button:focus-visible {
+        outline: 2px solid var(--ob-theme-color-focus);
+        outline-offset: 2px;
+      }
+
+      main {
+        display: grid;
+        gap: 1.5rem;
+      }
+
+      section {
+        min-width: 0;
+        padding: 1rem;
+        background: var(--ob-theme-color-surface);
+        border: 1px solid var(--ob-theme-color-border);
+        border-radius: 0.6rem;
+      }
+
+      .swatch {
+        flex: 1 1 8.5rem;
+        min-height: 6.5rem;
+        padding: 0.75rem;
+        color: var(--ob-machine-role-plain);
+        background: var(--swatch);
+        border: 1px solid var(--ob-theme-color-border-strong);
+        border-radius: 0.4rem;
+      }
+
+      .swatch strong,
+      .swatch code {
+        display: block;
+        width: fit-content;
+        padding: 0.12rem 0.25rem;
+        color: var(--ob-theme-color-text);
+        background: var(--ob-theme-color-background);
+      }
+
+      .swatch code {
+        margin-top: 0.25rem;
+        color: var(--ob-theme-color-text-muted);
+        font-size: 0.72rem;
+      }
+
+      .fixture {
+        flex: 1 1 28rem;
+        min-width: 0;
+      }
+
+      .fixture-label {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        margin-bottom: 0.45rem;
+      }
+
+      pre {
+        min-height: 19rem;
+        padding: 1rem;
+        margin: 0;
+        overflow: auto;
+        color: var(--ob-machine-role-plain);
+        background: var(--ob-machine-role-surface);
+        border: 1px solid var(--ob-theme-color-border-strong);
+        border-radius: 0.4rem;
+        font: 0.82rem/1.55 "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+        tab-size: 2;
+      }
+
+      .syntax-name {
+        color: var(--ob-machine-role-name);
+      }
+
+      .syntax-string {
+        color: var(--ob-machine-role-string);
+      }
+
+      .syntax-number {
+        color: var(--ob-machine-role-number);
+      }
+
+      .syntax-keyword {
+        color: var(--ob-machine-role-keyword);
+      }
+
+      .syntax-punctuation {
+        color: var(--ob-machine-role-punctuation);
+      }
+
+      .syntax-comment {
+        color: var(--ob-machine-role-comment);
+      }
+
+      .syntax-invalid {
+        color: var(--ob-machine-role-invalid);
+        text-decoration: underline wavy;
+        text-underline-offset: 0.18em;
+      }
+
+      .invalid-example {
+        margin-top: 0.75rem;
+        padding: 0.75rem;
+        color: var(--ob-machine-role-plain);
+        background: var(--ob-machine-role-surface);
+        border-left: 3px solid var(--ob-machine-role-invalid);
+        font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+        font-size: 0.82rem;
+      }
+
+      .invalid-example strong {
+        display: block;
+        margin-bottom: 0.35rem;
+        color: var(--ob-theme-color-danger);
+        font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.85rem;
+      }
+
+      th,
+      td {
+        padding: 0.55rem;
+        text-align: left;
+        border-bottom: 1px solid var(--ob-theme-color-border);
+      }
+
+      th {
+        color: var(--ob-theme-color-text-muted);
+        font-weight: 500;
+      }
+
+      td code {
+        font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      }
+
+      @media (forced-colors: active) {
+        pre,
+        .invalid-example,
+        .swatch {
+          border-color: CanvasText;
+        }
+
+        .syntax-invalid {
+          text-decoration: underline wavy;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div>
+        <h1>Machine material · stable revision 1</h1>
+        <p class="note">One palette, broad roles, native renderer mappings.</p>
+      </div>
+      <div class="theme-control" role="group" aria-label="Theme">
+        <button type="button" data-theme="system" aria-pressed="true">System</button>
+        <button type="button" data-theme="light" aria-pressed="false">Light</button>
+        <button type="button" data-theme="dark" aria-pressed="false">Dark</button>
+      </div>
+    </header>
+    <main>
+      <section>
+        <h2>Closed machine palette</h2>
+        <div class="swatches" data-swatches></div>
+      </section>
+      <section>
+        <h2>Identical material, renderer-specific grammar</h2>
+        <div class="fixtures">
+          <div class="fixture">
+            <div class="fixture-label"><strong>JSON</strong><span class="note">property grammar</span></div>
+            <pre><code data-fixture="./fixtures/machine-material.json" data-language="json">Loading fixture…</code></pre>
+          </div>
+          <div class="fixture">
+            <div class="fixture-label"><strong>YAML</strong><span class="note">mapping grammar</span></div>
+            <pre><code data-fixture="./fixtures/machine-material.yaml" data-language="yaml">Loading fixture…</code></pre>
+          </div>
+        </div>
+        <div class="invalid-example">
+          <strong>Invalid source · expected closing bracket</strong>
+          <span class="syntax-name">sources</span><span class="syntax-punctuation">: [</span><span class="syntax-invalid">unterminated</span>
+        </div>
+      </section>
+      <section>
+        <h2>Functional roles are defaults, not a universal grammar</h2>
+        <table>
+          <thead><tr><th>Role</th><th>JSON adapter</th><th>YAML adapter</th><th>Palette slot</th></tr></thead>
+          <tbody>
+            <tr><td><code class="syntax-name">name</code></td><td>property key</td><td>mapping key</td><td><code>primary</code></td></tr>
+            <tr><td><code class="syntax-string">string</code></td><td>string literal</td><td>string-like scalar</td><td><code>secondary</code></td></tr>
+            <tr><td><code class="syntax-number">number</code></td><td>number literal</td><td>numeric scalar</td><td><code>tertiary</code></td></tr>
+            <tr><td><code class="syntax-keyword">keyword</code></td><td>boolean/null</td><td>boolean/null/tag</td><td><code>quaternary</code></td></tr>
+            <tr><td><code class="syntax-punctuation">punctuation</code></td><td>brackets/separators</td><td>separators/sequence marks</td><td><code>muted</code></td></tr>
+            <tr><td><code class="syntax-comment">comment</code></td><td>extension grammar only</td><td>comment</td><td><code>muted</code></td></tr>
+          </tbody>
+        </table>
+      </section>
+    </main>
+    <script type="module">
+      const palette = ["surface", "plain", "primary", "secondary", "tertiary", "quaternary", "muted", "invalid"];
+      const swatches = document.querySelector("[data-swatches]");
+      const escapeHTML = (value) =>
+        value.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+      const token = (role, value) => `<span class="syntax-${role}">${escapeHTML(value)}</span>`;
+
+      for (const name of palette) {
+        const item = document.createElement("div");
+        item.className = "swatch";
+        item.style.setProperty("--swatch", `var(--ob-machine-color-${name})`);
+        item.innerHTML = `<strong>${name}</strong><code>--ob-machine-color-${name}</code>`;
+        swatches.append(item);
+      }
+
+      function highlightJSON(text) {
+        const pattern = /("(?:\\.|[^"\\])*")(?=\s*:)|("(?:\\.|[^"\\])*")|(-?\d+(?:\.\d+)?(?:e[+-]?\d+)?)|\b(true|false|null)\b|([{}\[\],:])/gi;
+        let html = "";
+        let cursor = 0;
+        for (const match of text.matchAll(pattern)) {
+          html += escapeHTML(text.slice(cursor, match.index));
+          const role = match[1] ? "name" : match[2] ? "string" : match[3] ? "number" : match[4] ? "keyword" : "punctuation";
+          html += token(role, match[0]);
+          cursor = match.index + match[0].length;
+        }
+        return html + escapeHTML(text.slice(cursor));
+      }
+
+      function highlightYAMLScalar(value) {
+        const leading = value.match(/^\s*/)?.[0] ?? "";
+        const trailing = value.match(/\s*$/)?.[0] ?? "";
+        const scalar = value.slice(leading.length, value.length - trailing.length);
+        if (!scalar) return escapeHTML(value);
+        const role = /^-?\d+(?:\.\d+)?$/.test(scalar)
+          ? "number"
+          : /^(?:true|false|null)$/i.test(scalar)
+            ? "keyword"
+            : "string";
+        return `${escapeHTML(leading)}${token(role, scalar)}${escapeHTML(trailing)}`;
+      }
+
+      function highlightYAML(text) {
+        return text
+          .split("\n")
+          .map((line) => {
+            if (/^\s*#/.test(line)) return token("comment", line);
+            const pair = line.match(/^(\s*)(-\s*)?([^:#]+?)(:)(.*)$/);
+            if (!pair) return highlightYAMLScalar(line);
+            return [
+              escapeHTML(pair[1]),
+              pair[2] ? token("punctuation", pair[2]) : "",
+              token("name", pair[3]),
+              token("punctuation", pair[4]),
+              highlightYAMLScalar(pair[5]),
+            ].join("");
+          })
+          .join("\n");
+      }
+
+      for (const code of document.querySelectorAll("[data-fixture]")) {
+        const response = await fetch(code.dataset.fixture);
+        const text = await response.text();
+        code.innerHTML = code.dataset.language === "json" ? highlightJSON(text) : highlightYAML(text);
+      }
+
+      const buttons = [...document.querySelectorAll("[data-theme]")];
+      for (const button of buttons) {
+        button.addEventListener("click", () => {
+          document.documentElement.dataset.obTheme = button.dataset.theme;
+          for (const peer of buttons) peer.setAttribute("aria-pressed", String(peer === button));
+        });
+      }
+    </script>
+  </body>
+</html>

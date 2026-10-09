@@ -1,0 +1,79 @@
+{
+  "format": "openbindings.color-roles@1",
+  "maturity": "stable",
+  "scope": "Official OpenBindings browser surfaces, with named neutral-component and terminal adaptations",
+  "roles": {
+    "background": {
+      "purpose": "The outermost application or page canvas",
+      "rule": "May also be used as the foreground on a filled primary action"
+    },
+    "surface": {
+      "purpose": "The default content and component plane",
+      "rule": "Do not add contrast from background when hierarchy does not need it"
+    },
+    "surfaceStrong": {
+      "purpose": "A visibly differentiated neutral plane for selected, raised, or grouped content",
+      "rule": "May express hierarchy but must not be the only indicator of state"
+    },
+    "text": {
+      "purpose": "Primary prose, labels, and identifiers",
+      "rule": "Must meet enhanced text contrast against background and surface"
+    },
+    "textMuted": {
+      "purpose": "Secondary explanation and supporting labels",
+      "rule": "Must meet normal text contrast; never use it to imply disabled behavior"
+    },
+    "textFaint": {
+      "purpose": "Lowest-emphasis readable metadata",
+      "rule": "Must still meet normal text contrast at the rendered size"
+    },
+    "border": {
+      "purpose": "Decorative separators and redundant grouping boundaries",
+      "rule": "May be subtle only when the boundary is not needed to identify a control or state"
+    },
+    "borderStrong": {
+      "purpose": "Control, focus-adjacent, and state boundaries whose presence carries meaning",
+      "rule": "Must meet 3:1 non-text contrast against the adjacent background"
+    },
+    "accent": {
+      "purpose": "The official filled-action and selected-state neutral",
+      "rule": "Use sparingly; official OpenBindings emphasis is the strongest neutral, not a decorative brand hue"
+    },
+    "accentContrast": {
+      "purpose": "Text and icons placed on accent",
+      "rule": "Must meet normal text contrast against accent"
+    },
+    "focus": {
+      "purpose": "Color input for keyboard focus presentation",
+      "rule": "Focus geometry belongs to the foundations slice; forced-colors mode must use Highlight"
+    },
+    "success": {
+      "purpose": "Successful, ready, added, or safe outcome",
+      "rule": "Never communicate the outcome through color alone"
+    },
+    "successSoft": {
+      "purpose": "Supporting field behind success content",
+      "rule": "Success text must remain readable on this field"
+    },
+    "warning": {
+      "purpose": "Attention, waiting, running, or recoverable risk",
+      "rule": "Never communicate the condition through color alone"
+    },
+    "warningSoft": {
+      "purpose": "Supporting field behind warning content",
+      "rule": "Warning text must remain readable on this field"
+    },
+    "danger": {
+      "purpose": "Failure, destructive action, invalid content, or removed material",
+      "rule": "Never communicate the condition through color alone"
+    },
+    "dangerSoft": {
+      "purpose": "Supporting field behind danger content",
+      "rule": "Danger text must remain readable on this field"
+    }
+  },
+  "deferred": [
+    "Typography and focus geometry",
+    "Public compatibility policy for generated adapters"
+  ]
+}

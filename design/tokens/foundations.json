@@ -1,0 +1,109 @@
+{
+  "format": "openbindings.foundations@1",
+  "name": "openbindings-interface-foundations",
+  "revision": 1,
+  "maturity": "stable",
+  "scope": "Official OpenBindings human-facing interfaces",
+  "policy": {
+    "requirements": {
+      "visibleFocus": {
+        "level": "required",
+        "rule": "Every keyboard-operable interaction has a visible focus indicator that is not fully obscured.",
+        "geometry": "surface-owned",
+        "references": [
+          "https://www.w3.org/WAI/WCAG22/Understanding/focus-visible",
+          "https://www.w3.org/WAI/WCAG22/Understanding/focus-not-obscured-minimum"
+        ]
+      },
+      "targetAccess": {
+        "level": "required",
+        "rule": "Pointer targets meet or are spaced to meet the WCAG 2.2 target-size minimum, including its documented exceptions.",
+        "minimumCssPixels": 24,
+        "exceptionsAllowed": true,
+        "reference": "https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html"
+      },
+      "reducedMotion": {
+        "level": "required",
+        "rule": "Nonessential motion triggered by interaction is disabled or reduced when the user requests reduced motion; information never depends on animation.",
+        "reference": "https://www.w3.org/WAI/WCAG22/Techniques/css/C39"
+      },
+      "adaptableText": {
+        "level": "required",
+        "rule": "Type and layout remain usable with browser zoom and user text-spacing overrides.",
+        "reference": "https://www.w3.org/WAI/WCAG22/Understanding/text-spacing"
+      }
+    },
+    "references": {
+      "typography": {
+        "binding": "advisory",
+        "closed": false,
+        "sans": "Inter, ui-sans-serif, system-ui, sans-serif",
+        "mono": "JetBrains Mono, ui-monospace, SFMono-Regular, Consolas, Liberation Mono, monospace",
+        "rule": "These are familiar starting stacks, not required downloads, fixed hierarchies, or identity assets."
+      },
+      "rhythm": {
+        "binding": "advisory",
+        "closed": false,
+        "interpolationAllowed": true,
+        "anchors": {
+          "compact": "4px",
+          "control": "8px",
+          "content": "16px",
+          "section": "32px",
+          "expansive": "64px"
+        },
+        "rule": "Use the anchors to recognize related density, not as an exclusive spacing scale."
+      },
+      "shape": {
+        "binding": "advisory",
+        "closed": false,
+        "identity": false,
+        "radii": {
+          "xs": "2px",
+          "sm": "4px",
+          "md": "8px",
+          "lg": "12px"
+        },
+        "rule": "Zero radius, intermediate values, pills, and circles remain valid when function or surface expression calls for them."
+      },
+      "focus": {
+        "binding": "advisory",
+        "closed": false,
+        "width": "2px",
+        "offset": "2px",
+        "rule": "This is a useful starting treatment, not required geometry; the visible-focus requirement is authoritative."
+      },
+      "motion": {
+        "binding": "advisory",
+        "closed": false,
+        "fast": "120ms",
+        "interface": "150ms",
+        "reduced": "0.01ms",
+        "rule": "Durations are reference tempos. Surfaces own easing, properties, and whether motion is warranted."
+      }
+    },
+    "profiles": {
+      "editorial": {
+        "binding": "illustrative",
+        "description": "Expressive type hierarchy, generous section rhythm, and mixed card and control shapes for reading and teaching."
+      },
+      "application": {
+        "binding": "illustrative",
+        "description": "Compact type and rhythm, strong operational grouping, and square or low-radius geometry where density benefits."
+      },
+      "embedded": {
+        "binding": "illustrative",
+        "description": "Neutral, host-controlled defaults that inherit surrounding typography and theme without becoming an OpenBindings skin."
+      },
+      "terminal": {
+        "binding": "illustrative",
+        "description": "Terminal-owned fonts and metrics, with density expressed through indentation, whitespace, labels, and native emphasis."
+      }
+    }
+  },
+  "identityComposition": {
+    "canonicalWordmark": false,
+    "canonicalLockup": false,
+    "rule": "The glyph may sit beside the correctly spelled OpenBindings name in any legible typography and composition appropriate to the surface."
+  }
+}

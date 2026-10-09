@@ -1,0 +1,6 @@
+{
+  "format": "openbindings.verbal-identity@1",
+  "revision": 1,
+  "tagline": "One interface. Any binding.",
+  "descriptor": "Describe what a service does separately from how you access it."
+}

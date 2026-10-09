@@ -1,0 +1,495 @@
+<!doctype html>
+<html lang="en" data-ob-theme="system">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>OpenBindings interface foundations specimen</title>
+    <link rel="icon" href="../assets/generated/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="../tokens/generated/openbindings-theme.css" />
+    <link rel="stylesheet" href="../tokens/generated/openbindings-foundations.css" />
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      :root {
+        color: var(--ob-theme-color-text);
+        background: var(--ob-theme-color-background);
+        font-family: var(--ob-foundation-reference-font-sans);
+      }
+
+      body {
+        min-width: 20rem;
+        margin: 0;
+      }
+
+      header,
+      main {
+        width: min(76rem, 100%);
+        margin: 0 auto;
+        padding: var(--ob-foundation-reference-space-content);
+      }
+
+      header {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--ob-foundation-reference-space-content);
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid var(--ob-theme-color-border);
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin: 0;
+      }
+
+      h1 {
+        font-size: clamp(1.35rem, 3vw, 2rem);
+        letter-spacing: -0.025em;
+      }
+
+      h2 {
+        font-size: 1.05rem;
+      }
+
+      h3 {
+        font-size: 0.86rem;
+      }
+
+      .eyebrow,
+      .note,
+      .binding-label {
+        color: var(--ob-theme-color-text-muted);
+        font-size: 0.75rem;
+      }
+
+      .eyebrow {
+        margin-bottom: var(--ob-foundation-reference-space-compact);
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .theme-control,
+      .mark-grid,
+      .profile-grid,
+      .anchor-row,
+      .guardrails {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--ob-foundation-reference-space-control);
+      }
+
+      button,
+      a.demo-control {
+        min-width: 1.5rem;
+        min-height: 2.25rem;
+        padding: 0.45rem 0.75rem;
+        color: var(--ob-theme-color-text);
+        background: var(--ob-theme-color-surface);
+        border: 1px solid var(--ob-theme-color-border-strong);
+        border-radius: var(--ob-foundation-reference-radius-sm);
+        font: inherit;
+      }
+
+      button[aria-pressed="true"] {
+        color: var(--ob-theme-color-accent-contrast);
+        background: var(--ob-theme-color-accent);
+        border-color: var(--ob-theme-color-accent);
+      }
+
+      button:focus-visible,
+      a:focus-visible {
+        outline: var(--ob-foundation-reference-focus-width) solid
+          var(--ob-theme-color-focus);
+        outline-offset: var(--ob-foundation-reference-focus-offset);
+      }
+
+      main {
+        display: grid;
+        gap: var(--ob-foundation-reference-space-section);
+        padding-block: var(--ob-foundation-reference-space-section);
+      }
+
+      section {
+        display: grid;
+        gap: var(--ob-foundation-reference-space-content);
+      }
+
+      .section-heading {
+        display: grid;
+        max-width: 44rem;
+        gap: var(--ob-foundation-reference-space-compact);
+      }
+
+      .mark-card,
+      .profile,
+      .guardrail {
+        min-width: 0;
+        color: var(--ob-theme-color-text);
+        background: var(--ob-theme-color-surface);
+        border: 1px solid var(--ob-theme-color-border);
+      }
+
+      .mark-card {
+        flex: 1 1 20rem;
+        display: grid;
+        min-height: 10rem;
+        gap: var(--ob-foundation-reference-space-content);
+        align-content: space-between;
+        padding: var(--ob-foundation-reference-space-content);
+        border-radius: var(--ob-foundation-reference-radius-md);
+      }
+
+      .mark {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.55em;
+        align-items: center;
+      }
+
+      .glyph {
+        display: inline-block;
+        width: 2.25rem;
+        height: 2.25rem;
+        flex: 0 0 auto;
+        background: currentColor;
+        mask: url("../assets/generated/openbindings-glyph.svg") center / contain no-repeat;
+      }
+
+      .mark-serif {
+        font-family: Iowan Old Style, Baskerville, Georgia, serif;
+        font-size: 1.75rem;
+        font-weight: 600;
+        letter-spacing: -0.035em;
+      }
+
+      .mark-ui {
+        font-family: var(--ob-foundation-reference-font-sans);
+        font-size: 1.15rem;
+        font-weight: 600;
+      }
+
+      .mark-mono {
+        font-family: var(--ob-foundation-reference-font-mono);
+        font-size: 0.95rem;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+      }
+
+      .binding-label {
+        padding-top: var(--ob-foundation-reference-space-control);
+        border-top: 1px solid var(--ob-theme-color-border);
+      }
+
+      .profile-grid {
+        align-items: stretch;
+      }
+
+      .profile {
+        flex: 1 1 20rem;
+        min-height: 18rem;
+        overflow: hidden;
+      }
+
+      .editorial {
+        padding: clamp(1.5rem, 4vw, 3rem);
+        border-radius: var(--ob-foundation-reference-radius-lg);
+      }
+
+      .editorial h3 {
+        max-width: 12ch;
+        margin: 1.25rem 0 0.75rem;
+        font-family: Iowan Old Style, Baskerville, Georgia, serif;
+        font-size: clamp(1.7rem, 4vw, 2.6rem);
+        line-height: 1.05;
+      }
+
+      .editorial p {
+        max-width: 36ch;
+        color: var(--ob-theme-color-text-muted);
+        line-height: 1.65;
+      }
+
+      .application {
+        display: grid;
+        grid-template-rows: auto 1fr;
+        border-radius: var(--ob-foundation-reference-radius-sm);
+        font-size: 0.78rem;
+      }
+
+      .app-bar {
+        display: flex;
+        gap: 0.45rem;
+        align-items: center;
+        min-height: 2.5rem;
+        padding: 0.45rem 0.6rem;
+        background: var(--ob-theme-color-surface-strong);
+        border-bottom: 1px solid var(--ob-theme-color-border-strong);
+        font-weight: 600;
+      }
+
+      .app-dot {
+        width: 0.55rem;
+        height: 0.55rem;
+        border-radius: 50%;
+        background: var(--ob-theme-color-text-muted);
+      }
+
+      .app-body {
+        display: grid;
+        grid-template-columns: 5.5rem 1fr;
+        min-height: 15rem;
+      }
+
+      .app-nav {
+        padding: 0.55rem;
+        background: var(--ob-theme-color-background);
+        border-right: 1px solid var(--ob-theme-color-border);
+        line-height: 1.9;
+      }
+
+      .app-panel {
+        display: grid;
+        gap: 0.5rem;
+        align-content: start;
+        padding: 0.65rem;
+      }
+
+      .app-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.5rem;
+        border: 1px solid var(--ob-theme-color-border);
+        border-radius: 0;
+      }
+
+      .embedded {
+        display: grid;
+        place-items: center;
+        padding: 1rem;
+        border-radius: 0.7rem;
+        font-family: system-ui, sans-serif;
+      }
+
+      .embedded-card {
+        width: min(18rem, 100%);
+        padding: 0.85rem;
+        color: var(--ob-theme-color-text);
+        background: var(--ob-theme-color-background);
+        border: 1px solid var(--ob-theme-color-border-strong);
+        border-radius: 0.5rem;
+      }
+
+      .embedded-card p {
+        margin: 0.35rem 0 0.75rem;
+        color: var(--ob-theme-color-text-muted);
+        font-size: 0.82rem;
+        line-height: 1.45;
+      }
+
+      .embedded-card button {
+        background: #2266cc;
+        border-color: #2266cc;
+        color: white;
+      }
+
+      .guardrail {
+        flex: 1 1 14rem;
+        display: grid;
+        gap: var(--ob-foundation-reference-space-control);
+        padding: var(--ob-foundation-reference-space-content);
+        border-radius: var(--ob-foundation-reference-radius-md);
+      }
+
+      .guardrail p {
+        color: var(--ob-theme-color-text-muted);
+        font-size: 0.82rem;
+        line-height: 1.5;
+      }
+
+      .demo-control {
+        display: inline-flex;
+        width: fit-content;
+        align-items: center;
+        text-decoration: none;
+        transition:
+          transform var(--ob-foundation-reference-duration-fast) ease,
+          background var(--ob-foundation-reference-duration-interface) ease;
+      }
+
+      .demo-control:hover {
+        transform: translateY(-2px);
+        background: var(--ob-theme-color-surface-strong);
+      }
+
+      .anchor-row {
+        align-items: end;
+      }
+
+      .anchor {
+        display: grid;
+        place-items: center;
+        width: calc(var(--anchor) + 2rem);
+        min-height: calc(var(--anchor) + 2rem);
+        padding: 0.25rem;
+        color: var(--ob-theme-color-text-muted);
+        background: var(--ob-theme-color-surface);
+        border: 1px solid var(--ob-theme-color-border);
+        border-radius: var(--radius, 0);
+        font-family: var(--ob-foundation-reference-font-mono);
+        font-size: 0.7rem;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .demo-control {
+          transform: none;
+        }
+      }
+
+      @media (forced-colors: active) {
+        .app-dot {
+          background: CanvasText;
+        }
+
+        .embedded-card button {
+          color: ButtonText;
+          background: ButtonFace;
+          border-color: ButtonText;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div>
+        <p class="eyebrow">Foundations · stable revision 1</p>
+        <h1>Related, not regimented</h1>
+      </div>
+      <div class="theme-control" role="group" aria-label="Theme">
+        <button type="button" data-theme="system" aria-pressed="true">System</button>
+        <button type="button" data-theme="light" aria-pressed="false">Light</button>
+        <button type="button" data-theme="dark" aria-pressed="false">Dark</button>
+      </div>
+    </header>
+    <main>
+      <section>
+        <div class="section-heading">
+          <p class="eyebrow">Identity composition</p>
+          <h2>One glyph, no required wordmark</h2>
+          <p class="note">All three are valid. The adjacent typography remains surface expression.</p>
+        </div>
+        <div class="mark-grid">
+          <article class="mark-card">
+            <div class="mark mark-serif">
+              <span class="glyph" aria-hidden="true"></span>
+              <span>OpenBindings</span>
+            </div>
+            <p class="binding-label">Editorial serif · valid composition</p>
+          </article>
+          <article class="mark-card">
+            <div class="mark mark-ui">
+              <span class="glyph" aria-hidden="true"></span>
+              <span>OpenBindings</span>
+            </div>
+            <p class="binding-label">Compact UI sans · valid composition</p>
+          </article>
+          <article class="mark-card">
+            <div class="mark mark-mono">
+              <span class="glyph" aria-hidden="true"></span>
+              <span>OpenBindings</span>
+            </div>
+            <p class="binding-label">Technical mono · valid composition</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="profiles">
+        <div class="section-heading">
+          <p class="eyebrow">Expression profiles</p>
+          <h2>Shared references can lead to distinct interfaces</h2>
+          <p class="note">Profiles are descriptive centers of gravity, not presets.</p>
+        </div>
+        <div class="profile-grid">
+          <article class="profile editorial">
+            <p class="eyebrow">Editorial</p>
+            <h3>Bind an operation to your application.</h3>
+            <p>Generous rhythm and expressive hierarchy support reading, teaching, and discovery.</p>
+          </article>
+          <article class="profile application">
+            <div class="app-bar"><span class="app-dot"></span>Workbench</div>
+            <div class="app-body">
+              <nav class="app-nav" aria-label="Specimen application">Bindings<br />Operations<br />Schemas</nav>
+              <div class="app-panel">
+                <strong>Operation detail</strong>
+                <div class="app-row"><span>method</span><code>POST</code></div>
+                <div class="app-row"><span>status</span><strong>ready</strong></div>
+                <div class="app-row"><span>binding</span><code>local</code></div>
+              </div>
+            </div>
+          </article>
+          <article class="profile embedded">
+            <div class="embedded-card">
+              <strong>Neutral Element</strong>
+              <p>The host owns this component's typography, density, radius, and accent.</p>
+              <button type="button">Invoke</button>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-heading">
+          <p class="eyebrow">Behavioral guardrails</p>
+          <h2>The strict part is access, not styling</h2>
+        </div>
+        <div class="guardrails">
+          <article class="guardrail">
+            <h3>Visible focus</h3>
+            <p>Tab to this control. Its exact geometry is local; perceivability is required.</p>
+            <a class="demo-control" href="#anchors">Focusable example</a>
+          </article>
+          <article class="guardrail">
+            <h3>Target access</h3>
+            <p>Interactive targets provide adequate size or spacing while dense profiles remain possible.</p>
+            <button type="button">Accessible target</button>
+          </article>
+          <article class="guardrail">
+            <h3>Reduced motion</h3>
+            <p>The hover lift uses a reference tempo and collapses when reduced motion is requested.</p>
+            <a class="demo-control" href="#profiles">Motion example</a>
+          </article>
+        </div>
+      </section>
+
+      <section id="anchors">
+        <div class="section-heading">
+          <p class="eyebrow">Open references</p>
+          <h2>Anchors are a vocabulary, not a fence</h2>
+        </div>
+        <div class="anchor-row">
+          <div class="anchor" style="--anchor: 4px; --radius: 2px">4 / 2</div>
+          <div class="anchor" style="--anchor: 8px; --radius: 4px">8 / 4</div>
+          <div class="anchor" style="--anchor: 16px; --radius: 8px">16 / 8</div>
+          <div class="anchor" style="--anchor: 32px; --radius: 12px">32 / 12</div>
+          <div class="anchor" style="--anchor: 22px; --radius: 7px">22 / 7 is valid</div>
+          <div class="anchor" style="--anchor: 12px; --radius: 999px">pill is valid</div>
+        </div>
+      </section>
+    </main>
+    <script type="module">
+      const controls = [...document.querySelectorAll("[data-theme]")];
+      for (const control of controls) {
+        control.addEventListener("click", () => {
+          document.documentElement.dataset.obTheme = control.dataset.theme;
+          for (const candidate of controls) {
+            candidate.setAttribute("aria-pressed", String(candidate === control));
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

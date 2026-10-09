@@ -1,0 +1,106 @@
+/* Generated from tokens/color.json and tokens/themes/openbindings.json.
+   Theme revision 1; maturity: stable. Do not edit by hand. */
+
+:root,
+[data-ob-theme="light"] {
+  color-scheme: light;
+  --ob-theme-color-background: #ffffff;
+  --ob-theme-color-surface: #ffffff;
+  --ob-theme-color-surface-strong: #f0f0f0;
+  --ob-theme-color-text: #000000;
+  --ob-theme-color-text-muted: #666666;
+  --ob-theme-color-text-faint: #737373;
+  --ob-theme-color-border: #ededed;
+  --ob-theme-color-border-strong: #8a8a8a;
+  --ob-theme-color-accent: #111111;
+  --ob-theme-color-accent-contrast: #ffffff;
+  --ob-theme-color-focus: #111111;
+  --ob-theme-color-success: #17734b;
+  --ob-theme-color-success-soft: #eaf7f0;
+  --ob-theme-color-warning: #976800;
+  --ob-theme-color-warning-soft: #fff6dc;
+  --ob-theme-color-danger: #b83b32;
+  --ob-theme-color-danger-soft: #fbeceb;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-ob-theme]),
+  [data-ob-theme="system"] {
+    color-scheme: dark;
+    --ob-theme-color-background: #0a0a0a;
+    --ob-theme-color-surface: #0a0a0a;
+    --ob-theme-color-surface-strong: #171717;
+    --ob-theme-color-text: #e5e5e5;
+    --ob-theme-color-text-muted: #a3a3a3;
+    --ob-theme-color-text-faint: #8a8a8a;
+    --ob-theme-color-border: #262626;
+    --ob-theme-color-border-strong: #737373;
+    --ob-theme-color-accent: #e5e5e5;
+    --ob-theme-color-accent-contrast: #0a0a0a;
+    --ob-theme-color-focus: #e5e5e5;
+    --ob-theme-color-success: #73d5a6;
+    --ob-theme-color-success-soft: #17392b;
+    --ob-theme-color-warning: #efc562;
+    --ob-theme-color-warning-soft: #3a311c;
+    --ob-theme-color-danger: #ff9187;
+    --ob-theme-color-danger-soft: #40201e;
+  }
+}
+
+[data-ob-theme="dark"] {
+  color-scheme: dark;
+  --ob-theme-color-background: #0a0a0a;
+  --ob-theme-color-surface: #0a0a0a;
+  --ob-theme-color-surface-strong: #171717;
+  --ob-theme-color-text: #e5e5e5;
+  --ob-theme-color-text-muted: #a3a3a3;
+  --ob-theme-color-text-faint: #8a8a8a;
+  --ob-theme-color-border: #262626;
+  --ob-theme-color-border-strong: #737373;
+  --ob-theme-color-accent: #e5e5e5;
+  --ob-theme-color-accent-contrast: #0a0a0a;
+  --ob-theme-color-focus: #e5e5e5;
+  --ob-theme-color-success: #73d5a6;
+  --ob-theme-color-success-soft: #17392b;
+  --ob-theme-color-warning: #efc562;
+  --ob-theme-color-warning-soft: #3a311c;
+  --ob-theme-color-danger: #ff9187;
+  --ob-theme-color-danger-soft: #40201e;
+}
+
+:root,
+[data-ob-theme] {
+  --ob-color-background: var(--ob-theme-color-background);
+  --ob-color-surface: var(--ob-theme-color-surface);
+  --ob-color-surface-strong: var(--ob-theme-color-surface-strong);
+  --ob-color-text: var(--ob-theme-color-text);
+  --ob-color-text-muted: var(--ob-theme-color-text-muted);
+  --ob-color-border: var(--ob-theme-color-border-strong);
+  --ob-color-accent: var(--ob-theme-color-accent);
+  --ob-color-accent-contrast: var(--ob-theme-color-accent-contrast);
+  --ob-color-danger: var(--ob-theme-color-danger);
+  --ob-color-success: var(--ob-theme-color-success);
+}
+
+@media (forced-colors: active) {
+  :root,
+  [data-ob-theme] {
+    --ob-theme-color-background: Canvas;
+    --ob-theme-color-surface: Canvas;
+    --ob-theme-color-surface-strong: ButtonFace;
+    --ob-theme-color-text: CanvasText;
+    --ob-theme-color-text-muted: GrayText;
+    --ob-theme-color-text-faint: GrayText;
+    --ob-theme-color-border: GrayText;
+    --ob-theme-color-border-strong: CanvasText;
+    --ob-theme-color-accent: Highlight;
+    --ob-theme-color-accent-contrast: HighlightText;
+    --ob-theme-color-focus: Highlight;
+    --ob-theme-color-success: CanvasText;
+    --ob-theme-color-success-soft: Canvas;
+    --ob-theme-color-warning: CanvasText;
+    --ob-theme-color-warning-soft: Canvas;
+    --ob-theme-color-danger: CanvasText;
+    --ob-theme-color-danger-soft: Canvas;
+  }
+}

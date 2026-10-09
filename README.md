@@ -14,10 +14,12 @@ The distinction is deliberate:
   project-wide verification suite.
 
 The normative specification remains in
-[`openbindings/spec`](https://github.com/openbindings/spec). The [reference SDK](https://github.com/openbindings/sdk),
-the CLI, UI packages, shared interfaces, the website, and the project-wide
-design system remain independently owned and independently versioned in their
-own repositories.
+[`openbindings/spec`](https://github.com/openbindings/spec). The
+[reference SDK](https://github.com/openbindings/sdk), CLI, UI packages, shared
+interfaces and website remain independently owned and independently versioned.
+Project design sources live in [`design/`](design/) with separate nonnormative
+authority.
+
 
 See [the Rust transition record](cohorts/0.2/rust-transition.md) for source pins,
 qualification limits, remaining dependency edges and release gates. Source landing
@@ -78,10 +80,10 @@ Project-wide authority repositories sit beside those cohort components:
 
 | Repository | Authority | Project-cohort status |
 | --- | --- | --- |
-| [`openbindings/design`](https://github.com/openbindings/design) | Official brand, visual identity, product experience, accessibility presentation, design tokens, and cross-surface adoption evidence | Not a cohort component |
+| [`project/design`](design/) | Official brand, visual identity, product experience, accessibility presentation, design tokens, and cross-surface adoption evidence | Not a cohort component |
 | `openbindings/project` | Cross-repository integration policy, release cohorts, and coordination | Hosts cohort records; not a component |
 
-Design decisions remain owned by `openbindings/design`, even when they affect
+Design decisions remain owned by the design authority in `design/`, even when they affect
 Web, Elements, workbench, OAuth, or CLI presentation. This repository may
 coordinate the order and exact consumer commits, but it does not acquire Design
 authority or make Design release-coupled to a specification cohort.
@@ -150,7 +152,7 @@ have a GitHub App or appropriately scoped token, but it is not required.
   released.
 - Develop brand and product-experience decisions through the evidence,
   canonicalization, consumer-adoption, and verification loop in
-  [`openbindings/design`](https://github.com/openbindings/design). Update this
+  [`project/design`](design/). Update this
   repository only when the work also changes cross-repository integration or
   coordination policy.
 - Use the component repository's CI for ordinary changes.

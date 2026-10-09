@@ -1,0 +1,173 @@
+{
+  "format": "openbindings.design-loop@1",
+  "updated": "2026-08-08",
+  "activeSlice": "verbal-identity",
+  "consumers": {
+    "web": {
+      "repository": "openbindings/web",
+      "surface": "openbindings.com"
+    },
+    "elements": {
+      "repository": "openbindings/elements",
+      "surface": "public web components"
+    },
+    "workbench": {
+      "repository": "openbindings/elements",
+      "surface": "ob start workbench"
+    },
+    "oauth": {
+      "repository": "openbindings/ob",
+      "surface": "authorization pages"
+    },
+    "cli": {
+      "repository": "openbindings/ob",
+      "surface": "human-facing terminal output"
+    }
+  },
+  "slices": {
+    "identity": {
+      "title": "Identity and canonical assets",
+      "status": "verified",
+      "record": "docs/slices/identity.md",
+      "evidence": [
+        "docs/evidence/2026-08-07-common-ground.md",
+        "docs/evidence/2026-08-07-identity-rendering.md",
+        "docs/evidence/2026-08-07-identity-adoption.md"
+      ],
+      "canonical": [
+        "assets/openbindings-glyph.svg",
+        "assets/manifest.json",
+        "brand/identity.md",
+        "docs/decisions/0002-canonical-glyph.md"
+      ],
+      "adoption": {
+        "web": "adopted",
+        "elements": "out_of_scope",
+        "workbench": "adopted",
+        "oauth": "adopted",
+        "cli": "out_of_scope"
+      }
+    },
+    "color-theme": {
+      "title": "Color roles and official theme",
+      "status": "verified",
+      "record": "docs/slices/color-theme.md",
+      "evidence": [
+        "docs/evidence/2026-08-07-common-ground.md",
+        "docs/evidence/2026-08-07-color-theme-inventory.md",
+        "docs/evidence/2026-08-07-color-theme-adoption.md"
+      ],
+      "canonical": [
+        "tokens/color.json",
+        "tokens/themes/openbindings.json",
+        "tokens/generated/openbindings-theme.css",
+        "brand/theme.md"
+      ],
+      "adoption": {
+        "web": "adopted",
+        "elements": "adopted",
+        "workbench": "adopted",
+        "oauth": "adopted",
+        "cli": "adopted"
+      }
+    },
+    "foundations": {
+      "title": "Typography, density, shape, focus, and motion",
+      "status": "verified",
+      "record": "docs/slices/foundations.md",
+      "evidence": [
+        "docs/evidence/2026-08-07-common-ground.md",
+        "docs/evidence/2026-08-07-foundations-inventory.md",
+        "docs/evidence/2026-08-07-foundations-adoption.md"
+      ],
+      "canonical": [
+        "tokens/foundations.json",
+        "tokens/generated/openbindings-foundations.css",
+        "experience/foundations.md",
+        "specimens/foundations.html"
+      ],
+      "adoption": {
+        "web": "adopted",
+        "elements": "adopted",
+        "workbench": "adopted",
+        "oauth": "adopted",
+        "cli": "adopted"
+      }
+    },
+    "machine-material": {
+      "title": "Machine material and syntax",
+      "status": "verified",
+      "record": "docs/slices/machine-material.md",
+      "evidence": [
+        "docs/evidence/2026-08-07-common-ground.md",
+        "docs/evidence/2026-08-07-machine-material-inventory.md",
+        "docs/evidence/2026-08-07-machine-material-adoption.md"
+      ],
+      "canonical": [
+        "tokens/machine-material.json",
+        "tokens/generated/openbindings-machine-material.css",
+        "tokens/generated/openbindings-machine-light.json",
+        "tokens/generated/openbindings-machine-dark.json",
+        "experience/machine-material.md",
+        "specimens/machine-material.html"
+      ],
+      "adoption": {
+        "web": "adopted",
+        "elements": "adopted",
+        "workbench": "adopted",
+        "oauth": "out_of_scope",
+        "cli": "adopted"
+      }
+    },
+    "status-feedback": {
+      "title": "Status, feedback, and recovery",
+      "status": "inventory",
+      "record": "docs/slices/status-feedback.md",
+      "evidence": [
+        "docs/evidence/2026-08-07-common-ground.md"
+      ],
+      "canonical": [],
+      "adoption": {
+        "web": "not_started",
+        "elements": "observed",
+        "workbench": "observed",
+        "oauth": "observed",
+        "cli": "observed"
+      }
+    },
+    "verbal-identity": {
+      "title": "Canonical verbal identity",
+      "status": "migration",
+      "record": "docs/slices/verbal-identity.md",
+      "evidence": [
+        "docs/evidence/2026-08-08-verbal-identity-inventory.md"
+      ],
+      "canonical": [
+        "brand/verbal-identity.json",
+        "brand/verbal-identity.md",
+        "docs/decisions/0003-canonical-tagline.md"
+      ],
+      "adoption": {
+        "web": "migrating",
+        "elements": "out_of_scope",
+        "workbench": "out_of_scope",
+        "oauth": "out_of_scope",
+        "cli": "migrating"
+      }
+    },
+    "voice-content": {
+      "title": "Voice and UI content",
+      "status": "queued",
+      "record": null,
+      "evidence": [],
+      "canonical": [],
+      "adoption": {
+        "web": "not_started",
+        "elements": "not_started",
+        "workbench": "not_started",
+        "oauth": "not_started",
+        "cli": "not_started"
+      }
+    }
+  }
+}

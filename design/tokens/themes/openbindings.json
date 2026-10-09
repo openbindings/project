@@ -1,0 +1,90 @@
+{
+  "format": "openbindings.theme@1",
+  "name": "openbindings",
+  "revision": 1,
+  "maturity": "stable",
+  "sourceRoles": "tokens/color.json",
+  "schemes": {
+    "light": {
+      "background": "#ffffff",
+      "surface": "#ffffff",
+      "surfaceStrong": "#f0f0f0",
+      "text": "#000000",
+      "textMuted": "#666666",
+      "textFaint": "#737373",
+      "border": "#ededed",
+      "borderStrong": "#8a8a8a",
+      "accent": "#111111",
+      "accentContrast": "#ffffff",
+      "focus": "#111111",
+      "success": "#17734b",
+      "successSoft": "#eaf7f0",
+      "warning": "#976800",
+      "warningSoft": "#fff6dc",
+      "danger": "#b83b32",
+      "dangerSoft": "#fbeceb"
+    },
+    "dark": {
+      "background": "#0a0a0a",
+      "surface": "#0a0a0a",
+      "surfaceStrong": "#171717",
+      "text": "#e5e5e5",
+      "textMuted": "#a3a3a3",
+      "textFaint": "#8a8a8a",
+      "border": "#262626",
+      "borderStrong": "#737373",
+      "accent": "#e5e5e5",
+      "accentContrast": "#0a0a0a",
+      "focus": "#e5e5e5",
+      "success": "#73d5a6",
+      "successSoft": "#17392b",
+      "warning": "#efc562",
+      "warningSoft": "#3a311c",
+      "danger": "#ff9187",
+      "dangerSoft": "#40201e"
+    }
+  },
+  "elementsAdapter": {
+    "--ob-color-background": "background",
+    "--ob-color-surface": "surface",
+    "--ob-color-surface-strong": "surfaceStrong",
+    "--ob-color-text": "text",
+    "--ob-color-text-muted": "textMuted",
+    "--ob-color-border": "borderStrong",
+    "--ob-color-accent": "accent",
+    "--ob-color-accent-contrast": "accentContrast",
+    "--ob-color-danger": "danger",
+    "--ob-color-success": "success"
+  },
+  "terminalAdapter": {
+    "header": {
+      "ansi": null,
+      "attributes": ["bold"]
+    },
+    "key": {
+      "ansi": 6,
+      "fallback": "text"
+    },
+    "muted": {
+      "ansi": 8,
+      "fallback": "text"
+    },
+    "success": {
+      "ansi": 2,
+      "fallback": "text"
+    },
+    "warning": {
+      "ansi": 3,
+      "fallback": "text"
+    },
+    "danger": {
+      "ansi": 1,
+      "fallback": "text"
+    }
+  },
+  "noColor": {
+    "emitAnsi": false,
+    "requireTextualMeaning": true,
+    "machineOutputThemed": false
+  }
+}

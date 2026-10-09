@@ -1,0 +1,26 @@
+{
+  "name": "@openbindings/design-workspace",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Project-wide brand and product-experience system for OpenBindings",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/openbindings/project.git",
+    "directory": "design"
+  },
+  "scripts": {
+    "check": "node scripts/check.mjs && npm run check:assets && npm run check:theme && npm run check:foundations && npm run check:machine",
+    "check:assets": "node scripts/generate-assets.mjs --check",
+    "check:theme": "node scripts/generate-theme.mjs --check",
+    "check:foundations": "node scripts/generate-foundations.mjs --check",
+    "check:machine": "node scripts/generate-machine-material.mjs --check",
+    "generate": "npm run generate:assets && npm run generate:theme && npm run generate:foundations && npm run generate:machine",
+    "generate:assets": "node scripts/generate-assets.mjs",
+    "generate:theme": "node scripts/generate-theme.mjs",
+    "generate:foundations": "node scripts/generate-foundations.mjs",
+    "generate:machine": "node scripts/generate-machine-material.mjs",
+    "loop": "node scripts/design-loop.mjs",
+    "test": "npm run check"
+  }
+}
