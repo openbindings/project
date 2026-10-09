@@ -34,6 +34,15 @@ try {
     const lines = [`mode=${selection.mode}`, `source=${selection.source}`];
     const extended = argument("--include-extended", "false") === "true";
     const plan = integrationPlan(selection, extended);
+    if (plan.rust_sdk) {
+      const spec = selection.qualifications.sdk?.specificationCommit;
+      if (!spec) throw new Error("SDK qualification requires its exact applied specification commit");
+      // A new specification cannot pass by replaying an older frozen corpus.
+      if (selection.source === "spec" && selection.refs.spec !== spec) {
+        throw new Error("Selected specification differs from the SDK's qualified specification; qualify the SDK against it first");
+      }
+      lines.push(`sdk_spec_ref=${spec}`);
+    }
     lines.push(`lanes=${JSON.stringify(plan)}`);
     for (const [lane, enabled] of Object.entries(plan)) lines.push(`run_${lane}=${enabled}`);
     lines.push(`jsonata_repository=${selection.refs['jsonata'] ? project.catalog.repositories['jsonata'].repository : ''}`);

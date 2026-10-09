@@ -4,10 +4,12 @@ export function integrationPlan(selection,extended=false){
   assert(source==='all'||Object.hasOwn(selection.refs,source),'Unselected source');
   const selected=names=>names.includes(source);
   return {
+    rust_sdk:!!selection.refs.sdk&&selected(['all','sdk','spec']),
+    rust_openapi:!!selection.qualifications?.['openapi-client']&&selected(['all','openapi-client']),
     runtime:!!selection.refs[runtime]&&selected(['all','go','typescript','ob',runtime]),
-    go:selected(['all','spec','interfaces','go',runtime]),
-    typescript:selected(['all','spec','interfaces','go','typescript',runtime]),
-    ob:selected(['all','spec','interfaces','go','ob',runtime]),
+    go:selected(['all','spec','interfaces','go','openapi-client',runtime]),
+    typescript:selected(['all','spec','interfaces','go','typescript','openapi-client',runtime]),
+    ob:selected(['all','spec','interfaces','go','ob','openapi-client',runtime]),
     elements:source==='elements'||extended&&selected(['all','spec','interfaces','go','typescript','ob',runtime]),
     web:source==='web'||extended&&selected(['all','spec','interfaces','ob',runtime]),
   };

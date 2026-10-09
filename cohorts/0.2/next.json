@@ -51,15 +51,27 @@
     },
     "openapi-client": {
       "repository": "openbindings/openapi-client",
-      "commit": "7b15d57e960faa6a9e010eb9cbea80fd83f0d02e",
-      "version": "0.1.0",
-      "releaseState": "working-draft"
+      "commit": "0ed7cfca730aa66dcbf04239bca4fc4992f6b119",
+      "releaseState": "unpublished-rust-foundation-with-legacy-compatibility",
+      "qualification": {
+        "profile": "rust-foundation"
+      }
     },
     "asyncapi-client": {
       "repository": "openbindings/asyncapi-client",
       "commit": "7326ce4e18c12e1dcb36c3587fbe0f7fe52ec749",
       "version": "0.1.0",
       "releaseState": "working-draft"
+    },
+    "sdk": {
+      "repository": "openbindings/sdk",
+      "commit": "7a5016d66db150b976fdfd4800f02d4e94f9cf84",
+      "version": "0.2.0-alpha.1",
+      "releaseState": "unpublished-rust-foundation",
+      "qualification": {
+        "profile": "rust-foundation",
+        "specificationCommit": "2f7d754dc2da374058cd517064c17e50f7d95d99"
+      }
     }
   }
 }
