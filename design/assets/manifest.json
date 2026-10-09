@@ -1,0 +1,23 @@
+{
+  "format": "openbindings.design-assets@1",
+  "identityRevision": 1,
+  "license": "Apache-2.0",
+  "canonical": "assets/openbindings-glyph.svg",
+  "variants": {
+    "inline": {
+      "path": "assets/generated/openbindings-glyph.svg",
+      "purpose": "Inline, masked, or embedded use controlled by currentColor",
+      "consumers": [
+        "openbindings/ob authorization pages"
+      ]
+    },
+    "favicon": {
+      "path": "assets/generated/favicon.svg",
+      "purpose": "Standalone browser icon that follows the operating-system color scheme",
+      "consumers": [
+        "openbindings/web",
+        "openbindings/elements ob-start-workbench"
+      ]
+    }
+  }
+}

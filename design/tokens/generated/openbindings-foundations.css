@@ -1,0 +1,29 @@
+/* Generated from tokens/foundations.json.
+   Foundations revision 1; maturity: stable.
+   These --reference-* conventions are optional starting points, not conformance requirements.
+   Do not edit by hand. */
+
+:root {
+  --ob-foundation-reference-font-sans: Inter, ui-sans-serif, system-ui, sans-serif;
+  --ob-foundation-reference-font-mono: JetBrains Mono, ui-monospace, SFMono-Regular, Consolas, Liberation Mono, monospace;
+  --ob-foundation-reference-space-compact: 4px;
+  --ob-foundation-reference-space-control: 8px;
+  --ob-foundation-reference-space-content: 16px;
+  --ob-foundation-reference-space-section: 32px;
+  --ob-foundation-reference-space-expansive: 64px;
+  --ob-foundation-reference-radius-xs: 2px;
+  --ob-foundation-reference-radius-sm: 4px;
+  --ob-foundation-reference-radius-md: 8px;
+  --ob-foundation-reference-radius-lg: 12px;
+  --ob-foundation-reference-focus-width: 2px;
+  --ob-foundation-reference-focus-offset: 2px;
+  --ob-foundation-reference-duration-fast: 120ms;
+  --ob-foundation-reference-duration-interface: 150ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --ob-foundation-reference-duration-fast: 0.01ms;
+    --ob-foundation-reference-duration-interface: 0.01ms;
+  }
+}

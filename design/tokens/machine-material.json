@@ -1,0 +1,157 @@
+{
+  "format": "openbindings.machine-material@1",
+  "name": "openbindings-machine-material",
+  "revision": 1,
+  "maturity": "stable",
+  "scope": "Machine-authored material rendered for humans in official OpenBindings browser surfaces",
+  "palette": {
+    "surface": {
+      "purpose": "Neutral material plane behind source, schemas, and serialized examples"
+    },
+    "plain": {
+      "purpose": "Unclassified machine text and the no-highlighting fallback"
+    },
+    "primary": {
+      "purpose": "Strongest chromatic distinction for names and identifiers"
+    },
+    "secondary": {
+      "purpose": "Second distinction, commonly string-like literals"
+    },
+    "tertiary": {
+      "purpose": "Third distinction, commonly numeric literals"
+    },
+    "quaternary": {
+      "purpose": "Fourth distinction, commonly language controls and built-in literals"
+    },
+    "muted": {
+      "purpose": "Readable subordinate material such as punctuation and comments"
+    },
+    "invalid": {
+      "purpose": "Actually invalid or unresolved source, always reinforced without color"
+    }
+  },
+  "schemes": {
+    "light": {
+      "surface": "#f7f7f5",
+      "plain": "#000000",
+      "primary": "#2456c4",
+      "secondary": "#0d7050",
+      "tertiary": "#94510a",
+      "quaternary": "#7c2fb8",
+      "muted": "#666666",
+      "invalid": "#b83b32"
+    },
+    "dark": {
+      "surface": "#101010",
+      "plain": "#e5e5e5",
+      "primary": "#8fb4ff",
+      "secondary": "#6bd6a4",
+      "tertiary": "#f0b45f",
+      "quaternary": "#d3a2ff",
+      "muted": "#a3a3a3",
+      "invalid": "#ff9187"
+    }
+  },
+  "roles": {
+    "surface": {
+      "palette": "surface",
+      "purpose": "The containing machine-material plane"
+    },
+    "plain": {
+      "palette": "plain",
+      "purpose": "Default or unclassified text",
+      "minimumContrast": 7
+    },
+    "name": {
+      "palette": "primary",
+      "purpose": "Names, keys, properties, declared entities, and comparable identifiers",
+      "minimumContrast": 4.5
+    },
+    "string": {
+      "palette": "secondary",
+      "purpose": "Quoted or unquoted string-like literal material",
+      "minimumContrast": 4.5
+    },
+    "number": {
+      "palette": "tertiary",
+      "purpose": "Numeric literals",
+      "minimumContrast": 4.5
+    },
+    "keyword": {
+      "palette": "quaternary",
+      "purpose": "Language controls, booleans, nulls, tags, and comparable built-ins",
+      "minimumContrast": 4.5
+    },
+    "punctuation": {
+      "palette": "muted",
+      "purpose": "Brackets, separators, operators, and other subordinate structure",
+      "minimumContrast": 4.5
+    },
+    "comment": {
+      "palette": "muted",
+      "purpose": "Comments, documentation annotations, and inactive explanation",
+      "minimumContrast": 4.5
+    },
+    "invalid": {
+      "palette": "invalid",
+      "purpose": "Actually invalid or unresolved source",
+      "minimumContrast": 4.5,
+      "decoration": "underline wavy"
+    }
+  },
+  "elementsAdapter": {
+    "--ob-code-surface": "surface",
+    "--ob-editor-token-key": "name",
+    "--ob-editor-token-string": "string",
+    "--ob-editor-token-number": "number",
+    "--ob-editor-token-keyword": "keyword",
+    "--ob-editor-token-punct": "punctuation",
+    "--ob-editor-token-comment": "comment",
+    "--ob-editor-token-invalid": "invalid"
+  },
+  "shikiAdapter": [
+    {
+      "role": "comment",
+      "scopes": ["comment"]
+    },
+    {
+      "role": "string",
+      "scopes": ["string"]
+    },
+    {
+      "role": "number",
+      "scopes": ["constant.numeric"]
+    },
+    {
+      "role": "keyword",
+      "scopes": ["keyword", "storage", "constant.language"]
+    },
+    {
+      "role": "punctuation",
+      "scopes": ["punctuation"]
+    },
+    {
+      "role": "name",
+      "scopes": [
+        "entity.name",
+        "support.type.property-name",
+        "variable.other.property"
+      ]
+    },
+    {
+      "role": "invalid",
+      "scopes": ["invalid", "invalid.illegal"]
+    }
+  ],
+  "forcedColors": {
+    "surface": "Canvas",
+    "plain": "CanvasText",
+    "name": "CanvasText",
+    "string": "CanvasText",
+    "number": "CanvasText",
+    "keyword": "CanvasText",
+    "punctuation": "CanvasText",
+    "comment": "GrayText",
+    "invalid": "CanvasText"
+  }
+}

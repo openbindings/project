@@ -1,0 +1,81 @@
+{
+  "$schema": "https://raw.githubusercontent.com/shikijs/textmate-grammars-themes/main/packages/tm-themes/schema/theme.schema.json",
+  "name": "openbindings-machine-dark",
+  "type": "dark",
+  "fg": "#e5e5e5",
+  "bg": "#101010",
+  "colors": {
+    "editor.foreground": "#e5e5e5",
+    "editor.background": "#101010"
+  },
+  "settings": [
+    {
+      "settings": {
+        "foreground": "#e5e5e5",
+        "background": "#101010"
+      }
+    },
+    {
+      "scope": [
+        "comment"
+      ],
+      "settings": {
+        "foreground": "#a3a3a3"
+      }
+    },
+    {
+      "scope": [
+        "string"
+      ],
+      "settings": {
+        "foreground": "#6bd6a4"
+      }
+    },
+    {
+      "scope": [
+        "constant.numeric"
+      ],
+      "settings": {
+        "foreground": "#f0b45f"
+      }
+    },
+    {
+      "scope": [
+        "keyword",
+        "storage",
+        "constant.language"
+      ],
+      "settings": {
+        "foreground": "#d3a2ff"
+      }
+    },
+    {
+      "scope": [
+        "punctuation"
+      ],
+      "settings": {
+        "foreground": "#a3a3a3"
+      }
+    },
+    {
+      "scope": [
+        "entity.name",
+        "support.type.property-name",
+        "variable.other.property"
+      ],
+      "settings": {
+        "foreground": "#8fb4ff"
+      }
+    },
+    {
+      "scope": [
+        "invalid",
+        "invalid.illegal"
+      ],
+      "settings": {
+        "foreground": "#ff9187",
+        "fontStyle": "underline"
+      }
+    }
+  ]
+}
