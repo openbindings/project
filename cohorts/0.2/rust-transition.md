@@ -40,6 +40,11 @@ skipped, cancelled or failed selected Rust results fail the integration result.
 An old successful cohort is not evidence for Rust, and this candidate has not
 been promoted to a numbered verified cohort.
 
+Coordinator execution on the landed source pins:
+
+- [SDK and facade run](https://github.com/openbindings/project/actions/runs/37954249819): passed, including applied-spec input comparison, native qualification and both browsers.
+- [OpenAPI run](https://github.com/openbindings/project/actions/runs/37954255599): Rust native/package/Chromium/workerd lane passed; overall integration failed. Existing legacy lanes cannot fetch the catalogued JSONata repository, and the Go matrix names `formats/*/go.mod` paths missing from its existing pinned SDK source. These source and catalog mismatches predate the Rust pins. They are retained as blockers to whole-project qualification, not hidden by removing legacy lanes or promoting this candidate.
+
 ## Scope and remaining dependency edges
 
 | Active consumer or path | Transition work still required |
