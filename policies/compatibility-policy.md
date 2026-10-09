@@ -37,8 +37,8 @@ Use these categories in pull requests and release notes:
 | --- | --- | --- |
 | `local` | Only the component's own behavior or presentation changes | Component CI only |
 | `editorial` | Meaning and required behavior are unchanged | Component CI; downstream review only if wording is normative |
-| `compatible` | Observable behavior is added or changed without invalidating supported consumers | Run affected integration lanes |
-| `cohort` | Compatibility declarations or cross-repository behavior may change | Run the complete candidate-cohort suite |
+| `compatible` | Observable behavior is added or changed without invalidating supported consumers | Component CI; adopting consumers run their own dependency-update checks |
+| `cohort` | Compatibility declarations or cross-repository behavior may change | Review affected contracts and run actual consumer checks; a new cohort is deliberate separate qualification |
 
 “Prose-only” does not automatically mean editorial. Normative prose can change
 implementation requirements even when no schema changes. When impact cannot be
@@ -46,7 +46,7 @@ settled mechanically, validation stops for a maintainer ruling.
 
 ## Supported combinations
 
-Passing cohort validation establishes:
+Historical Go/TS cohort validation established, for the exact recorded inputs:
 
 - the recorded specification and shared-contract corpora were present;
 - both reference SDKs passed those corpora;
@@ -64,3 +64,9 @@ It does not establish:
 Support duration and maintained specification lines are explicit project
 decisions. Until a support policy is published, a cohort is a reproducible test
 record rather than an LTS promise.
+
+Since 2026-10-09, ordinary CI follows [component development](development-loop.md).
+The maintained reference engine is Rust, with a TypeScript facade. Ongoing
+legacy Go/TS export correspondence is retired; historical results remain
+evidence of their original scope. New Rust or consumer compatibility claims
+require their own tests, not a historical cohort's label.

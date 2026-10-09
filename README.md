@@ -108,42 +108,21 @@ A later CLI release does not require a new cohort. A new cohort is recorded
 only when the project chooses to update its recommended, verified combination.
 See [`policies/release-policy.md`](policies/release-policy.md).
 
-## Validation modes
+## Historical validation modes
 
-The integration workflow has two modes:
+The retained integration workflow has two historical modes:
 
 1. **Cohort mode** checks out the full commit SHA recorded for every
    component. Only this mode can produce release evidence.
 2. **Heads mode** resolves the development branches in `repositories.json`.
    It is a moving-target drift detector and can never certify a release.
 
-Both modes run the required cohort lanes by default. Elements and the website
-are extended verification lanes and are enabled explicitly with the workflow's
-`include_extended` input. A push from either extended repository still checks
-its own lane without enabling all extended work for every core change.
-
-Component repositories can call the reusable workflow on a push or release and
-override their own commit while leaving the other components pinned to the
-candidate cohort. The scheduled workflow runs heads mode weekly as a safety net
-for missed events and environmental drift. It never publishes anything.
-
-After this repository exists on GitHub, a relevant component can add this job
-to its push workflow without a cross-repository token:
-
-```yaml
-project-integration:
-  if: github.event_name == 'push'
-  uses: openbindings/project/.github/workflows/integration.yml@main
-  with:
-    source_repository: ${{ github.repository }}
-    source_sha: ${{ github.sha }}
-```
-
-The reusable workflow selects only the affected downstream lanes. Add these
-callers after the project repository and its `main` workflow exist; adding them
-before that would make otherwise healthy component CI depend on a nonexistent
-remote. `repository_dispatch` is also accepted for installations that already
-have a GitHub App or appropriately scoped token, but it is not required.
+These commands preserve historical qualification; they are not the current
+Rust release verifier. Existing legacy dependency failures remain documented
+in the transition record. Automatic callers are being retired under the
+2026-10-09 [component CI policy](policies/development-loop.md); the weekly
+schedule is removed. The callable entry point remains only until existing
+callers are removed. Do not add new callers or dispatch integrations.
 
 ## Ordinary work
 
@@ -156,8 +135,8 @@ have a GitHub App or appropriately scoped token, but it is not required.
   repository only when the work also changes cross-repository integration or
   coordination policy.
 - Use the component repository's CI for ordinary changes.
-- Trigger project integration when a change can affect another repository or
-  the component is a candidate for the recommended cohort.
+- Test an adopting consumer in its own dependency-update PR when a change
+  affects it. Do not require an automatic whole-project sweep.
 - Update `cohorts/0.2/next.json` when assembling the next verified cohort.
 - Promote `next.json` to a numbered immutable cohort only after the complete
   cohort-mode workflow is green and a maintainer approves the promotion.
@@ -165,10 +144,11 @@ have a GitHub App or appropriately scoped token, but it is not required.
 The change-impact and compatibility rules are in
 [`policies/compatibility-policy.md`](policies/compatibility-policy.md).
 
-The pre-release development-line agent loop is in
+The component development policy is in
 [`policies/development-loop.md`](policies/development-loop.md). Its current
 branch and pull-request routing is recorded in [`working-loop.json`](working-loop.json).
-Run `npm run loop` to print safe actions and the next human-decision boundary.
+Run `npm run loop` to print current branch routing. Its `--historical` option
+prints the superseded cohort plan for inspection, not execution.
 
 The [design heuristics](policies/decision-heuristics.md) describe how we make
 design decisions across the repositories.

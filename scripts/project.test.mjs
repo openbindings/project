@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { dirname, resolve } from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
+import { execFileSync } from "node:child_process";
 import {
   isNumberedCohortPath,
   loadProject,
@@ -15,6 +16,13 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const project = loadProject(root);
 const cohort = project.cohorts.get("cohorts/0.2/next.json");
 const workingLoop = readJson(resolve(root, "working-loop.json"));
+
+test("ordinary loop output does not instruct automatic cohort work", () => {
+  const output = execFileSync(process.execPath, ["scripts/working-loop.mjs"], { cwd: root, encoding: "utf8" });
+  assert.match(output, /repository-owned CI/);
+  assert.match(output, /openbindings\/sdk: main/);
+  assert.doesNotMatch(output, /squash-merge|replace changed component SHAs|run project validation/);
+});
 
 test("the repository catalog and checked-in cohorts validate", () => {
   assert.equal(Object.keys(project.catalog.repositories).length, 11);
