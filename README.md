@@ -14,10 +14,14 @@ The distinction is deliberate:
   project-wide verification suite.
 
 The normative specification remains in
-[`openbindings/spec`](https://github.com/openbindings/spec). Reference SDKs,
+[`openbindings/spec`](https://github.com/openbindings/spec). The [reference SDK](https://github.com/openbindings/sdk),
 the CLI, UI packages, shared interfaces, the website, and the project-wide
 design system remain independently owned and independently versioned in their
 own repositories.
+
+See [the Rust transition record](cohorts/0.2/rust-transition.md) for source pins,
+qualification limits, remaining dependency edges and release gates. Source landing
+is separate from package publication, deployment and a verified project cohort.
 
 ## Semantic authority and cohort evidence
 
@@ -47,8 +51,9 @@ layers are:
 | --- | --- | --- |
 | `openbindings/spec` | Normative core and binding specifications | Required |
 | `openbindings/interfaces` | Nonnormative shared contracts and profiles | Required |
-| `openbindings/openbindings-go` | Go reference implementation | Required |
-| `openbindings/openbindings-ts` | TypeScript reference implementation | Required |
+| `openbindings/sdk` | Canonical Rust SDK and TypeScript facade | Required Rust checks for candidates selecting it |
+| `openbindings/openbindings-go` | Legacy Go SDK; transitional consumers | Required during migration |
+| `openbindings/openbindings-ts` | Legacy independent TypeScript SDK; transitional consumers | Required during migration |
 | `openbindings/jsonata` | Independently usable JSONata runtime family | Required for runtime-dependent candidates |
 | `openbindings/openapi-client` | Standalone OpenAPI invocation client | Required |
 | `openbindings/asyncapi-client` | Standalone AsyncAPI invocation client | Required |

@@ -116,6 +116,13 @@ export function validateCohort(cohort, catalog, label) {
     );
     invariant(!("ref" in component), `${label}: ${key} must pin commit, not ref`);
     invariant(!("branch" in component), `${label}: ${key} must pin commit, not branch`);
+    if (component.qualification !== undefined) {
+      invariant(["sdk", "openapi-client"].includes(key), `${label}: unsupported qualification component ${key}`);
+      invariant(component.qualification?.profile === "rust-foundation", `${label}: unsupported qualification profile`);
+      if (key === "sdk") {
+        invariant(SHA_PATTERN.test(component.qualification.specificationCommit ?? ""), `${label}: SDK qualification needs its exact applied specification commit`);
+      }
+    }
     if (component.version !== undefined) {
       invariant(
         SEMVER_PATTERN.test(component.version),
@@ -210,7 +217,18 @@ export function resolveSelection({ catalog, cohort, mode = "cohort", overrideRep
   }
 
   for (const key of REQUIRED_COMPONENTS) invariant(refs[key], `resolved selection is missing ${key}`);
-  return { mode, source, refs };
+  const qualifications = {};
+  for (const [key, component] of Object.entries(cohort.components)) {
+    if (refs[key] && component.qualification) qualifications[key] = component.qualification;
+  }
+  // Overrides of a current Rust component must exercise Rust, even if the
+  // chosen historical cohort predates it. Missing SDK spec evidence fails closed.
+  for (const key of ["sdk", "openapi-client"]) {
+    if (refs[key] && (mode === "heads" || source === key)) {
+      qualifications[key] ??= { profile: "rust-foundation" };
+    }
+  }
+  return { mode, source, refs, qualifications };
 }
 
 export function isNumberedCohortPath(path) {

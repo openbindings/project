@@ -79,6 +79,8 @@ jobs:
     outputs:
       mode: ${{ steps.resolve.outputs.mode }}
       source: ${{ steps.resolve.outputs.source }}
+      sdk_ref: ${{ steps.resolve.outputs.sdk_ref }}
+      sdk_spec_ref: ${{ steps.resolve.outputs.sdk_spec_ref }}
       spec_ref: ${{ steps.resolve.outputs.spec_ref }}
       interfaces_ref: ${{ steps.resolve.outputs.interfaces_ref }}
       go_ref: ${{ steps.resolve.outputs.go_ref }}
@@ -124,6 +126,85 @@ jobs:
         env:
           SELECTION: ${{ steps.resolve.outputs.selection }}
         run: printf '%s\n' "$SELECTION" >> "$GITHUB_STEP_SUMMARY"
+
+  rust_sdk:
+    name: Rust SDK and TypeScript facade
+    needs: resolve
+    if: ${{ fromJSON(needs.resolve.outputs.lanes).rust_sdk }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          repository: openbindings/project
+          ref: ${{ needs.resolve.outputs.project_sha }}
+          path: project
+      - uses: actions/checkout@v7
+        with:
+          repository: openbindings/sdk
+          ref: ${{ needs.resolve.outputs.sdk_ref }}
+          path: sdk
+      - uses: actions/checkout@v7
+        with:
+          repository: openbindings/spec
+          ref: ${{ needs.resolve.outputs.sdk_spec_ref }}
+          path: sdk-spec
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '22.19.0'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: '1.99.0'
+          components: rustfmt, clippy
+          targets: wasm32-unknown-unknown
+      - name: Verify the frozen specification against its declared source
+        run: node project/scripts/verify-sdk-spec.mjs sdk sdk-spec "$SDK_SPEC"
+        env:
+          SDK_SPEC: ${{ needs.resolve.outputs.sdk_spec_ref }}
+      - run: cargo install wasm-bindgen-cli --version 0.2.129 --locked
+      - run: npm ci --ignore-scripts && npx playwright-core install --with-deps chromium webkit
+        working-directory: sdk/packages/typescript
+      - name: Require native, TypeScript and real-browser qualification
+        run: python tools/verify.py --browser
+        working-directory: sdk
+
+  rust_openapi:
+    name: Rust OpenAPI foundation
+    needs: resolve
+    if: ${{ fromJSON(needs.resolve.outputs.lanes).rust_openapi }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          repository: openbindings/openapi-client
+          ref: ${{ needs.resolve.outputs.openapi_client_ref }}
+          path: openapi-client
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '22.19.0'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: '1.99.0'
+          components: rustfmt, clippy
+          targets: wasm32-unknown-unknown
+      - name: Native and packaged external consumer
+        run: python rust/qualification/verify.py
+        working-directory: openapi-client
+      - run: cargo install wasm-bindgen-cli --version 0.2.129 --locked
+      - run: cargo build --locked --manifest-path rust/Cargo.toml --release --target wasm32-unknown-unknown -p oac-host-qualification
+        working-directory: openapi-client
+      - run: wasm-bindgen rust/target/wasm32-unknown-unknown/release/oac_host_qualification.wasm --target web --out-dir rust/qualification/bridge/generated
+        working-directory: openapi-client
+      - run: npm ci --ignore-scripts && npx playwright-core install --with-deps chromium
+        working-directory: openapi-client/rust/qualification/host
+      - name: Chromium and local workerd qualification
+        run: node rust/qualification/host/run.mjs rust/target/qualification
+        working-directory: openapi-client
 
   go:
     name: Go (${{ matrix.module }})
@@ -647,7 +728,7 @@ jobs:
   result:
     name: Integration result
     if: ${{ always() }}
-    needs: [resolve, runtime, go, typescript, ob, elements, web]
+    needs: [resolve, rust_sdk, rust_openapi, runtime, go, typescript, ob, elements, web]
     runs-on: ubuntu-latest
     steps:
       - name: Require successful input resolution
@@ -665,6 +746,8 @@ jobs:
       - name: Require every selected lane to pass without skipping
         env:
           RESOLVE: ${{ needs.resolve.result }}
+          RUST_SDK: ${{ needs.rust_sdk.result }}
+          RUST_OPENAPI: ${{ needs.rust_openapi.result }}
           GO: ${{ needs.go.result }}
           TYPESCRIPT: ${{ needs.typescript.result }}
           OB: ${{ needs.ob.result }}
@@ -675,6 +758,6 @@ jobs:
         run: |
           node --input-type=module -e '
             import {requireIntegrationResults} from "./project/scripts/integration-plan.mjs";
-            const names=["resolve","runtime","go","typescript","ob","elements","web"];
+            const names=["resolve","rust_sdk","rust_openapi","runtime","go","typescript","ob","elements","web"];
             requireIntegrationResults(JSON.parse(process.env.LANES),Object.fromEntries(names.map(name=>[name,process.env[name.toUpperCase()]])));
           '

@@ -22,16 +22,16 @@ test('runtime selection pins exact SHA and supports component/repository overrid
     const selection=resolveSelection({catalog,cohort,overrideRepository:source,overrideSha:'2'.repeat(40)});
     assert.equal(selection.refs['jsonata'],'2'.repeat(40));
     assert.equal(selection.refs.go,original.components.go.commit);
-    assert.deepEqual(integrationPlan(selection),{runtime:true,go:true,typescript:true,ob:true,elements:false,web:false});
-    assert(Object.values(integrationPlan(selection,true)).every(Boolean));
+    assert.deepEqual(integrationPlan(selection),{rust_sdk:false,rust_openapi:false,runtime:true,go:true,typescript:true,ob:true,elements:false,web:false});
+    const extended=integrationPlan(selection,true);assert(['runtime','go','typescript','ob','elements','web'].every(k=>extended[k]));
   }
   assert.throws(()=>resolveSelection({catalog,cohort,overrideRepository:'jsonata',overrideSha:'main'}));
 });
 test('runtime events cannot produce a false-green result from skipped consumer jobs',()=>{
   const {catalog,cohort}=fixture(),selection=resolveSelection({catalog,cohort,overrideRepository:'jsonata',overrideSha:'2'.repeat(40)});
-  const plan=integrationPlan(selection,true),results={resolve:'success',...Object.fromEntries(Object.keys(plan).map(k=>[k,'success']))};
+  const plan=integrationPlan(selection,true),results={resolve:'success',...Object.fromEntries(Object.entries(plan).map(([k,enabled])=>[k,enabled?'success':'skipped']))};
   requireIntegrationResults(plan,results);
-  for(const lane of ['resolve',...Object.keys(plan)])assert.throws(()=>requireIntegrationResults(plan,{...results,[lane]:'skipped'}));
+  for(const lane of ['resolve',...Object.keys(plan)])assert.throws(()=>requireIntegrationResults(plan,{...results,[lane]:'failure'}));
   assert.throws(()=>requireIntegrationResults(plan,{...results,go:'failure'}));
 });
 test('older cohorts without the dependency stay valid, new SDK inputs fail closed',()=>{

@@ -27,7 +27,7 @@
     },
     "go": {
       "repository": "openbindings/openbindings-go",
-      "role": "reference-implementation",
+      "role": "legacy-implementation",
       "cohortTier": "required",
       "defaultBranch": "main",
       "integrationRef": "release/0.2",
@@ -35,7 +35,7 @@
     },
     "typescript": {
       "repository": "openbindings/openbindings-ts",
-      "role": "reference-implementation",
+      "role": "legacy-implementation",
       "cohortTier": "required",
       "defaultBranch": "main",
       "integrationRef": "release/0.2",
@@ -63,7 +63,7 @@
       "cohortTier": "extended",
       "defaultBranch": "main",
       "integrationRef": "main",
-      "releaseMechanism": "continuous-deployment"
+      "releaseMechanism": "manual-deployment"
     },
     "openapi-client": {
       "repository": "openbindings/openapi-client",
@@ -71,7 +71,7 @@
       "cohortTier": "required",
       "defaultBranch": "main",
       "integrationRef": "main",
-      "releaseMechanism": "annotated-module-tags-and-npm"
+      "releaseMechanism": "cargo-unpublished-with-legacy-go-and-npm"
     },
     "asyncapi-client": {
       "repository": "openbindings/asyncapi-client",
