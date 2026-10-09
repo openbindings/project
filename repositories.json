@@ -45,9 +45,9 @@
       "repository": "openbindings/ob",
       "role": "cli-runtime",
       "cohortTier": "required",
-      "defaultBranch": "main",
+      "defaultBranch": "release/0.2",
       "integrationRef": "release/0.2",
-      "releaseMechanism": "annotated-semver-tag-and-goreleaser"
+      "releaseMechanism": "cargo-unpublished-rust-cli-preview"
     },
     "elements": {
       "repository": "openbindings/elements",
