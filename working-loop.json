@@ -302,7 +302,8 @@
           "status": "merged",
           "mergedCommit": "5bf9d92fc43586ff2fe4cc2fb3948c4031e4f490"
         }
-      ]
+      ],
+      "decision": "Maintainer approved 2026-10-09: Rust is the canonical CLI source on release/0.2, which is also the repository default. Go is preserved at 103087368e1363bae66841487a038616ab7a8f85 on legacy/go-cli. Current Rust scope is a command-surface preview; the change does not claim operational parity or authorize package publication, tags, Homebrew updates, or historical cohort promotion."
     },
     "elements": {
       "workingRef": "main",
