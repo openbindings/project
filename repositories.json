@@ -80,6 +80,14 @@
       "defaultBranch": "main",
       "integrationRef": "main",
       "releaseMechanism": "annotated-module-tags-and-npm"
+    },
+    "sdk": {
+      "repository": "openbindings/sdk",
+      "role": "reference-implementation",
+      "cohortTier": "extended",
+      "defaultBranch": "main",
+      "integrationRef": "main",
+      "releaseMechanism": "cargo-and-npm-unpublished"
     }
   }
 }
