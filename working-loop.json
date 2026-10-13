@@ -388,6 +388,12 @@
       "callerPullRequest": null,
       "fixPullRequests": [],
       "decision": "Maintainer approved 2026-10-09: openbindings/sdk is the canonical Rust engine and TypeScript facade repository; source integrates on main. Extended cohort tier is transitional and does not make SDK landing checks optional. No release, deployment or legacy retirement follows from source landing."
+    },
+    "openapi": {
+      "workingRef": "main",
+      "callerPullRequest": null,
+      "fixPullRequests": [],
+      "decision": "Maintainer approved 2026-10-13: openbindings/openapi holds the OpenBindings implementation of the source-inspection, interface-synthesis and binding-invocation roles for OpenAPI, extracted from openbindings/sdk (sdk#12) because the SDK defines the roles and supplies no kind-specific instances. Source integrates on main. Extended cohort tier; it pins openbindings/sdk and openbindings/openapi-client by Git revision. No release or publication follows from source landing."
     }
   }
 }

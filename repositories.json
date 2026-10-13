@@ -88,6 +88,14 @@
       "defaultBranch": "main",
       "integrationRef": "main",
       "releaseMechanism": "cargo-and-npm-unpublished"
+    },
+    "openapi": {
+      "repository": "openbindings/openapi",
+      "role": "kind-implementation",
+      "cohortTier": "extended",
+      "defaultBranch": "main",
+      "integrationRef": "main",
+      "releaseMechanism": "cargo-unpublished"
     }
   }
 }
