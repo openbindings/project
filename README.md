@@ -58,6 +58,7 @@ layers are:
 | `openbindings/openbindings-ts` | Legacy independent TypeScript SDK; transitional consumers | Required during migration |
 | `openbindings/jsonata` | Independently usable JSONata runtime family | Required for runtime-dependent candidates |
 | `openbindings/openapi-client` | Standalone OpenAPI invocation client | Required |
+| `openbindings/openapi` | OpenBindings implementation of the SDK roles for OpenAPI | Extended verification |
 | `openbindings/asyncapi-client` | Standalone AsyncAPI invocation client | Required |
 | `openbindings/ob` | CLI and runtime | Required |
 | `openbindings/elements` | Independently released UI packages | Extended verification |

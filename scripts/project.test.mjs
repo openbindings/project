@@ -25,12 +25,15 @@ test("ordinary loop output does not instruct automatic cohort work", () => {
 });
 
 test("the repository catalog and checked-in cohorts validate", () => {
-  assert.equal(Object.keys(project.catalog.repositories).length, 11);
+  assert.equal(Object.keys(project.catalog.repositories).length, 12);
   assert.equal(project.catalog.repositories.jsonata.integrationRef, "main");
   assert.equal(cohort.status, "candidate");
   assert.equal(project.catalog.repositories.sdk.repository, "openbindings/sdk");
   assert.equal(project.catalog.repositories.sdk.integrationRef, "main");
   assert.equal(project.catalog.repositories.sdk.cohortTier, "extended");
+  assert.equal(project.catalog.repositories.openapi.repository, "openbindings/openapi");
+  assert.equal(project.catalog.repositories.openapi.integrationRef, "main");
+  assert.equal(project.catalog.repositories.openapi.cohortTier, "extended");
 });
 
 test("cohort mode resolves immutable commits", () => {
